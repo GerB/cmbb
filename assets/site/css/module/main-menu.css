@@ -1,0 +1,101 @@
+#menu-trigger {
+    display: none;
+}
+#main-menu {
+    margin: 0 0 4px;
+    padding: 0;
+    list-style: none;
+}
+#main-menu a {
+    text-decoration: none;
+}
+#main-menu > li {
+    float: left;
+    position: relative;
+    z-index: 10;
+}
+#main-menu > li:before {
+    display: none;
+}
+#main-menu > li > a {
+    display: inline-block;
+    position: relative;
+}
+#main-menu > li > a:after {
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+}
+#main-menu > li.icon-home > a:after {
+    display: none;
+}
+#main-menu li ul {
+    display: none;
+    position: absolute;
+}
+#main-menu li:hover ul {
+    display: block;
+}
+#main-menu li ul a {
+    display: block;
+}
+@media only screen and (max-width: 900px) {
+    .menu-active,
+    .menu-active body {
+        overflow: hidden;
+    }
+    #menu-trigger {
+        display: block;
+        float: left;
+        text-align: center;
+        cursor: pointer;
+    }
+    #main-navigation {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        width: 280px;
+        display: block;
+        overflow: hidden;
+        overflow-y: auto;
+        -moz-transition:				left ease 500ms;
+        -webkit-transition:				left ease 500ms;
+        -o-transition:					left ease 500ms;
+        transition:						left ease 500ms;
+    }
+    #header-wrapper,
+    #main-content,
+    #main-footer {
+        position: relative;
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        left: 0;
+        -moz-transition:				left ease 500ms;
+        -webkit-transition:				left ease 500ms;
+        -o-transition:					left ease 500ms;
+        transition:						left ease 500ms;
+    }
+    .menu-active #main-navigation {
+        left: 0;
+    }
+    .menu-active #header-wrapper,
+    .menu-active #main-content,
+    .menu-active #main-footer {
+        left: 280px;
+    }
+    #main-menu,
+    #main-menu > li {
+        float: none !important;
+    }
+    #main-menu > li > a:after {
+        display: none;
+    }
+    #main-menu > li:hover {
+        background: none;
+    }
+    #main-menu li li {
+        position: relative;
+    }
+}

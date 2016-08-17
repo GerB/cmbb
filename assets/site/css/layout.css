@@ -1,0 +1,459 @@
+#content-wrapper {
+    font-size: 12px;
+    height: auto !important;
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+.cmbb_sidebar {
+    font-size: 10px;
+    background-color: #CADCEB;
+    border-radius: 7px;
+    margin-top: 4px;
+}
+.cmbb_sidebar img {
+    max-width: calc(100% - 8px);
+}
+#cmbb_leftbar {
+    float: left;
+    width: 22%;
+}
+#cmbb_rightbar {
+    float: right;
+    width: 16%;
+    padding: 5px;
+}
+#content_container {
+    background-color: #ffffff;
+    padding: 0 10px;
+    float: left;
+    width: calc(62% - 40px);
+}
+
+#content_pagetitle {
+    height: 40px;
+}
+#content_pagetitle h1 {
+    display: block;
+    float: right;
+    height: 18px;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: underline;
+    padding-left: 30px;	
+    color: #115098;
+    margin-right: 0;
+}
+#content_pagetitle h1::after {
+    content: "\00a0\00a0\00a0\00a0\00a0\00a0";
+}
+#content {
+    min-height: 700px;
+}
+.clear {
+    clear: both;
+}
+
+.article_box {
+    border-bottom: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    min-height: 520px;
+}
+
+.fakebutton {
+    border: 3px solid #000;
+    border-radius: 6px;
+    background-color: #000;
+    margin: 5px auto;
+    text-align: center;
+    max-width: 200px;
+}
+.fakebutton:hover {
+    border-color: #AA0000;
+}
+.fakebutton a, .fakebutton a:link, .fakebutton a:hover, .fakebutton a:visited  {
+    display: inline-block;
+    color: #FEFEFE;
+    padding: 3px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+}
+.fakebutton.inactive {
+    background-color: #666;
+    border: 0 none;
+}
+.bread {
+    font-size: 0.9em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#topiclist, #login, #stats {
+    padding: 5px;
+}
+#login span {
+    display: inline-block;
+    width: 100px;
+}
+#stats a{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+ul.lt {	
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+li.lt {
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.btnmain {
+    font-weight: bold;
+    background-color: #ECECEC;
+    border: 1px solid #A9B8C2;
+    cursor: pointer;
+    padding: 1px 5px;
+    font-size: 1.1em;
+}
+
+ul.stats {
+    margin: -15px 0 15px 5px;
+    padding: 0;
+    list-style-type: none;
+
+}
+
+/* tekst opmaak */
+
+p {
+    margin: 0 0 15px 0;
+    text-align: justify;
+}
+
+#stats p {
+    text-align: left;
+}
+
+.message{
+    font-style: italic;
+    text-align: center;
+    color: #AA0000;
+}
+
+.article_box h1 {
+    font-size: 16px;
+    margin: 15px 0 0 0;
+    color: #115098;
+}
+
+h2 {
+    font-size: 16px;
+    margin: 10px 0 0 0;
+}
+
+h3,h4,h5 {
+    font-size: 12px;
+    margin: 0;
+}
+
+img {
+    padding: 5px;
+    border: none;
+}
+
+.page_link {
+    text-align: right;
+}
+
+.geenwitregel, .box p {
+    margin: 0;
+}
+
+
+.auteur {
+    font-size: 10px;
+    font-style: italic;
+}
+
+.small {
+    font-size: 10px;
+    font-style: italic;
+    font-weight: normal;
+    margin-top: -12px;
+}
+
+dfn {
+    border-bottom: 1px dotted;
+    font-style: normal;
+}
+
+dfn.bold {
+    font-style: normal;
+    border: 0;
+    font-weight: bold;
+}
+
+blockquote {
+    font-style: italic;
+    margin: 0;
+}
+
+.artikel_thumb {
+    float: left;
+    width: 100px;
+    height: 90px;
+    border: none;
+    margin-left: -4px;
+}
+
+.artikel_thumb_schaduw {
+    float: left;
+    width: 95px;
+    height: 85px;
+    border: none;
+    background: url(schaduw.jpg) no-repeat bottom right;
+    margin: 0 5px 5px -5px;
+}
+.exerpt_img {
+    width: 110px;
+    height: 110px;
+    text-align: center;
+    float: left;
+}
+object {
+    border: none;
+}
+
+hr {
+    height: 1px;
+    color: #cccccc;
+    background-color: #cccccc; 
+    border: solid #cccccc 0px;
+    clear: both;
+}
+
+.warning {
+    background: none repeat scroll 0 0 #fcc;
+    border: 2px solid #aa0000;
+    border-radius: 10px;
+    color: #a00;
+    font-style: italic;
+    font-weight: bold;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Edit form */
+.edit_form {
+    width: 620px;
+    margin: 10px auto;
+}
+.edit_form label {
+    width: 150px;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+}
+.edit_form.install label {
+    width:  500px;
+}
+.edit_form input {
+    width: 400px;
+}
+.edit_form input[type="checkbox"] {
+    width: 20px;
+}
+.edit_form input[type="number"] {
+    width: 80px;
+}
+.edit_form select {
+    width: 250px;
+}
+.edit_form textarea {
+    width: 100%;
+    min-height: 500px;
+}
+.edit_form input[type=submit]{
+    width: 100px;
+    float: right;
+}
+
+/*----------------------------
+    The file upload form
+-----------------------------*/
+
+
+#upload{
+    font-family:'PT Sans Narrow', sans-serif;
+    background-color:#373a3d;
+    background-image:-webkit-linear-gradient(top, #373a3d, #313437);
+    background-image:-moz-linear-gradient(top, #373a3d, #313437);
+    background-image:linear-gradient(top, #373a3d, #313437);
+    width:450px;
+    padding:30px;
+    border-radius:3px;
+    margin:20px auto 100px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#drop{
+    background-color: #2E3134;
+    padding: 40px 50px;
+    margin-bottom: 30px;
+    border: 20px solid rgba(0, 0, 0, 0);
+    border-radius: 3px;
+    border-image: url('../img/border-image.png') 25 repeat;
+    text-align: center;
+    text-transform: uppercase;
+
+    font-size:16px;
+    font-weight:bold;
+    color:#7f858a;
+}
+
+#drop a{
+    background-color:#007a96;
+    padding:12px 26px;
+    color:#fff;
+    font-size:14px;
+    border-radius:2px;
+    cursor:pointer;
+    display:inline-block;
+    margin-top:12px;
+    line-height:1;
+}
+
+#drop a:hover{
+    background-color:#0986a3;
+    text-decoration:none;
+}
+#drop a:visited {
+    outline:none;
+    color:#389dc1;
+}
+
+#drop input{
+    display:none;
+}
+
+#upload ul{
+    list-style:none;
+    margin:0 -30px;
+    border-top:1px solid #2b2e31;
+    border-bottom:1px solid #3d4043;
+}
+
+#upload ul li{
+    background-color:#333639;
+    background-image:-webkit-linear-gradient(top, #333639, #303335);
+    background-image:-moz-linear-gradient(top, #333639, #303335);
+    background-image:linear-gradient(top, #333639, #303335);
+    border-top:1px solid #3d4043;
+    border-bottom:1px solid #2b2e31;
+    padding:15px;
+    height: 52px;
+    position: relative;
+}
+
+#upload ul li input{
+    display: none;
+}
+
+#upload ul li p{
+    width: 144px;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #EEE;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    left: 100px;
+}
+
+#upload ul li i{
+    font-weight: normal;
+    font-style:normal;
+    color:#7f7f7f;
+    display:block;
+}
+
+#upload ul li canvas{
+    top: 15px;
+    left: 32px;
+    position: absolute;
+}
+
+#upload ul li span{
+    width: 15px;
+    height: 12px;
+    background: url('../upload/img/icons.png') no-repeat;
+    position: absolute;
+    top: 34px;
+    right: 33px;
+    cursor:pointer;
+}
+
+#upload ul li.working span{
+    height: 16px;
+    background-position: 0 -12px;
+}
+
+#upload ul li.error p{
+    color:red;
+}
+
+form.contact input[type=submit] {
+    /*float: none;*/
+}
+
+@media only screen and (max-width: 1000px) {
+    #cmbb_leftbar {
+        width: 170px;
+    }
+    #content_container {
+        width: auto;
+        max-width: 580px;
+    }	
+}
+
+@media only screen and (max-width: 900px) {
+    .main-header #header-wrapper {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+    #content-wrapper {
+        margin-top: 185px;
+    }	
+    #content_container {
+        width: auto;
+        max-width: calc(100% - 200px);
+    }		
+
+}
+@media only screen and (max-width: 767px) {
+    #content-wrapper {
+        margin-top: 65px;
+    }	
+}
+@media only screen and (max-width: 550px), only screen and (max-device-width: 550px) {
+    #login, #topiclist, #stats {
+        display: none;
+    }
+    #cmbb_leftbar {
+        width: 62px;
+    }
+    #content_container {
+        width: auto;
+        max-width: calc(100% - 84px);
+        float: right
+    }		
+}

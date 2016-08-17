@@ -1,0 +1,100 @@
+#main-menu {
+    font-size: 14px;
+    height: 35px;
+    background-color: #CADCEB;
+    border-radius: 7px;    
+}
+
+#main-menu > li > a {
+    display: block;
+    line-height: 35px;
+    padding: 0 20px;
+    color: #115098;
+    text-transform: uppercase;
+}
+#main-menu li:hover a {
+    color: #D31141;
+}
+#main-menu li ul {
+    top: 85px;
+    background: #333;
+    width: 260px;
+    padding: 10px 0;
+    font-size: 100%;
+    border-radius: 0 0 3px 3px;
+}
+#main-menu li:last-child ul {
+    right: 0;
+}
+#main-menu li ul a {
+    display: block;
+    padding: 8px 20px;
+}
+#main-menu li ul a:hover {
+    background: #111;
+}
+@media only screen and (max-width: 900px) {
+    #menu-trigger {
+        margin: 10px;
+        height: 80px;
+        line-height: 80px;
+        width: 80px;
+        font-size: 32px;
+        color: #333;
+        z-index: 20;
+        background: rgba( 256, 256, 256, .9 );
+        border-radius: 5px;
+    }
+    #main-navigation {
+        background: #333;
+    }
+    #main-menu {
+        bottom: auto;
+    }
+    #main-menu > li {
+        height: auto;
+        border-bottom: 1px solid rgba(  256, 256, 256, .1);
+    }
+    #main-menu > li > a {
+        line-height: 75px;
+        color: #9fa4ab;
+    }
+    #main-menu li ul {
+        display: block;
+        position: relative;
+        top: 0;
+        background: none;
+        width: auto;
+        padding: 0;
+        margin-top: -15px;
+    }
+    #main-menu li ul a {
+        padding: 10px 0;
+        padding-left: 50px;
+        line-height: 100%;
+        font-size: 100%;
+        margin: 0;
+        color: #fff;
+    }
+}
+@media only screen and (max-width: 767px) {
+    #menu-trigger {
+        margin: 8px;
+        height: 54px;
+        line-height: 54px;
+        width: 53px;
+        color: #999;
+        background: none;
+    }
+    #main-menu > li > a {
+        line-height: 50px;
+    }
+    #main-menu li ul {
+        margin-top: -10px;
+    }
+}
+@media only screen and (max-width: 480px) {
+    #menu-trigger {
+        margin: 8px 0;
+    }
+}
