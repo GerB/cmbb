@@ -14,3 +14,6 @@ This CMS is an "Add-on" for the popular phpBB3 forum system. It therefore requir
 # Please note
 * CMBB is in very early stage of development. I intent to convert this into an approved extension for phpBB but of course that will take time. I have a fulltime job and a private busy life as well.
 * This is only tested with phpBB 3.2.RC1 and MySQL so far. phpBB 3.1 might work, but if it doesn't, tough luck. Any other DBMS but MySQL will most certainly fail.
+
+# Support
+https://www.phpbb.com/community/viewtopic.php?f=456&t=2383541

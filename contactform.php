@@ -36,9 +36,9 @@ if ($request->is_set('submit'))
 
 	// Prep topic
 	$subject = $user->lang('CONTACT_US') . ': ' . $request->variable('subject', '');
-	$message = '[b]' . $user->lang('USERNAME') . ':[/b]' . $name . '
-	[b]E-' . $user->lang('EMAIL') . ':[/b]' . $email . '
-	[b]' . $user->lang('SUBJECT') . ':[/b]' . $request->variable('about', '') . '
+	$message = '[b]' . $user->lang('USERNAME') . ':[/b] ' . $name . '
+	[b]' . $user->lang('EMAIL') . ':[/b] ' . $email . '
+	[b]' . $user->lang('SUBJECT') . ':[/b] ' . $request->variable('subject', '') . '
 	
 	[b]' . $user->lang('MESSAGE') . ':[/b]
 	[quote]' . $request->variable('message', '') . '[/quote]';
