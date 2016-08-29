@@ -70,13 +70,12 @@ class driver
 
         $sql    = $this->db->sql_build_query('SELECT', $sql_array);
         $result = $this->db->sql_query($sql);
-
         while ($row = $this->db->sql_fetchrow($result))
         {
-            $html.= '<li><a href="'.$this->phpbb_root_path.'app.php/page/'.$row['alias'].'">'.$row['category_name'].'</a></li>'."\n";
+            $return[] = $row;
         }
 
-        return $html;
+        return $return;
     }
 
     /**

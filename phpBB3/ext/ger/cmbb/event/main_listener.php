@@ -82,8 +82,17 @@ class main_listener implements EventSubscriberInterface
 
         public function page_header_add_menu($event)
         {
+            $items = $this->cmbb->list_menu_items();
+            $menu = '';
+            if ($items)
+            {
+                foreach($items as $row)
+                {
+                    $menu.= '<li><a href="'. $this->helper->route('ger_cmbb_page', array('alias' => $row['alias'])).'">'.$row['category_name'].'</a></li>'."\n";
+                }
+            }
             $this->template->assign_vars(array(
-			'CMBB_MENU'	=> $this->cmbb->list_menu_items()
+			'CMBB_MENU'	=> $menu
                ));
         }
 
