@@ -1,0 +1,77 @@
+imports:
+    - { resource: parameters.yml }
+
+services:
+    ger.cmbb.viewer:
+        class: ger\cmbb\controller\page
+        arguments:
+            - '@config'
+            - '@controller.helper'
+            - '@template'
+            - '@user'
+            - '@auth'
+            - '@request'
+            - '%core.root_path%'
+            - '@ger.cmbb.cmbb.driver'
+
+    ger.cmbb.editor:
+        class: ger\cmbb\controller\edit
+        arguments:
+            - '@config'
+            - '@controller.helper'
+            - '@template'
+            - '@user'
+            - '@auth'
+            - '@request'
+            - '%core.root_path%'
+            - '@ger.cmbb.cmbb.driver'
+
+    ger.cmbb.save:
+        class: ger\cmbb\controller\save
+        arguments:
+            - '@config'
+            - '@controller.helper'
+            - '@template'
+            - '@user'
+            - '@auth'
+            - '@request'
+            - '%core.root_path%'
+            - '@ger.cmbb.cmbb.driver'
+
+    ger.cmbb.folders:
+        class: ger\cmbb\controller\folders
+        arguments:
+            - '@config'
+            - '@controller.helper'
+            - '@user'
+            - '@auth'
+            - '@request'
+            - '%core.root_path%'
+            - '@ger.cmbb.cmbb.driver'
+            
+    ger.cmbb.cmbb.driver:
+        class: ger\cmbb\cmbb\driver
+        arguments:
+            - '@config'
+            - '@request'
+            - '@user'
+            - '@dbal.conn'
+            - '%core.root_path%'
+            - '%ger.cmbb.tables.cms_article%'
+            - '%ger.cmbb.tables.cms_category%'
+            - '%ger.cmbb.tables.cms_config%'
+            - '%ger.cmbb.tables.cms_template%'
+
+    ger.cmbb.service:
+        class: ger\cmbb\service
+        arguments:
+            - '@user'
+
+    ger.cmbb.listener:
+        class: ger\cmbb\event\main_listener
+        arguments:
+            - '@controller.helper'
+            - '@template'
+            - '@ger.cmbb.cmbb.driver'
+        tags:
+            - { name: event.listener }

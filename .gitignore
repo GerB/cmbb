@@ -1,4 +1,3 @@
-/phpBB3/ext/
 /phpBB3/assets/
 /phpBB3/files/
 /phpBB3/docs/
@@ -36,3 +35,4 @@
 /phpBB3/common.php
 /phpBB3/styles/prosilver/
 /phpBB3/styles/all/template/feed.xml.twig
+/phpBB3/ext/phpbb/

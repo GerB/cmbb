@@ -12,7 +12,13 @@
  * We require acces by this path
  * so we'll have total control
  */
- 
+
+# /cmbb/phpBB3/images/cmbb_upload/2/
+
+$dir = scandir('phpBB3/images');
+var_dump($_SERVER);
+die('<a href="phpBB3">forum index</a>');
+
 // Initialize
 define('IN_CMBB', TRUE);
 include('constants.php');
@@ -36,14 +42,6 @@ if ( (!defined('CMBB_INSTALLED')) && ($mode !== 'install') ) {
 
 switch($mode)
 {
-	case 'e': // edit existing page
-	case 'n': // create new page
-		include('edit.php');
-		break;
-	
-	case 's':
-		include('store.php');
-		break;	
 		
 	case 'h':
 		include('hide.php');
@@ -52,10 +50,6 @@ switch($mode)
 	case 'a':
 		include('site_config.php');
 		break;		
-		
-	case 'c':
-		include('contactform.php');
-		break;
 		
 	case 'install':
 		include('install.php');
