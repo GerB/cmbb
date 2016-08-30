@@ -18,23 +18,14 @@ class folders
 	/* @var \phpbb\config\config */
 	protected $config;
 
-	/* @var \phpbb\controller\helper */
-	protected $helper;
-
 	/* @var \phpbb\user */
 	protected $user;
 
-        /* @var \phpbb\auth\auth */
-	protected $auth;
-
         /* @var \phpbb\request\request_interface */
 	protected $request;
-
         
         protected $phpbb_root_path;
 
-        /* @var \ger\cmbb\cmbb\driver */
-	protected $cmbb;
 
 	/**
 	* Constructor
@@ -44,20 +35,13 @@ class folders
 	* @param \phpbb\template\template	$template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user,\phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
 	{
 		$this->config = $config;
-		$this->helper = $helper;
 		$this->user = $user;
-		$this->auth = $auth;
 		$this->request = $request;
 		$this->phpbb_root_path = $phpbb_root_path;
-		$this->cmbb = $cmbb;
-
                 include($this->phpbb_root_path . '/ext/ger/cmbb/cmbb/presentation.php');
-                if (!defined('CMBB_ROOT')) {
-                    define('CMBB_ROOT', '/cmbb');
-                }
 	}
 
 	/**

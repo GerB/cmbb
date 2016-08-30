@@ -75,7 +75,7 @@ class save
             if (!(($this->user->data['user_id'] == $oldpage['user_id']) || $this->auth->acl_get('m_') )) {
                 return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
             }
-            if (empty($oldpage['user_id']) && (!$auth->acl_get('a_'))) {
+            if (empty($oldpage['user_id']) && (!$this->auth->acl_get('a_'))) {
                 // Special page, admin only
                 return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
             }
@@ -88,8 +88,7 @@ class save
             $newsize = strlen(censor_text($this->request->variable('content', '', true)));
 
             if (($newsize / $oldsize) < 0.7) {
-//                trigger_error('Je hebt wel heel veel verwijderd. Weet je zeker dat je niets fout hebt gedaan?');
-                return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
+                return $this->helper->message('ERROR_MUCH_REMOVED', 'ERROR', 200);
             }
 
             $article_data = array(
@@ -110,18 +109,17 @@ class save
                 {
                     $article_data['visible'] = 1;
                 }
-                $this->log->add('mod', $this->user->data['user_id'], $this->user->ip, 'CMBB_ARTICLE_VISIBILLITY', time(), array('article_id' => $article_id, $article_data['visible']));
+                $this->log->add('mod', $this->user->data['user_id'], $this->user->ip, 'LOG_ARTICLE_VISIBILLITY', time(), array('article_id' => $article_id, 'visible' => $article_data['visible']));
             }
 
             $redirect     = $oldpage['alias'];
         }
         else if ($article_id == '_new_') {
             if (!$title = phpbb_censor_title($this->request->variable('title', '', true))) {
-//                trigger_error('Ongeldige titel opgegeven.');
-                return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
+                return $this->helper->message('INVALID_TITLE', 'ERROR', 200);
             }
 
-            $article_data             = array(
+            $article_data = array(
                 'title' => $title,
                 'alias' => $this->cmbb->generate_page_alias($this->request->variable('title', '', true)),
                 'user_id' => $this->user->data['user_id'],
@@ -163,15 +161,15 @@ class save
             return FALSE;
         }
         if ($user = $this->cmbb->phpbb_get_user($article_data['user_id']) == FALSE) {
-            return false;
+            return FALSE;
         }
 
         $topic_content = '[b][size=150]'.$article_data['title'].'[/size][/b]
-[i]Auteur: '.$user['username'].'[/i]
+[i]' . $this->user->lang['POST_BY_AUTHOR'] . ' ' . $user['username'].'[/i]
 
 '.character_limiter(strip_tags($article_data['content'])).'
 [url='.$this->helper->route('ger_cmbb_page', array(
-                'alias' => $article_data['alias'])).']Lees verder...[/url]';
+                'alias' => $article_data['alias'])).']' . $this->user->lang['READ_MORE'] . '[/url]';
 
         $poll     = $uid      = $bitfield = $options  = '';
 
@@ -205,7 +203,7 @@ class save
             'force_visibility' => true, // 3.1.x: Allow the post to be submitted without going into unapproved queue, or make it be deleted (replaces force_approved_state)
         );
 
-        $url      = submit_post('post', $article_data['title'], 'Hoofdpagina', POST_NORMAL, $poll, $data);
+        $url      = submit_post('post', $article_data['title'], 'cmBB', POST_NORMAL, $poll, $data);
         $topic_id = str_replace('&amp;t=', '', strstr($url, '&amp;t='));
         return $topic_id;
     }

@@ -483,23 +483,23 @@ class driver
         // Either greet or show login box
         if ($this->user->data['is_registered']) {
 
-            $cmbb_sidebar.= "<h3>Welkom ".$this->user->data['username']."</h3>";
+            $cmbb_sidebar.= "<h3>".$this->user->lang('WELCOME_USER', $this->user->data['username'])."</h3>";
             $cmbb_sidebar.= ' (<a href="'.append_sid("{$this->phpbb_root_path}ucp.php", 'mode=logout', true, $this->user->session_id).'">'.$this->user->lang('LOGOUT').'</a>)';
 
             // Show link to editor
             if ($this->can_edit($auth)) {
-                $cmbb_sidebar.= '<p class="fakebutton"><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => '_new_')) . '">+ Nieuw artikel</a></p>';
+                $cmbb_sidebar.= '<p class="fakebutton"><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => '_new_')) . '">+ '.$this->user->lang('NEW_ARTICLE').'</a></p>';
             }
             if ($this->can_edit($auth, $page) && $mode == 'view') {
-                $cmbb_sidebar.= '<p class="fakebutton"><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => $page['article_id'])) . '">Bewerk artikel</a></p>';
+                $cmbb_sidebar.= '<p class="fakebutton"><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => $page['article_id'])) . '">'.$this->user->lang('EDIT_ARTICLE').'</a></p>';
             }
             if ($auth->acl_get('m_')) {
                 $cmbb_sidebar.= '<br /><hr /><br />';
                 if ($this->get_hidden()) {
-                    $cmbb_sidebar.= '<p class="fakebutton"><a href="index?showhidden=1">Toon verborgen artikelen</a></p>';
+                    $cmbb_sidebar.= '<p class="fakebutton"><a href="index?showhidden=1">'.$this->user->lang('SHOW_HIDDEN').'</a></p>';
                 }
                 else {
-                    $cmbb_sidebar.= '<p class="fakebutton inactive"><a>Geen verborgen artikelen</a></p>';
+                    $cmbb_sidebar.= '<p class="fakebutton inactive"><a>'.$this->user->lang('NO_HIDDEN').'</a></p>';
                 }
             }
         }

@@ -81,12 +81,12 @@ class edit
                 }
             }
             else if (!$article_id == '_new_') {
-                return $this->helper->message('FILE_NOT_FOUND_404', array($alias), 'FILE_NOT_FOUND_404', 404);
+                return $this->helper->message('FILE_NOT_FOUND_404', array($article_id), 'FILE_NOT_FOUND_404', 404);
             }
             
             // Wrap it all up
             $this->template->assign_vars(array(
-                'CMBB_TITLE'                => (empty($page['title']) ? $this->user->lang('NEW_MESSAGE') : $page['title']),
+                'CMBB_TITLE'                => (empty($page['title']) ? $this->user->lang('NEW_ARTICLE') : $page['title']),
                 'CMBB_CONTENT'              => (empty($page['content']) ? '' : $page['content'] ),
                 'CMBB_LEFTBAR'              => $this->cmbb->build_sidebar(NULL, $this->auth, $this->helper, 'edit'),
                 'U_FORM_ACTION'             => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($page['article_id']) ? '_new_' : $page['article_id'] ))),
@@ -97,7 +97,7 @@ class edit
                 'CMBB_IMG_DIR'              => $this->helper->route('ger_cmbb_folders', array('user_id' => $this->user->data['user_id'])),
                 
             ));
-            return $this->helper->render('article_form.html', (empty($page['title']) ? $this->user->lang('NEW_MESSAGE') : $page['title']));
+            return $this->helper->render('article_form.html', (empty($page['title']) ? $this->user->lang('NEW_ARTICLE') : $page['title']));
 	}
 
 

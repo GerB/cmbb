@@ -22,13 +22,20 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'DEMO_PAGE'			=> 'Demo',
-	'DEMO_HELLO'		=> 'Hello %s!',
-	'DEMO_GOODBYE'		=> 'Goodbye %s!',
-
-	'ACP_DEMO'					=> 'Settings',
-	'ACP_DEMO_GOODBYE'			=> 'Should say goodbye?',
-	'ACP_DEMO_SETTING_SAVED'	=> 'Settings have been saved successfully!',
-
-	'ACME_DEMO_NOTIFICATION'	=> 'Acme demo notification',
+	
+        'ARTICLE_HIDDEN_WARNING'    => 'This page is hidden and therefore only accesible for moderators',
+        'BACK'                      => 'Back',
+        'CATEGORY'                  => 'Category',
+        'COMMENTS'                  => 'Place and/or view comments',
+        'CONTENT'                   => 'Article content',
+        'EDIT_ARTICLE'              => 'Edit article',
+        'ERROR_MUCH_REMOVED'        => 'You have removed quite a lot from this article. This might be abusive or simple user error. Data is NOT stored.',
+        'ERROR_TITLE'               => 'The provided title is not allowed.',
+        'LOG_ARTICLE_VISIBILLITY'   => 'Changed article visibillity',
+        'NEW_ARTICLE'               => 'New article',
+        'NO_HIDDEN'                 => 'No hidden articles',
+        'READ_MORE'                 => 'Read on&#8230;',
+        'SHOW_HIDDEN'               => 'Show hidden articles',
+        'TITLE'                     => 'Title',
+        'WELCOME_USER'              => 'Hello %s!',
 ));

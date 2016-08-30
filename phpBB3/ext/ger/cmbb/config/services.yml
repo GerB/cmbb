@@ -42,9 +42,7 @@ services:
         class: ger\cmbb\controller\folders
         arguments:
             - '@config'
-            - '@controller.helper'
             - '@user'
-            - '@auth'
             - '@request'
             - '%core.root_path%'
             - '@ger.cmbb.cmbb.driver'
