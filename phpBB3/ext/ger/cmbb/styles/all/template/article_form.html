@@ -1,27 +1,39 @@
 <!-- INCLUDE overall_header.html -->
 <div id="content_container">
 
-<p>CKEDITOR WILL FOLLOW</p>
-<p>UPLOADER WILL FOLLOW</p>
+<p>FILE UPLOADER WILL FOLLOW</p>
 <form class="edit_form" method="post" action="{U_FORM_ACTION}">
     <p><label for="title">{L_TITLE}</label><input name="title" type="text" value="{CMBB_TITLE}" /></p>
     <p><label for="category_id">{L_CATEGORY}</label>{CMBB_CATEGORY_DROPDOWN}</p>
     <p><label for="content">{L_CONTENT}</label></p><textarea name="content">{CMBB_CONTENT}</textarea><br />
+    <!-- IF CAN_HIDE -->
+    <fieldset>
+        <!-- IF IS_VISIBLE -->
+            <input type="checkbox" name="delete" id="delete"  /> <label for="delete">{L_DELETE_ARTICLE}</label>
+        <!-- ELSE -->
+            <input type="checkbox" name="restore" id="show"  /> <label for="restore">{L_RESTORE_ARTICLE}</label>
+        <!-- ENDIF -->
+    </fieldset>
+    <!-- ENDIF -->
     <fieldset class="submit-buttons">
         <input name="submit" class="button1" value="{L_SUBMIT}" type="submit">
     </fieldset>
 </form>
+
+
+
 </div>
 
 
-<!-- INCLUDEJS @ger_cmbb/ckeditor/ckeditor.js -->
-
+<script src="{CMBB_ROOT_PATH}vendor/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( "content", {
+    "extraPlugins": "imagebrowser",
+    "imageBrowser_listUrl": "{CMBB_IMG_DIR}?t=" + Math.random()
+        } );
+</script>
 <!-- INCLUDE footer_extra.html -->
 <!-- IF CMBB_LEFTBAR -->
     </div>
 <!-- ENDIF -->
 <!-- INCLUDE overall_footer.html -->
-
-
-
-

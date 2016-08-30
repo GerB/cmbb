@@ -16,7 +16,7 @@
 # /cmbb/phpBB3/images/cmbb_upload/2/
 
 $dir = scandir('phpBB3/images');
-var_dump($_SERVER);
+var_dump($dir);
 die('<a href="phpBB3">forum index</a>');
 
 // Initialize

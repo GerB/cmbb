@@ -1,5 +1,5 @@
 parameters:
-    ger.cmbb.tables.cms_article: '%core.table_prefix%cms_article'
-    ger.cmbb.tables.cms_category: '%core.table_prefix%cms_category'
-    ger.cmbb.tables.cms_config: '%core.table_prefix%cms_config'
-    ger.cmbb.tables.cms_template: '%core.table_prefix%cms_template'
+    ger.cmbb.tables.cms_article: '%core.table_prefix%cmbb_article'
+    ger.cmbb.tables.cms_category: '%core.table_prefix%cmbb_category'
+    ger.cmbb.tables.cms_config: '%core.table_prefix%cmbb_config'
+    ger.cmbb.tables.cms_template: '%core.table_prefix%cmbb_template'

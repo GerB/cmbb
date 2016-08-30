@@ -34,7 +34,7 @@ class edit
 	protected $request;
 
 
-        protected $phpbb_root_path;
+        protected $cmbb_root_path;
 
         /* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
@@ -47,7 +47,7 @@ class edit
 	* @param \phpbb\template\template	$template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $cmbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -55,10 +55,10 @@ class edit
 		$this->user = $user;
 		$this->auth = $auth;
 		$this->request = $request;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->cmbb_root_path = $cmbb_root_path;
 		$this->cmbb = $cmbb;
 
-                include($this->phpbb_root_path . '/ext/ger/cmbb/cmbb/presentation.php');
+                include($this->cmbb_root_path . 'cmbb/presentation.php');
 	}
 
 	/**
@@ -88,11 +88,14 @@ class edit
             $this->template->assign_vars(array(
                 'CMBB_TITLE'                => (empty($page['title']) ? $this->user->lang('NEW_MESSAGE') : $page['title']),
                 'CMBB_CONTENT'              => (empty($page['content']) ? '' : $page['content'] ),
-                'CMBB_LEFTBAR'              => 'leftbar',
+                'CMBB_LEFTBAR'              => $this->cmbb->build_sidebar(NULL, $this->auth, $this->helper, 'edit'),
                 'U_FORM_ACTION'             => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($page['article_id']) ? '_new_' : $page['article_id'] ))),
                 'CMBB_CATEGORY_DROPDOWN'    => form_dropdown('category_id', $this->cmbb->get_categories(), (empty($page['category_id']) ? 0 : $page['category_id'])),
-                'CMBB_LOAD_CKE'             => TRUE,
+                'CAN_HIDE'                  => (!empty($page['title']) && $this->auth->acl_get('m_')) ? TRUE : FALSE,
+                'IS_VISIBLE'                => empty($page['visible']) ? FALSE : TRUE,
+                'CMBB_ROOT_PATH'            => generate_board_url() . substr($this->cmbb_root_path, 1),
                 'CMBB_IMG_DIR'              => $this->helper->route('ger_cmbb_folders', array('user_id' => $this->user->data['user_id'])),
+                
             ));
             return $this->helper->render('article_form.html', (empty($page['title']) ? $this->user->lang('NEW_MESSAGE') : $page['title']));
 	}

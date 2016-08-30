@@ -21,8 +21,8 @@ class save
     /* @var \phpbb\controller\helper */
     protected $helper;
 
-    /* @var \phpbb\template\template */
-    protected $template;
+    /* @var phpbb\log\log */
+    protected $log;
 
     /* @var \phpbb\user */
     protected $user;
@@ -45,11 +45,11 @@ class save
      * @param \phpbb\template\template	$template
      * @param \phpbb\user				$user
      */
-    public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
+    public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
     {
         $this->config          = $config;
         $this->helper          = $helper;
-        $this->template        = $template;
+        $this->log             = $log;
         $this->user            = $user;
         $this->auth            = $auth;
         $this->request         = $request;
@@ -99,6 +99,20 @@ class save
                 'category_id' => $this->request->variable('category_id', '1'),
                 'content' => censor_text(htmlspecialchars_decode($this->request->variable('content', ''), ENT_COMPAT)),
             );
+
+            // Delete or restore, but only if we're moderator
+            if ($this->auth->acl_get('m_')) {
+                if ($this->request->is_set('delete'))
+                {
+                    $article_data['visible'] = 0;
+                }
+                else if ($this->request->is_set('restore'))
+                {
+                    $article_data['visible'] = 1;
+                }
+                $this->log->add('mod', $this->user->data['user_id'], $this->user->ip, 'CMBB_ARTICLE_VISIBILLITY', time(), array('article_id' => $article_id, $article_data['visible']));
+            }
+
             $redirect     = $oldpage['alias'];
         }
         else if ($article_id == '_new_') {
@@ -117,7 +131,7 @@ class save
                 'category_id' => $this->request->variable('category_id', ''),
                 'content' => htmlspecialchars_decode($this->request->variable('content', '', true), ENT_COMPAT),
                 'visible' => 1,
-                'datetime' => date('Y-m-d H:i:s'),
+                'datetime' => time(),
             );
             $article_data['topic_id'] = $this->create_article_topic($article_data);
 
@@ -127,7 +141,8 @@ class save
             return $this->helper->message('ERROR', 'ERROR', 404);
         }
         $this->cmbb->store_article($article_data);
-        redirect($this->helper->route('ger_cmbb_page', array('alias' => $article_data['alias'])));
+        redirect($this->helper->route('ger_cmbb_page', array(
+                'alias' => $redirect)));
     }
 
     /**
@@ -139,7 +154,6 @@ class save
     {
         if (!function_exists('get_username_string')) {
             include($this->phpbb_root_path.'includes/functions_content.php');
-
         }
         if (!function_exists('submit_post')) {
             include($this->phpbb_root_path.'includes/functions_posting.php');
@@ -147,7 +161,7 @@ class save
         $article_data['user_id'] = filter_var($article_data['user_id'], FILTER_SANITIZE_NUMBER_INT);
         if (empty($article_data['user_id'])) {
             return FALSE;
-        }       
+        }
         if ($user = $this->cmbb->phpbb_get_user($article_data['user_id']) == FALSE) {
             return false;
         }
@@ -156,7 +170,8 @@ class save
 [i]Auteur: '.$user['username'].'[/i]
 
 '.character_limiter(strip_tags($article_data['content'])).'
-[url='.$this->helper->route('ger_cmbb_page', array('alias' => $article_data['alias'])).']Lees verder...[/url]';
+[url='.$this->helper->route('ger_cmbb_page', array(
+                'alias' => $article_data['alias'])).']Lees verder...[/url]';
 
         $poll     = $uid      = $bitfield = $options  = '';
 
@@ -194,7 +209,5 @@ class save
         $topic_id = str_replace('&amp;t=', '', strstr($url, '&amp;t='));
         return $topic_id;
     }
-
 }
-
 // EoF

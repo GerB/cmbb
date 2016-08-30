@@ -42,8 +42,8 @@ class driver
         $this->category_table  = $category_table;
         $this->config_table    = $config_table;
         $this->template_table  = $template_table;
-        $this->phpbb_root_path = $phpbb_root_path;
-
+        $this->phpbb_root_path = generate_board_url() . substr($phpbb_root_path, 1);
+        
         if (!defined('CMBB_ROOT')) {
             define('CMBB_ROOT', '/cmbb');
         }
@@ -111,7 +111,7 @@ class driver
         if (isset($article_data['article_id'])) {
             $article_id = $article_data['article_id'];
             unset($article_data['article_id']);
-            $action        = 'UPDATE '.$this->article_table.' '.$this->db->sql_build_array('UPDATE', $article_data).' WHERE `article_id` = "'.$article_id.'"';
+            $action        = 'UPDATE '.$this->article_table.' SET '.$this->db->sql_build_array('UPDATE', $article_data).' WHERE `article_id` = "'.$article_id.'"';
         }
         else {
             $action = 'INSERT INTO '.$this->article_table.' '.$this->db->sql_build_array('INSERT', $article_data);
@@ -473,5 +473,126 @@ class driver
             return FALSE;
         }
     }
+
+    /**
+     * Build sidebar for front-facing pages
+     */
+    public function build_sidebar($page, $auth, $helper, $mode)
+    {
+        $cmbb_sidebar = '<div id="login">';
+        // Either greet or show login box
+        if ($this->user->data['is_registered']) {
+
+            $cmbb_sidebar.= "<h3>Welkom ".$this->user->data['username']."</h3>";
+            $cmbb_sidebar.= ' (<a href="'.append_sid("{$this->phpbb_root_path}ucp.php", 'mode=logout', true, $this->user->session_id).'">'.$this->user->lang('LOGOUT').'</a>)';
+
+            // Show link to editor
+            if ($this->can_edit($auth)) {
+                $cmbb_sidebar.= '<p class="fakebutton"><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => '_new_')) . '">+ Nieuw artikel</a></p>';
+            }
+            if ($this->can_edit($auth, $page) && $mode == 'view') {
+                $cmbb_sidebar.= '<p class="fakebutton"><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => $page['article_id'])) . '">Bewerk artikel</a></p>';
+            }
+            if ($auth->acl_get('m_')) {
+                $cmbb_sidebar.= '<br /><hr /><br />';
+                if ($this->get_hidden()) {
+                    $cmbb_sidebar.= '<p class="fakebutton"><a href="index?showhidden=1">Toon verborgen artikelen</a></p>';
+                }
+                else {
+                    $cmbb_sidebar.= '<p class="fakebutton inactive"><a>Geen verborgen artikelen</a></p>';
+                }
+            }
+        }
+        else {
+            $cmbb_sidebar.= $this->login_box($page['alias']);
+        }
+        $cmbb_sidebar.= '</div>';
+
+        /*
+         * Fetch newest topics
+         */
+        $cmbb_sidebar.=
+            '<div id="topiclist"><hr />
+                            <h3>'.$this->user->lang('FEED_TOPICS_NEW').'</h3><br />
+                            <ul class="lt">';
+
+        $latest = $this->phpbb_latest_topics(array_unique(array_keys($auth->acl_getf('f_read', true))), 5);
+        foreach ($latest as $row)
+        {
+            $url = $this->phpbb_root_path.'/viewtopic.php?f='.$row['forum_id'].'&amp;t='.$row['topic_id'].'&amp;view=unread#unread';
+            $cmbb_sidebar.= '<li class="lt"><a href="'.$url.'">'.$row['topic_title'].'</a> </li>';
+        }
+
+        $cmbb_sidebar.=
+            '</ul>
+            </div>';
+
+        /*
+         * Fetch stats
+         */
+        $whosonline = obtain_users_online_string(obtain_users_online());
+
+        $cmbb_sidebar.=
+            '<div id="stats"><hr />
+                    <h3> '.$this->user->lang('STATISTICS').'</h3>
+                    <p><a href="'.$this->phpbb_root_path.'viewonline.php">'.$this->user->lang('WHO_IS_ONLINE').'</a>:<br>'.$whosonline['online_userlist'].'</p>';
+
+        $cmbb_sidebar.= '<p>'.$this->user->lang('TOTAL_USERS', (int) $this->config['num_users']).'<br />'.
+            $this->user->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])).
+            '</p></div>';
+
+        return $cmbb_sidebar;
+    }
+
+
+    /**
+     * Fetch formatted login box
+     * @return type
+     */
+    private function login_box($alias = 'index')
+    {
+        return '<h3>'.$this->user->lang('LOGIN').':</h3><br />
+                <form method="post" action="'.$this->phpbb_root_path.'ucp.php?mode=login">
+                    <p><span>'.$this->user->lang('USERNAME').':</span> <input type="text" name="username" size="14" /><br />
+                    <span>'.$this->user->lang('PASSWORD').':</span> <input type="password" name="password" size="14" /><br />
+                    <span>'.$this->user->lang('LOG_ME_IN').':</span> <input type="checkbox" name="autologin" /><br />
+                    <input type="submit" class="btnmain" value="'.$this->user->lang('LOGIN').'" name="login" /></p>
+                    <input type="hidden" name="redirect" value="'.$this->phpbb_root_path.'app.php/page/' . $alias . '" />
+                </form>';
+    }
+
+    /**
+     * Is user allowed to edit or not
+     * @param obj $auth
+     * @param array $page
+     * @return bool
+     */
+    public function can_edit($auth, $page = NULL)
+    {
+        // Disallow bots and banned
+        if ($this->user->data['is_bot'] || $this->phpbb_is_banned($this->user->data['user_id']))
+        {
+            return FALSE;
+        }
+
+        if (is_array($page))
+        {
+            if ($page['is_cat'])
+            {
+                return FALSE;
+            }
+            else if (($this->user->data['user_id'] == $page['user_id']) || $auth->acl_get('m_'))
+            {
+                return TRUE;
+            }
+        }
+        
+        // Allow moderators and users with enough posts or that have written before
+        if ($auth->acl_get('m_') || ($this->user->data['user_posts'] >= $this->config['ger_cmbb_min_post_count']) || $this->has_written($this->user->data['user_id']))
+        {
+            return TRUE;
+        }
+    }
+
 }
 // EoF

@@ -57,6 +57,8 @@ class page
         $this->cmbb            = $cmbb;
 
         include($this->phpbb_root_path.'/ext/ger/cmbb/cmbb/presentation.php');
+//        include($this->phpbb_root_path.'/ext/ger/cmbb/cmbb/sidebar.php');
+//        $this->sidebar = new \ger\cmbb\cmbb\sidebar();
     }
 
     /**
@@ -161,9 +163,10 @@ class page
         $this->template->assign_vars(array(
             'CMBB_BREADCRUMBS' => $path,
             'CMBB_CATEGORY_NAME' => $this->cmbb->fetch_category($page['category_id']),
+            'S_CMBB_CATEGORY' => $page['is_cat'],
             'CMBB_TITLE' => $title,
             'CMBB_CONTENT' => $page['content'],
-            'CMBB_LEFTBAR' => $this->build_sidebar($page),
+            'CMBB_LEFTBAR' => $this->cmbb->build_sidebar($page, $this->auth, $this->helper, 'view'),
             'CMBB_ARTICLE_TOPIC_ID' => $page['topic_id'],
             'CMBB_AUTHOR' => ($page['user_id'] > 0) ? $this->cmbb->phpbb_get_user($page['user_id']) : '',
         ));

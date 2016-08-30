@@ -73,9 +73,9 @@ class folders
             }
             else
             {
-                $root = $this->request->server('DOCUMENT_ROOT') . str_replace('app.php', 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME'));
-                $dir       = $root . $user_id ;
-                $structure = $this->listfolders($dir);
+                $file_root = $this->request->server('DOCUMENT_ROOT') . str_replace('app.php', 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME'));
+                $url_root   = generate_board_url() . '/images/cmbb_upload/';
+                $structure = $this->listfolders($file_root, $url_root, $user_id);
             }
             return new \Symfony\Component\HttpFoundation\JsonResponse($structure);
 	}
@@ -86,8 +86,9 @@ class folders
          * @param string $dir
          * @return array
          */
-        private function listfolders($dir)
+        private function listfolders($file_root, $url_root, $user_id)
         {
+            $dir    = $file_root . $user_id;
             $dh     = scandir($dir);
             $return = array();
             foreach ($dh as $folder)
@@ -103,7 +104,7 @@ class folders
                     else {
                         $dir = str_replace('//', '/', $dir);
                         $return[] = array(
-                            'image' => CMBB_ROOT.'/'.$dir.'/'.$folder,
+                            'image' => $url_root.$user_id . '/'. $folder,
                             'folder' => '',
                         );
                     }

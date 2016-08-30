@@ -23,7 +23,7 @@ services:
             - '@user'
             - '@auth'
             - '@request'
-            - '%core.root_path%'
+            - '%core.root_path%ext/ger/cmbb/'
             - '@ger.cmbb.cmbb.driver'
 
     ger.cmbb.save:
@@ -31,7 +31,7 @@ services:
         arguments:
             - '@config'
             - '@controller.helper'
-            - '@template'
+            - '@log'
             - '@user'
             - '@auth'
             - '@request'
