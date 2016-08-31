@@ -9,7 +9,7 @@ Copy the extension to phpBB/ext/ger/cmbb
 
 Go to "ACP" > "Customise" > "Extensions" and enable the "cmBB" extension.
 
-If desired, set your Main website URL to <yourforumurl>/app.php/page/index
+If desired, set your Main website URL to < yourforumurl >/app.php/page/index
 
 # Support and more information
 https://www.phpbb.com/community/viewtopic.php?f=456&t=2383541
