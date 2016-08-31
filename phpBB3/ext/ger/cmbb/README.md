@@ -1,7 +1,7 @@
 # cmBB
 A simple yet powerful content management system for phpBB
 
-This CMS is an "Add-on" for the popular phpBB3 forum system. It therefore requires a phpBB installation to work.
+This CMS is an extension for the popular phpBB3 forum system. It therefore requires a phpBB installation to work.
 
 ## Installation
 
@@ -9,7 +9,7 @@ Copy the extension to phpBB/ext/ger/cmbb
 
 Go to "ACP" > "Customise" > "Extensions" and enable the "cmBB" extension.
 
-# Support
+# Support and more information
 https://www.phpbb.com/community/viewtopic.php?f=456&t=2383541
 
 
