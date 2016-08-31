@@ -74,7 +74,7 @@ class page
         }
         if ($page['visible'] == 0) {
             if ($this->auth->acl_get('m_')) {
-                $page['content'] = '<div class="warning">' . $this->user->lang('ARTICLE_HIDDEN_WARNING') . '</div>'.$page['content'];
+                $page['content'] = '<div class="warning">'.$this->user->lang('ARTICLE_HIDDEN_WARNING').'</div>'.$page['content'];
             }
             else {
                 return $this->helper->message('FILE_NOT_FOUND_404', array(
@@ -116,7 +116,7 @@ class page
                     $page['content'] .= '<div class="box"><a href="'.$child['alias'].'"><h2>'.$child['title'].'</h2></a>';
                     $page['content'] .= '<div><div class="exerpt_img"><a href="'.$child['alias'].'">'.$this->cmbb->phpbb_user_avatar($child['user_id']).'</a></div>';
                     $page['content'] .= closetags(character_limiter(clean_html($child['content'])));
-                    $page['content'] .= ' <a href="'.$child['alias'].'">' . $this->user->lang('READ_ON') . '</a></div></div>';
+                    $page['content'] .= ' <a href="'.$child['alias'].'">'.$this->user->lang('READ_MORE').'</a></div></div>';
 
                     if ($counter < $count) {
                         $page['content'] .= '<hr>';
@@ -126,34 +126,30 @@ class page
         }
         // Do breadcrumbs
         if ($page['alias'] == 'index') {
-            $path = '';
+            // No link on homepage, but remove board index from crumbs
+            $this->template->assign_var('CMBB_HOME', TRUE);
         }
         else {
-            if ($page['parent'] > 1)
-            {
-                $parents[] = $this->cmbb->get_article(intval($page['parent']));
-                    if ($parents[0]['parent'] > 1) {
-                        $parents[] = $this->cmbb->get_article($parents[0]['parent']);
-                        if ($parents[1]['parent'] > 1) {
-                            $parents[] = $this->cmbb->get_article($parents[1]['parent']);
-                        }
+            if ($page['parent'] > 0) {
+                $trail[] = $page;
+                if ($page['parent'] > 1) {
+                    $trail[] = $this->cmbb->get_article($page['parent']);
+                    if ($trail[1]['parent'] > 1) {
+                        $trail[] = $this->cmbb->get_article($trail[1]['parent']);
                     }
+                }
             }
-            if (isset($parents)) {
-                $parents = array_reverse($parents);
-                foreach ($parents as $parent)
+
+            if (isset($trail)) {
+                $trail = array_reverse($trail);
+                foreach ($trail as $crumb)
                 {
                     $this->template->assign_block_vars('cmbb_crumbs', array(
-                        'U_CRUMB_LINK' =>  $parent['alias'],
-                        'CRUMB_NAME' =>  $parent['title'],
+                        'U_CRUMB_LINK' => $crumb['alias'],
+                        'CRUMB_NAME' => $crumb['title'],
                     ));
                 }
             }
-            // Also add breadcrumb for current page
-            $this->template->assign_block_vars('cmbb_crumbs', array(
-                'U_CRUMB_LINK' =>  $page['alias'],
-                'CRUMB_NAME' =>  $page['title'],
-            ));
 
         }
 
@@ -161,7 +157,6 @@ class page
         $title = empty($page['title']) ? (($this->config['site_home_text'] !== '') ? $this->config['site_home_text'] : $this->user->lang('HOME')) : $page['title'];
 
         $this->template->assign_vars(array(
-//            'CMBB_BREADCRUMBS' => $path,
             'CMBB_CATEGORY_NAME' => $this->cmbb->fetch_category($page['category_id']),
             'S_CMBB_CATEGORY' => $page['is_cat'],
             'CMBB_TITLE' => $title,
@@ -174,5 +169,5 @@ class page
 
         return $this->helper->render('article.html', $title);
     }
-
-} // EoF
+}
+// EoF
