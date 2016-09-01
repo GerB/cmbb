@@ -31,12 +31,12 @@ class save
 
 	/* @var \phpbb\request\request_interface */
 	protected $request;
-	
+
 	protected $phpbb_root_path;
 
 	/* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
-	
+
 	/* @var \ger\cmbb\cmbb\presentation */
 	protected $presentation;
 
