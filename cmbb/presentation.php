@@ -168,7 +168,6 @@ function clean_title($text)
 	$text = str_replace("ï", "&iuml;", $text);
 	$text = str_replace("�", "", $text);
 
-
 	return ent_quotes($text);
 }
 

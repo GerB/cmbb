@@ -95,7 +95,7 @@ class edit
 		$this->template->assign_vars(array(
 			'CMBB_TITLE'			 => (empty($page['title']) ? $this->user->lang('NEW_ARTICLE') : $page['title']),
 			'CMBB_CONTENT'			 => (empty($page['content']) ? '' : $page['content'] ),
-			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar(NULL, $this->auth, $this->helper, 'edit'),
+			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar(null, $this->auth, $this->helper, 'edit'),
 			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($page['article_id']) ? '_new_' : $page['article_id'] ))),
 			'CMBB_CATEGORY_DROPDOWN' => form_dropdown('category_id', $this->cmbb->get_categories(), (empty($page['category_id']) ? 0 : $page['category_id'])),
 			'CAN_HIDE'				 => (!empty($page['title']) && $this->auth->acl_get('m_')) ? true : false,

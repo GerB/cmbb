@@ -618,7 +618,7 @@ class driver
 	 * @param array $page
 	 * @return bool
 	 */
-	public function can_edit($auth, $page = NULL)
+	public function can_edit($auth, $page = null)
 	{
 		// Disallow bots and banned
 		if ($this->user->data['is_bot'] || $this->phpbb_is_banned($this->user->data['user_id']))
