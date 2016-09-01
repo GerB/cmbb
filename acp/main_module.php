@@ -45,7 +45,7 @@ class main_module
         }
 
         $template->assign_vars(array(
-            'U_ACTION' => $this->u_action,
+            'U_ACTION'           => $this->u_action,
             'S_REACT_FORUM_ID'   => $config['ger_cmbb_react_forum_id'],
             'NUMBER_INDEX_ITEMS' => $config['ger_cmbb_number_index_items'],
             'MIN_POST_COUNT'     => $config['ger_cmbb_min_post_count'],
@@ -53,7 +53,7 @@ class main_module
             'MIN_CONTENT_LENGTH' => $config['ger_cmbb_min_content_length'],
             'ANNOUNCE_TEXT'      => $config['ger_cmbb_announce_text'],
             'S_ANNOUNCE_SHOW'    => $config['ger_cmbb_announce_show'],
-            'S_REACT_OPTIONS' => make_forum_select($config['ger_cmbb_react_forum_id'], false, false, false, false),
+            'S_REACT_OPTIONS'    => make_forum_select($config['ger_cmbb_react_forum_id'], false, false, false, false),
         ));
     }
 

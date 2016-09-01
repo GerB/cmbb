@@ -21,7 +21,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_CMBB_TITLE'                                => 'cmBB',
 	'CMBB_SETTINGS'                                 => 'cmBB settings',
-        'ACP_CMBB_SETTING_SAVED'                        => 'cmBB settings saved',
+    'ACP_CMBB_SETTING_SAVED'                        => 'cmBB settings saved',
 
 	'ACP_REACT_FORUM_ID'                            => 'Forum for reaction topics',
 	'ACP_REACT_FORUM_ID_EXPLAIN'                    => 'Select the forum to create a topic in for reactions.',
