@@ -13,6 +13,7 @@ services:
             - '@request'
             - '%core.root_path%'
             - '@ger.cmbb.cmbb.driver'
+            - '@ger.cmbb.cmbb.presentation'
 
     ger.cmbb.editor:
         class: ger\cmbb\controller\edit
@@ -25,6 +26,7 @@ services:
             - '@request'
             - '%core.root_path%ext/ger/cmbb/'
             - '@ger.cmbb.cmbb.driver'
+            - '@ger.cmbb.cmbb.presentation'
 
     ger.cmbb.save:
         class: ger\cmbb\controller\save
@@ -37,6 +39,7 @@ services:
             - '@request'
             - '%core.root_path%'
             - '@ger.cmbb.cmbb.driver'
+            - '@ger.cmbb.cmbb.presentation'
 
     ger.cmbb.folders:
         class: ger\cmbb\controller\folders
@@ -59,6 +62,9 @@ services:
             - '%ger.cmbb.tables.cms_category%'
             - '%ger.cmbb.tables.cms_config%'
             - '%ger.cmbb.tables.cms_template%'
+            
+    ger.cmbb.cmbb.presentation:
+        class: ger\cmbb\cmbb\presentation
 
     ger.cmbb.service:
         class: ger\cmbb\service

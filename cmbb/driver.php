@@ -46,11 +46,6 @@ class driver
 		$this->config_table = $config_table;
 		$this->template_table = $template_table;
 		$this->phpbb_root_path = generate_board_url() . substr($phpbb_root_path, 1);
-
-		if (!defined('CMBB_ROOT'))
-		{
-			define('CMBB_ROOT', '/cmbb');
-		}
 	}
 
 	/**
@@ -437,7 +432,7 @@ class driver
 		}
 		else if (empty($row['user_avatar']))
 		{
-			$path = CMBB_ROOT . '/assets/site/default_avatar.jpg';
+			$path = '/assets/site/default_avatar.jpg';
 			$row['user_avatar_width'] = $row['user_avatar_height'] = 90;
 		}
 		else
@@ -486,7 +481,7 @@ class driver
 			$return[] = array(
 				'topic_id'		 => $row['topic_id'],
 				'forum_id'		 => $row['forum_id'],
-				'topic_title'	 => character_limiter($row['topic_title'], 30, '&hellip;'),
+				'topic_title'	 => strlen($row['topic_title']) > 30 ? substr($row['topic_title'], 0, 30) . '&hellip;' : $row['topic_title'],
 			);
 		}
 		return empty($return) ? false : $return;

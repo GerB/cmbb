@@ -36,6 +36,9 @@ class page
 	/* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
 
+	/* @var \ger\cmbb\cmbb\presentation */
+	protected $presentation;
+
 	/**
 	 * Constructor
 	 *
@@ -44,7 +47,7 @@ class page
 	 * @param \phpbb\template\template	$template
 	 * @param \phpbb\user				$user
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -54,8 +57,7 @@ class page
 		$this->request = $request;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->cmbb = $cmbb;
-
-		include($this->phpbb_root_path . '/ext/ger/cmbb/cmbb/presentation.php');
+		$this->presentation = $presentation;
 	}
 
 	/**
@@ -127,7 +129,7 @@ class page
 					$counter++;
 					$page['content'] .= '<div class="box"><a href="' . $child['alias'] . '"><h2>' . $child['title'] . '</h2></a>';
 					$page['content'] .= '<div><div class="exerpt_img"><a href="' . $child['alias'] . '">' . $this->cmbb->phpbb_user_avatar($child['user_id']) . '</a></div>';
-					$page['content'] .= closetags(character_limiter(clean_html($child['content'])));
+					$page['content'] .= $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content'])));
 					$page['content'] .= ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '</a></div></div>';
 
 					if ($counter < $count)
@@ -188,4 +190,5 @@ class page
 	}
 
 }
+
 // EoF

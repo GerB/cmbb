@@ -38,7 +38,6 @@ class folders
 		$this->user = $user;
 		$this->request = $request;
 		$this->phpbb_root_path = $phpbb_root_path;
-		include($this->phpbb_root_path . '/ext/ger/cmbb/cmbb/presentation.php');
 	}
 
 	/**

@@ -31,10 +31,14 @@ class save
 
 	/* @var \phpbb\request\request_interface */
 	protected $request;
+	
 	protected $phpbb_root_path;
 
 	/* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
+	
+	/* @var \ger\cmbb\cmbb\presentation */
+	protected $presentation;
 
 	/**
 	 * Constructor
@@ -44,7 +48,7 @@ class save
 	 * @param \phpbb\template\template	$template
 	 * @param \phpbb\user				$user
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -54,8 +58,7 @@ class save
 		$this->request = $request;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->cmbb = $cmbb;
-
-		include($this->phpbb_root_path . '/ext/ger/cmbb/cmbb/presentation.php');
+		$this->presentation = $presentation;
 	}
 
 	/**
@@ -81,7 +84,7 @@ class save
 				// Special page, admin only
 				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
 			}
-			if (!$title = phpbb_censor_title($this->request->variable('title', '', true)))
+			if (!$title = $this->presentation->phpbb_censor_title($this->request->variable('title', '', true)))
 			{
 				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
 			}

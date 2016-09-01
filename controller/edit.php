@@ -38,6 +38,9 @@ class edit
 	/* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
 
+	/* @var \ger\cmbb\cmbb\presentation */
+	protected $presentation;
+
 	/**
 	 * Constructor
 	 *
@@ -50,7 +53,7 @@ class edit
 	 * @param \phpbb\user $cmbb_root_path
 	 * @param \phpbb\user $cmbb
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $cmbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $cmbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -60,8 +63,7 @@ class edit
 		$this->request = $request;
 		$this->cmbb_root_path = $cmbb_root_path;
 		$this->cmbb = $cmbb;
-
-		include($this->cmbb_root_path . 'cmbb/presentation.php');
+		$this->presentation = $presentation;
 	}
 
 	/**
@@ -97,7 +99,7 @@ class edit
 			'CMBB_CONTENT'			 => (empty($page['content']) ? '' : $page['content'] ),
 			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar(null, $this->auth, $this->helper, 'edit'),
 			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($page['article_id']) ? '_new_' : $page['article_id'] ))),
-			'CMBB_CATEGORY_DROPDOWN' => form_dropdown('category_id', $this->cmbb->get_categories(), (empty($page['category_id']) ? 0 : $page['category_id'])),
+			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories(), (empty($page['category_id']) ? 0 : $page['category_id'])),
 			'CAN_HIDE'				 => (!empty($page['title']) && $this->auth->acl_get('m_')) ? true : false,
 			'IS_VISIBLE'			 => empty($page['visible']) ? false : true,
 			'CMBB_ROOT_PATH'		 => generate_board_url() . substr($this->cmbb_root_path, 1),
