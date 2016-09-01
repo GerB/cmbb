@@ -1,88 +1,87 @@
 <?php
+
 /**
  *
- * This file is part of the phpBB Forum Software package.
+ * cmBB
  *
- * @copyright (c) phpBB Limited <https://www.phpbb.com>
+ * @copyright (c) 2016 Ger Bruinsma
  * @license GNU General Public License, version 2 (GPL-2.0)
- *
- * For full copyright and license information, please see
- * the docs/CREDITS.txt file.
  *
  */
 
 namespace ger\cmbb\event;
 
 /**
-* @ignore
-*/
+ * @ignore
+ */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
-* Event listener
-*/
+ * Event listener
+ */
 class main_listener implements EventSubscriberInterface
 {
-	static public function getSubscribedEvents()
-	{
-		return array(
-			'core.user_setup'				=> 'load_language_on_setup',
-			'core.page_header'				=> 'page_header_add_menu',
-		);
-	}
 
-	/* @var \phpbb\controller\helper */
-	protected $helper;
+    static public function getSubscribedEvents()
+    {
+        return array(
+            'core.user_setup'  => 'load_language_on_setup',
+            'core.page_header' => 'page_header_add_menu',
+        );
+    }
 
-	/* @var \phpbb\template\template */
-	protected $template;
+    /* @var \phpbb\controller\helper */
 
-        /* @var \ger\cmbb\cmbb\driver */
-        protected $cmbb;
+    protected $helper;
 
-	/**
-	* Constructor
-	*
-	* @param \phpbb\controller\helper	$helper		Controller helper object
-	* @param \phpbb\template\template	$template	Template object
-	*/
-	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \ger\cmbb\cmbb\driver $cmbb)
-	{
-		$this->helper = $helper;
-		$this->template = $template;
-                $this->cmbb = $cmbb;
-	}
+    /* @var \phpbb\template\template */
+    protected $template;
 
-	/**
-	* Load common language files during user setup
-	*
-	* @param \phpbb\event\data	$event	Event object
-	*/
-	public function load_language_on_setup($event)
-	{
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
-			'ext_name' => 'ger/cmbb',
-			'lang_set' => 'common',
-		);
-		$event['lang_set_ext'] = $lang_set_ext;
-	}
+    /* @var \ger\cmbb\cmbb\driver */
+    protected $cmbb;
 
-        public function page_header_add_menu($event)
+    /**
+     * Constructor
+     *
+     * @param \phpbb\controller\helper	$helper		Controller helper object
+     * @param \phpbb\template\template	$template	Template object
+     */
+    public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \ger\cmbb\cmbb\driver $cmbb)
+    {
+        $this->helper = $helper;
+        $this->template = $template;
+        $this->cmbb = $cmbb;
+    }
+
+    /**
+     * Load common language files during user setup
+     *
+     * @param \phpbb\event\data	$event	Event object
+     */
+    public function load_language_on_setup($event)
+    {
+        $lang_set_ext = $event['lang_set_ext'];
+        $lang_set_ext[] = array(
+            'ext_name' => 'ger/cmbb',
+            'lang_set' => 'common',
+        );
+        $event['lang_set_ext'] = $lang_set_ext;
+    }
+
+    public function page_header_add_menu($event)
+    {
+        $items = $this->cmbb->list_menu_items();
+        $menu = '';
+        if ($items)
         {
-            $items = $this->cmbb->list_menu_items();
-            $menu = '';
-            if ($items)
+            foreach ($items as $row)
             {
-                foreach($items as $row)
-                {
-                    $menu.= '<li><a href="'. $this->helper->route('ger_cmbb_page', array('alias' => $row['alias'])).'">'.$row['category_name'].'</a></li>'."\n";
-                }
+                $menu.= '<li><a href="' . $this->helper->route('ger_cmbb_page', array('alias' => $row['alias'])) . '">' . $row['category_name'] . '</a></li>' . "\n";
             }
-            $this->template->assign_vars(array(
-			'CMBB_MENU'	=> $menu
-               ));
         }
-
+        $this->template->assign_vars(array(
+            'CMBB_MENU' => $menu
+        ));
+    }
 
 }

@@ -1,7 +1,20 @@
 <?php
+
 /**
- * Misc functions used by cmBB for presentatio purposes
+ *
+ * cmBB
+ *
+ * @copyright (c) 2016 Ger Bruinsma
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
  */
+/**
+ * Misc functions used by cmBB for presentation purposes
+ */
+if (!defined('IN_PHPBB'))
+{
+    exit;
+}
 
 /**
  * Strip empty tags from HTML
@@ -19,7 +32,8 @@ function strip_empty_tags($result)
     {
         $string = $result;
         $result = preg_replace($regexps, '', $string);
-    } while ($result != $string);
+    }
+    while ($result != $string);
 
     return $result;
 }
@@ -41,7 +55,8 @@ function closetags($html)
     $len_opened = count($openedtags);
 
     // all tags are closed
-    if (count($closedtags) == $len_opened) {
+    if (count($closedtags) == $len_opened)
+    {
         return $html;
     }
 
@@ -49,10 +64,12 @@ function closetags($html)
     // close tags
     for ($i = 0; $i < $len_opened; $i++)
     {
-        if (!in_array($openedtags[$i], $closedtags)) {
-            $html .= "</".$openedtags[$i].">";
+        if (!in_array($openedtags[$i], $closedtags))
+        {
+            $html .= "</" . $openedtags[$i] . ">";
         }
-        else {
+        else
+        {
             unset($closedtags[array_search($openedtags[$i], $closedtags)]);
         }
     }
@@ -67,7 +84,7 @@ function closetags($html)
 function clean_html($text)
 {
     $text = preg_replace(
-        array(
+            array(
         // Remove invisible content
         '@<head[^>]*?>.*?</head>@siu',
         '@<style[^>]*?>.*?</style>@siu',
@@ -90,7 +107,7 @@ function clean_html($text)
         '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
         '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
         '@</?((frameset)|(frame)|(iframe))@iu',
-        ), array(
+            ), array(
         ' ',
         ' ',
         ' ',
@@ -129,10 +146,12 @@ function clean_html($text)
     return clean_title($text);
 }
 
+/**
+ * Set quote to html enitity
+ */
 function ent_quotes($text)
 {
-    $text = str_replace("'", "&#39;", $text);
-    return $text;
+    return str_replace("'", "&#39;", $text);
 }
 
 /**
@@ -162,7 +181,8 @@ function clean_title($text)
  */
 function character_limiter($str, $n = 300, $end_char = '&nbsp;')
 {
-    if (strlen($str) < $n) {
+    if (strlen($str) < $n)
+    {
         return $str;
     }
 
@@ -171,18 +191,20 @@ function character_limiter($str, $n = 300, $end_char = '&nbsp;')
         "\r",
         "\n"), ' ', $str));
 
-    if (strlen($str) <= $n) {
+    if (strlen($str) <= $n)
+    {
         return $str;
     }
 
     $out = "";
     foreach (explode(' ', trim($str)) as $val)
     {
-        $out .= $val.' ';
+        $out .= $val . ' ';
 
-        if (strlen($out) >= $n) {
+        if (strlen($out) >= $n)
+        {
             $out = trim($out);
-            return (strlen($out) == strlen($str)) ? $out : $out.$end_char;
+            return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
         }
     }
 }
@@ -198,47 +220,52 @@ function character_limiter($str, $n = 300, $end_char = '&nbsp;')
  */
 function form_dropdown($name = '', $options = array(), $selected = array(), $extra = '')
 {
-    if (!is_array($selected)) {
+    if (!is_array($selected))
+    {
         $selected = array(
             $selected);
     }
 
     // If no selected state was submitted we will attempt to set it automatically
-    if (count($selected) === 0) {
+    if (count($selected) === 0)
+    {
         // If the form name appears in the $_POST array we have a winner!
-        if (isset($_POST[$name])) {
+        if (isset($_POST[$name]))
+        {
             $selected = array(
                 $_POST[$name]);
         }
     }
 
     if ($extra != '')
-            $extra = ' '.$extra;
+        $extra = ' ' . $extra;
 
     $multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
-    $form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
+    $form = '<select name="' . $name . '"' . $extra . $multiple . ">\n";
 
     foreach ($options as $key => $val)
     {
         $key = (string) $key;
 
-        if (is_array($val) && !empty($val)) {
-            $form .= '<optgroup label="'.$key.'">'."\n";
+        if (is_array($val) && !empty($val))
+        {
+            $form .= '<optgroup label="' . $key . '">' . "\n";
 
             foreach ($val as $optgroup_key => $optgroup_val)
             {
                 $sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-                $form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+                $form .= '<option value="' . $optgroup_key . '"' . $sel . '>' . (string) $optgroup_val . "</option>\n";
             }
 
-            $form .= '</optgroup>'."\n";
+            $form .= '</optgroup>' . "\n";
         }
-        else {
+        else
+        {
             $sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
-            $form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+            $form .= '<option value="' . $key . '"' . $sel . '>' . (string) $val . "</option>\n";
         }
     }
 
@@ -261,7 +288,8 @@ function phpbb_censor_title($title)
         'homepage',
         'test',
     );
-    if (in_array(strtolower(trim($title)), $disallowed)) {
+    if (in_array(strtolower(trim($title)), $disallowed))
+    {
         return FALSE;
     }
     return trim(censor_text($title));

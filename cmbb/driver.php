@@ -1,14 +1,15 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * cmBB
+ *
+ * @copyright (c) 2016 Ger Bruinsma
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
  */
 
 namespace ger\cmbb\cmbb;
-
-//use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class driver
 {

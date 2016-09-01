@@ -3,44 +3,44 @@
 <h1>{L_CMBB_SETTINGS}</h1>
 
 <form id="acp_board" method="post" action="{U_ACTION}">
-	<fieldset>
-		<dl>
-			<dt><label for="react_forum_id">{L_ACP_REACT_FORUM_ID}{L_COLON}</label><br /><span>{L_ACP_REACT_FORUM_ID_EXPLAIN}</span></dt>
-			<dd><select id="react_forum_id" name="react_forum_id"><option value="0"<!-- IF not S_REACT_FORUM_ID --> selected="selected"<!-- ENDIF -->>{L_NO_REACTIONS}</option>{S_REACT_OPTIONS}</select></dd>
-		</dl>
-		<dl>
-			<dt><label for="number_index_items">{L_ACP_NUMBER_INDEX_ITEMS}{L_COLON}</label><br /><span>{L_ACP_NUMBER_INDEX_ITEMS_EXPLAIN}</span></dt>
-			<dd><input type="number" id="number_index_items" name="number_index_items" value="{NUMBER_INDEX_ITEMS}" min="0" max="99" /></dd>
-		</dl>
-		<dl>
-			<dt><label for="min_post_count">{L_ACP_MIN_POST_COUNT}{L_COLON}</label><br /><span>{L_ACP_MIN_POST_COUNT_EXPLAIN}</span></dt>
-			<dd><input type="number" id="min_post_count" name="min_post_count" value="{MIN_POST_COUNT}" min="0" max="99999" /></dd>
-		</dl>
-		<dl>
-			<dt><label for="min_title_length">{L_ACP_MIN_TITLE_LENGTH}{L_COLON}</label><br /><span>{L_ACP_MIN_TITLE_LENGTH_EXPLAIN}</span></dt>
-			<dd><input type="number" id="min_post_count" name="min_title_length" value="{MIN_TITLE_LENGTH}" min="0" max="99" /></dd>
-		</dl>
-		<dl>
-			<dt><label for="min_content_length">{L_ACP_MIN_CONTENT_LENGTH}{L_COLON}</label><br /><span>{L_ACP_MIN_CONTENT_LENGTH_EXPLAIN}</span></dt>
-			<dd><input type="number" id="min_content_length" name="min_content_length" value="{MIN_CONTENT_LENGTH}" min="0" max="99999" /></dd>
-		</dl>
-		<dl>
-			<dt><label for="announce_text">{L_ACP_ANNOUNCE_TEXT}{L_COLON}</label><br /><span>{L_ACP_ANNOUNCE_TEXT_EXPLAIN}</span></dt>
-			<dd><textarea id="announce_text" name="announce_text" rows="4" cols="70">{ANNOUNCE_TEXT}</textarea></dd>
-		</dl>
-		<dl>
-			<dt><label for="announce_show">{L_ACP_ANNOUNCE_SHOW}{L_COLON}</label><br /><span>{L_ACP_ANNOUNCE_SHOW_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" class="radio" name="announce_show" value="1"<!-- IF S_ANNOUNCE_SHOW --> id="announce_show" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-				<label><input type="radio" class="radio" name="announce_show" value="0"<!-- IF not S_ANNOUNCE_SHOW --> id="announce_show" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
-		</dl>
+    <fieldset>
+        <dl>
+            <dt><label for="react_forum_id">{L_ACP_REACT_FORUM_ID}{L_COLON}</label><br /><span>{L_ACP_REACT_FORUM_ID_EXPLAIN}</span></dt>
+            <dd><select id="react_forum_id" name="react_forum_id"><option value="0"<!-- IF not S_REACT_FORUM_ID --> selected="selected"<!-- ENDIF -->>{L_NO_REACTIONS}</option>{S_REACT_OPTIONS}</select></dd>
+        </dl>
+        <dl>
+            <dt><label for="number_index_items">{L_ACP_NUMBER_INDEX_ITEMS}{L_COLON}</label><br /><span>{L_ACP_NUMBER_INDEX_ITEMS_EXPLAIN}</span></dt>
+            <dd><input type="number" id="number_index_items" name="number_index_items" value="{NUMBER_INDEX_ITEMS}" min="0" max="99" /></dd>
+        </dl>
+        <dl>
+            <dt><label for="min_post_count">{L_ACP_MIN_POST_COUNT}{L_COLON}</label><br /><span>{L_ACP_MIN_POST_COUNT_EXPLAIN}</span></dt>
+            <dd><input type="number" id="min_post_count" name="min_post_count" value="{MIN_POST_COUNT}" min="0" max="99999" /></dd>
+        </dl>
+        <dl>
+            <dt><label for="min_title_length">{L_ACP_MIN_TITLE_LENGTH}{L_COLON}</label><br /><span>{L_ACP_MIN_TITLE_LENGTH_EXPLAIN}</span></dt>
+            <dd><input type="number" id="min_post_count" name="min_title_length" value="{MIN_TITLE_LENGTH}" min="0" max="99" /></dd>
+        </dl>
+        <dl>
+            <dt><label for="min_content_length">{L_ACP_MIN_CONTENT_LENGTH}{L_COLON}</label><br /><span>{L_ACP_MIN_CONTENT_LENGTH_EXPLAIN}</span></dt>
+            <dd><input type="number" id="min_content_length" name="min_content_length" value="{MIN_CONTENT_LENGTH}" min="0" max="99999" /></dd>
+        </dl>
+        <dl>
+            <dt><label for="announce_text">{L_ACP_ANNOUNCE_TEXT}{L_COLON}</label><br /><span>{L_ACP_ANNOUNCE_TEXT_EXPLAIN}</span></dt>
+            <dd><textarea id="announce_text" name="announce_text" rows="4" cols="70">{ANNOUNCE_TEXT}</textarea></dd>
+        </dl>
+        <dl>
+            <dt><label for="announce_show">{L_ACP_ANNOUNCE_SHOW}{L_COLON}</label><br /><span>{L_ACP_ANNOUNCE_SHOW_EXPLAIN}</span></dt>
+            <dd><label><input type="radio" class="radio" name="announce_show" value="1"<!-- IF S_ANNOUNCE_SHOW --> id="announce_show" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+                <label><input type="radio" class="radio" name="announce_show" value="0"<!-- IF not S_ANNOUNCE_SHOW --> id="announce_show" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+        </dl>
 
-		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
-		</p>
+        <p class="submit-buttons">
+            <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+            <input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+        </p>
 
-		{S_FORM_TOKEN}
-	</fieldset>
+        {S_FORM_TOKEN}
+    </fieldset>
 </form>
 
 <!-- INCLUDE overall_footer.html -->
