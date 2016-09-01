@@ -51,7 +51,8 @@ class edit
 	 * @param \phpbb\user $auth
 	 * @param \phpbb\user $request
 	 * @param \phpbb\user $cmbb_root_path
-	 * @param \phpbb\user $cmbb
+	 * @param \ger\cmbb\cmbb $cmbb
+	 * @param \ger\cmbb\presentation $presentation
 	 */
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $cmbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
 	{

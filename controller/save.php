@@ -45,8 +45,13 @@ class save
 	 *
 	 * @param \phpbb\config\config		$config
 	 * @param \phpbb\controller\helper	$helper
-	 * @param \phpbb\template\template	$template
+	 * @param \phpbb\log\log			$log
 	 * @param \phpbb\user				$user
+	 * @param \phpbb\auth				$auth
+	 * @param \phpbb\request			$request
+	 * @param string					$phpbb_root_path
+	 * @param \ger\cmbb\cmbb			$cmbb
+	 * @param \ger\cmbb\presentation	$presentation
 	 */
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
 	{
