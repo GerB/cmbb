@@ -238,9 +238,10 @@ function form_dropdown($name = '', $options = array(), $selected = array(), $ext
 	}
 
 	if ($extra != '')
+	{
 		$extra = ' ' . $extra;
-
-	$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+	}
+	$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === false) ? ' multiple="multiple"' : '';
 
 	$form = '<select name="' . $name . '"' . $extra . $multiple . ">\n";
 
@@ -290,7 +291,7 @@ function phpbb_censor_title($title)
 	);
 	if (in_array(strtolower(trim($title)), $disallowed))
 	{
-		return FALSE;
+		return false;
 	}
 	return trim(censor_text($title));
 }

@@ -67,7 +67,7 @@ class page
 	public function handle($alias = 'index')
 	{
 		$page = $this->cmbb->get_article($alias);
-		if ($page === FALSE)
+		if ($page === false)
 		{
 			return $this->helper->message('FILE_NOT_FOUND_404', array(
 						$alias), 'FILE_NOT_FOUND_404', 404);
@@ -141,7 +141,7 @@ class page
 		if ($page['alias'] == 'index')
 		{
 			// No link on homepage, but remove board index from crumbs
-			$this->template->assign_var('CMBB_HOME', TRUE);
+			$this->template->assign_var('CMBB_HOME', true);
 		}
 		else
 		{
@@ -184,10 +184,8 @@ class page
 			'CMBB_AUTHOR'			 => ($page['user_id'] > 0) ? $this->cmbb->phpbb_get_user($page['user_id']) : '',
 		));
 
-
 		return $this->helper->render('article.html', $title);
 	}
 
 }
-
 // EoF

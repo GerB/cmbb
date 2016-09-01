@@ -106,7 +106,7 @@ class driver
 				return $return;
 			}
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -129,7 +129,7 @@ class driver
 
 		if (!$this->db->sql_query($action))
 		{
-			return FALSE;
+			return false;
 		}
 		else
 		{
@@ -153,7 +153,7 @@ class driver
 			$return = $this->db->sql_fetchrow($result);
 			return $return['counted'];
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -179,7 +179,7 @@ class driver
 				return $return;
 			}
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -208,7 +208,7 @@ class driver
 				return $return;
 			}
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -233,7 +233,7 @@ class driver
 				return $return;
 			}
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -263,7 +263,7 @@ class driver
 				return $return;
 			}
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -376,7 +376,7 @@ class driver
 		$user_id = filter_var($userid, FILTER_SANITIZE_NUMBER_INT);
 		if (empty($user_id))
 		{
-			return FALSE;
+			return false;
 		}
 
 		$sql = 'SELECT `username`, `user_colour` , `user_id`, `group_id`
@@ -387,7 +387,7 @@ class driver
 
 		if (empty($row))
 		{
-			return FALSE;
+			return false;
 		}
 		if ($row['group_id'] != "754")
 		{
@@ -412,7 +412,7 @@ class driver
 		$user_id = filter_var($userid, FILTER_SANITIZE_NUMBER_INT);
 		if (empty($user_id))
 		{
-			return FALSE;
+			return false;
 		}
 
 		$sql = 'SELECT `username`, `user_avatar`, `user_avatar_type` , `user_avatar_width`, `user_avatar_height`
@@ -468,7 +468,7 @@ class driver
 		$topic_limit = filter_var($topic_limit, FILTER_SANITIZE_NUMBER_INT);
 		if (empty($topic_limit))
 		{
-			return FALSE;
+			return false;
 		}
 
 		// Select the last topics to which we have permissions
@@ -489,7 +489,7 @@ class driver
 				'topic_title'	 => character_limiter($row['topic_title'], 30, '&hellip;'),
 			);
 		}
-		return empty($return) ? FALSE : $return;
+		return empty($return) ? false : $return;
 	}
 
 	/**
@@ -502,7 +502,7 @@ class driver
 		$user_id = filter_var($userid, FILTER_SANITIZE_NUMBER_INT);
 		if (empty($user_id))
 		{
-			return FALSE;
+			return false;
 		}
 		$sql = 'SELECT count(*) as banned FROM ' . BANLIST_TABLE . ' WHERE ban_userid = ' . $userid;
 		$result = $this->db->sql_query($sql);
@@ -511,11 +511,11 @@ class driver
 
 		if (!empty($banned))
 		{
-			return TRUE;
+			return true;
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -623,25 +623,25 @@ class driver
 		// Disallow bots and banned
 		if ($this->user->data['is_bot'] || $this->phpbb_is_banned($this->user->data['user_id']))
 		{
-			return FALSE;
+			return false;
 		}
 
 		if (is_array($page))
 		{
 			if ($page['is_cat'])
 			{
-				return FALSE;
+				return false;
 			}
 			else if (($this->user->data['user_id'] == $page['user_id']) || $auth->acl_get('m_'))
 			{
-				return TRUE;
+				return true;
 			}
 		}
 
 		// Allow moderators and users with enough posts or that have written before
 		if ($auth->acl_get('m_') || ($this->user->data['user_posts'] >= $this->config['ger_cmbb_min_post_count']) || $this->has_written($this->user->data['user_id']))
 		{
-			return TRUE;
+			return true;
 		}
 	}
 

@@ -76,7 +76,7 @@ class edit
 		if (is_numeric($article_id))
 		{
 			$page = $this->cmbb->get_article($article_id);
-			if ($page === FALSE)
+			if ($page === false)
 			{
 				return $this->helper->message('FILE_NOT_FOUND_404', array($article_id), 'FILE_NOT_FOUND_404', 404);
 			}
@@ -98,8 +98,8 @@ class edit
 			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar(NULL, $this->auth, $this->helper, 'edit'),
 			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($page['article_id']) ? '_new_' : $page['article_id'] ))),
 			'CMBB_CATEGORY_DROPDOWN' => form_dropdown('category_id', $this->cmbb->get_categories(), (empty($page['category_id']) ? 0 : $page['category_id'])),
-			'CAN_HIDE'				 => (!empty($page['title']) && $this->auth->acl_get('m_')) ? TRUE : FALSE,
-			'IS_VISIBLE'			 => empty($page['visible']) ? FALSE : TRUE,
+			'CAN_HIDE'				 => (!empty($page['title']) && $this->auth->acl_get('m_')) ? true : false,
+			'IS_VISIBLE'			 => empty($page['visible']) ? false : true,
 			'CMBB_ROOT_PATH'		 => generate_board_url() . substr($this->cmbb_root_path, 1),
 			'CMBB_IMG_DIR'			 => $this->helper->route('ger_cmbb_folders', array('user_id' => $this->user->data['user_id'])),
 		));
