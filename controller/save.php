@@ -129,7 +129,7 @@ class save
 		}
 		else if ($article_id == '_new_')
 		{
-			if (!$title = phpbb_censor_title($this->request->variable('title', '', true)))
+			if (!$title = $this->presentation->phpbb_censor_title($this->request->variable('title', '', true)))
 			{
 				return $this->helper->message('INVALID_TITLE', 'ERROR', 200);
 			}
@@ -187,7 +187,7 @@ class save
 		$topic_content = '[b][size=150]' . $article_data['title'] . '[/size][/b]
 [i]' . $this->user->lang['POST_BY_AUTHOR'] . ' ' . $user['username'] . '[/i]
 
-' . character_limiter(strip_tags($article_data['content'])) . '
+' . $this->presentation->character_limiter(strip_tags($article_data['content'])) . '
 [url=' . $this->helper->route('ger_cmbb_page', array(
 					'alias' => $article_data['alias'])) . ']' . $this->user->lang['READ_MORE'] . '[/url]';
 

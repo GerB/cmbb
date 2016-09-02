@@ -141,7 +141,7 @@ class presentation
 		$text = str_replace('<td><td>', '', $text);
 		$text = str_replace('<tr></tr>', '', $text);
 		$text = str_replace('<br/>', '<br>', $text);
-		return clean_title($text);
+		return $this->clean_title($text);
 	}
 
 	/**
@@ -166,7 +166,7 @@ class presentation
 		$text = str_replace("ï", "&iuml;", $text);
 		$text = str_replace("�", "", $text);
 
-		return ent_quotes($text);
+		return $this->ent_quotes($text);
 	}
 
 	/**

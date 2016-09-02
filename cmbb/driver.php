@@ -432,7 +432,7 @@ class driver
 		}
 		else if (empty($row['user_avatar']))
 		{
-			$path = '/assets/site/default_avatar.jpg';
+			$path = generate_board_url() . '/styles/' . rawurlencode($this->user->style['style_path']) . '/theme/images/no_avatar.gif';
 			$row['user_avatar_width'] = $row['user_avatar_height'] = 90;
 		}
 		else
