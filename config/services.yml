@@ -49,6 +49,16 @@ services:
             - '@request'
             - '%core.root_path%'
             - '@ger.cmbb.cmbb.driver'
+
+    ger.cmbb.upload:
+        class: ger\cmbb\controller\upload
+        arguments:
+            - '@config'
+            - '@user'
+            - '@auth'
+            - '@request'
+            - '%core.root_path%'
+            - '@ger.cmbb.cmbb.driver'
             
     ger.cmbb.cmbb.driver:
         class: ger\cmbb\cmbb\driver
