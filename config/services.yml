@@ -57,7 +57,7 @@ services:
             - '@user'
             - '@auth'
             - '@request'
-            - '%core.root_path%'
+            - '@files.factory'
             - '@ger.cmbb.cmbb.driver'
             
     ger.cmbb.cmbb.driver:

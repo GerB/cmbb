@@ -24,6 +24,7 @@ class driver
 	protected $template_table;
 	protected $phpbb_root_path;
 	public $site_config;
+	public $allowed_extensions = array('jpg', 'jpeg', 'gif', 'png');
 
 	/**
 	 * Constructor

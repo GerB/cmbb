@@ -26,100 +26,87 @@ class upload
 	/* @var \phpbb\request\request_interface */
 	protected $request;
 
-	protected $filesystem;
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 
-	protected $phpbb_root_path;
-
 	/* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
+
+	/* array of allowed extensions */
 	protected $allowed = array('jpg', 'jpeg', 'gif', 'png');
 
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\controller\helper	$helper
-	 * @param \phpbb\template\template	$template
 	 * @param \phpbb\user				$user
 	 * @param \phpbb\files\factory								$files_factory		File classes factory
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\filesystem\filesystem_interface $filesystem, \phpbb\files\factory $files_factory, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\files\factory $factory, \ger\cmbb\cmbb\driver $cmbb)
 	{
 		$this->config = $config;
 		$this->user = $user;
 		$this->auth = $auth;
 		$this->request = $request;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->files_factory = $factory;
 		$this->cmbb = $cmbb;
 	}
 
 	/**
 	 * Controller for route /upload
 	 *
-	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
+	 * @return \Symfony\Component\HttpFoundation\JsonResponse A Symfony Response object
 	 */
 	public function handle()
 	{
-
 		if ($this->cmbb->can_edit($this->auth))
 		{
-
-
-
-		/** @var \phpbb\files\upload $upload */
-		$upload = $this->files_factory->get('upload')
-			->set_error_prefix('CMBB_UPLOAD')
-			->set_allowed_extensions($this->allowed)
-			->set_max_filesize($this->config['dir_banner_filesize'])
-			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
-		$file = $upload->handle_upload('files.types.remote', $banner);
-		$prefix = unique_id() . '_';
-		$file->clean_filename('real', $prefix);
-		if (sizeof($file->error))
-		{
-			$file->remove();
-			$error = array_merge($error, $file->error);
-			return false;
-		}
-		$destination = $this->dir_helper->get_banner_path();
-		// Move file and overwrite any existing image
-		$file->move_file($destination, true);
-		return strtolower($file->get('realname'));
-
-
-
-
-
-			// Determine upload dir, create if needed
-			$movedir = 'assets/user_upload/' . $user->data['user_id'];
-			if (!is_dir($movedir))
+			// We have a separate folder for each user. Let's make sure we have it.
+			$user_upload_dir = 'images/cmbb_upload/' . $this->user->data['user_id'];
+			$full_upload_dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.php', $user_upload_dir, $this->request->server('SCRIPT_NAME'));
+			if (!is_dir($full_upload_dir))
 			{
-				$test = mkdir($movedir, 0755);
+				$test = mkdir($full_upload_dir, 0755, true);
 			}
-			$movedir .= '/';
+			$full_upload_dir .= '/';
 
-			// Now go
-			if (isset($request->file('upl')['name']))
+			$upload = $this->files_factory->get('upload')
+					->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false))
+					->set_allowed_extensions($this->cmbb->allowed_extensions)
+					->set_max_filesize($this->config['max_filesize'])
+					->set_error_prefix('CMBB_UPLOAD');
+
+			// Uploading from a form, use form name
+			$file = $upload->handle_upload('files.types.form', 'upl');
+			$file->clean_filename('real');
+			if (file_exists($user_upload_dir . '/' . $file->get('realname')))
 			{
-				$extension = pathinfo($request->file('upl')['name'], PATHINFO_EXTENSION);
+				for ($i = 1; $i < 10; $i++)
+				{
+					$file->clean_filename('real', '1_');
+					if (!file_exists($user_upload_dir . '/' . $file->get('realname')))
+					{
+						$approved = true;
+						break;
+					}
+				}
+				if (!isset($approved))
+				{
+					// Add datetime as last resort
+					$file->clean_filename('real', date('YmdHis'));
+				}
+			}
 
-				if (!in_array(strtolower($extension), $allowed))
-				{
-					echo '{"status":"error1"}';
-					exit;
-				}
-				if ($request->file('upl')['size'] > MAX_UPLOAD_SIZE)
-				{
-					echo '{"status":"error2"}';
-					exit;
-				}
-				if (move_uploaded_file($request->file('upl')['tmp_name'], $movedir . $request->file('upl')['name']))
-				{
-					echo '{"status":"success"}';
-					exit;
-				}
+			$file->move_file($user_upload_dir);
+
+			if (sizeof($file->error))
+			{
+				$file->remove();
+				$response = array('status' => 'error1');
+			}
+			else
+			{
+				$response = array('status' => 'success');
 			}
 		}
 		else
@@ -128,7 +115,6 @@ class upload
 		}
 		return new \Symfony\Component\HttpFoundation\JsonResponse($response);
 	}
-
 }
 
 // EoF

@@ -1,15 +1,12 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel='stylesheet' />
 <hr />
 
-<p style="text-align: center;"><em>Je kunt hieronder bestanden uploaden naar de server om in je artikel te gebruiken.<br />
-Toegestane bestandstypes zijn png, jpg, gif en pdf.<br />
-Je kunt bestanden van maximaal 2MB per stuk uploaden </em></p>
+<p style="text-align: center;"><em>{L_CMBB_UPLOAD_EXPLAIN} {ALLOWED_EXT} </em></p>
 
 <form id="upload" method="post" action="{U_UPLOAD_ACTION}" enctype="multipart/form-data">
 	<div id="drop">
-		Sleep je bestanden naar dit vak
-
-		<a>Of blader</a>
+		{L_CMBB_UPLOAD_DRAG}
+		<a>{L_CMBB_UPLOAD_BROWSE}</a>
 		<input type="file" name="upl" multiple />
 	</div>
 
@@ -20,13 +17,8 @@ Je kunt bestanden van maximaal 2MB per stuk uploaden </em></p>
 </form>
 
 <!-- JavaScript Includes -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="assets/site/upload/js/jquery.knob.js"></script>
-
-<!-- jQuery File Upload Dependencies -->
-<script src="assets/site/upload/js/jquery.ui.widget.js"></script>
-<script src="assets/site/upload/js/jquery.iframe-transport.js"></script>
-<script src="assets/site/upload/js/jquery.fileupload.js"></script>
-
-<!-- Our main JS file -->
-<script src="assets/site/upload/js/script.js"></script>
+<!-- INCLUDEJS upload/js/jquery.knob.js -->
+<!-- INCLUDEJS upload/js/jquery.ui.widget.js -->
+<!-- INCLUDEJS upload/js/jquery.iframe-transport.js -->
+<!-- INCLUDEJS upload/js/jquery.fileupload.js -->
+<!-- INCLUDEJS upload/js/script.js -->
