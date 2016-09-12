@@ -32,8 +32,7 @@ class settings_module
 				trigger_error('FORM_INVALID');
 			}
 
-			// Store values.
-			$config->set('ger_cmbb_react_forum_id', $request->variable('react_forum_id', 0));
+			// Store values
 			$config->set('ger_cmbb_number_index_items', $request->variable('number_index_items', 0));
 			$config->set('ger_cmbb_min_post_count', $request->variable('min_post_count', 0));
 			$config->set('ger_cmbb_min_title_length', $request->variable('min_title_length', 0));
@@ -46,7 +45,6 @@ class settings_module
 
 		$template->assign_vars(array(
 			'U_ACTION'			 => $this->u_action,
-			'S_REACT_FORUM_ID'	 => $config['ger_cmbb_react_forum_id'],
 			'NUMBER_INDEX_ITEMS' => $config['ger_cmbb_number_index_items'],
 			'MIN_POST_COUNT'	 => $config['ger_cmbb_min_post_count'],
 			'MIN_TITLE_LENGTH'	 => $config['ger_cmbb_min_title_length'],

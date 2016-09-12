@@ -23,6 +23,8 @@ $lang = array_merge($lang, array(
 	'ACP_ANNOUNCE_TEXT_EXPLAIN'			=> 'Text that will be displayed above all articles and category pages. No BBcode is parsed, use HTML.',
 	'ACP_ANNOUNCE_SHOW'					=> 'Show announcement text',
 	'ACP_ANNOUNCE_SHOW_EXPLAIN'			=> 'Wether or not to display the text provided above',
+	'ACP_CATEGORIES_MANAGE'				=> 'Mange categories',
+	'ACP_CATEGORIES_MANAGE_EXPLAIN'		=> 'Here you can add, modify or delete categories. You should first create a category and submit, and change the setting next.',
 	'ACP_CMBB_CATEGORIES'				=> 'Categories',
 	'ACP_CMBB_SETTING_SAVED'			=> 'cmBB settings saved',
 	'ACP_CMBB_TITLE'					=> 'cmBB',
@@ -36,7 +38,13 @@ $lang = array_merge($lang, array(
 	'ACP_NUMBER_INDEX_ITEMS_EXPLAIN'	=> 'Maximum number of latest items to show on index page. Items are sorted by date (latest on top)',
 	'ACP_REACT_FORUM_ID'				=> 'Forum for reaction topics',
 	'ACP_REACT_FORUM_ID_EXPLAIN'		=> 'Select the forum to create a topic in for reactions.',
+	'CHILDREN'							=> 'Children',
+	'CHILDREN_EXPLAIN'					=> 'Number of articles in this category',
 	'CMBB_SETTINGS'						=> 'cmBB settings',
+	'CMBB_DELETE_CAT_EXPLAIN'			=> 'A category can only be deleted when it holds no articles',
+	'CREATE_CATEGORY'					=> 'Add category',
 	'NO_REACTIONS'						=> 'Disable reactions',
+	'PROTECTED'							=> 'Protected',
+	'PROTECTED_EXPLAIN'					=> 'Only accesible for moderators',
 
 		));
