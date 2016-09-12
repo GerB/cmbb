@@ -1,0 +1,66 @@
+<!-- INCLUDE overall_header.html -->
+
+<a id="maincontent"></a>
+
+<h1>{L_ACP_CATEGORIES_MANAGE}</h1>
+
+<p>{L_ACP_CATEGORIES_MANAGE_EXPLAIN}</p>
+
+<!-- IF S_ERROR -->
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR_MSG}</p>
+	</div>
+<!-- ENDIF -->
+<form id="add_category" method="post" action="{U_ADD_ACTION}">
+	<fieldset >
+		{L_CREATE_CATEGORY}{L_COLON} <input type="text" name="add_category" value="" /> <input class="button1" type="submit" name="submit" value="{L_SUBMIT}" />
+		<input type="hidden" name="add" value="1" />
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+<form id="manage_categories" method="post" action="{U_MANAGE_ACTION}">
+
+	<table class="table1">
+		<col class="col2" /><col class="col1" /><col class="col1" /><col class="col2" /><col class="col2" />
+	<thead>
+	<tr>
+		<th>#</th>
+		<th style="width: 40%">{L_CATEGORY}</th>
+		<th>{L_ACP_REACT_FORUM_ID}</th>
+		<th>{L_CHILDREN}</th>
+		<th>{L_PROTECTED}</th>
+		<th>{L_ACTION}</th>
+	</tr>
+	</thead>
+	<tbody>
+	<!-- IF categories -->
+		<!-- BEGIN categories -->
+		<tr>
+			<td>{categories.ID}</td>
+			<td><input type="text" name="{categories.ID}[category_name]" value="{categories.NAME}" /></td>
+			<td style="text-align: center;"><select name="{categories.ID}[react_forum_id]"><option value="0">{L_NO_REACTIONS}</option>{categories.S_REACT_OPTIONS}</select></td>
+			<td style="text-align: center;">{categories.CHILDREN}</td>
+			<td style="text-align: center;"><label><input type="checkbox" class="radio" name="{categories.ID}[protected]"<!-- IF categories.S_PROTECTED --> checked="checked"<!-- ENDIF --> /> {L_PROTECTED}</label></td>
+			<td style="text-align: center;"><!-- IF categories.U_DELETE --><a href="{categories.U_DELETE}" data-ajax="row_delete">{L_DELETE}</a><!-- ELSE -->{L_DELETE}<!-- ENDIF --></td>
+		</tr>
+		<!-- END categories -->
+	<!-- ELSE -->
+		<tr>
+			<td colspan="5" class="row3">{L_NO_CATEGORIES}</td>
+		</tr>
+	<!-- ENDIF -->
+	</tbody>
+	</table>
+	<!-- IF categories -->
+		<fieldset class="quick">
+
+		<input class="button1" type="submit" name="submit" value="{L_SUBMIT}" />
+	</fieldset>
+	<!-- ENDIF -->
+
+	{S_FORM_TOKEN}
+
+</form>
+
+<!-- INCLUDE overall_footer.html -->

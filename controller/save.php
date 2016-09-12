@@ -140,7 +140,6 @@ class save
 				'user_id'		 => $this->user->data['user_id'],
 				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', '')),
 				'is_cat'		 => 0,
-				'template_id'	 => 1,
 				'category_id'	 => $this->request->variable('category_id', ''),
 				'content'		 => htmlspecialchars_decode($this->request->variable('content', '', true), ENT_COMPAT),
 				'visible'		 => 1,

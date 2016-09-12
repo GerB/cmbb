@@ -11,7 +11,7 @@
 
 namespace ger\cmbb\acp;
 
-class main_module
+class settings_module
 {
 
 	var $u_action;

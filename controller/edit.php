@@ -101,7 +101,7 @@ class edit
 			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar(null, $this->auth, $this->helper, 'edit'),
 			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($page['article_id']) ? '_new_' : $page['article_id'] ))),
 			'U_UPLOAD_ACTION'		 => $this->helper->route('ger_cmbb_upload'),
-			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories(), (empty($page['category_id']) ? 0 : $page['category_id'])),
+			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories($this->auth->acl_get('m_')), (empty($page['category_id']) ? 0 : $page['category_id'])),
 			'CAN_HIDE'				 => (!empty($page['title']) && $this->auth->acl_get('m_')) ? true : false,
 			'IS_VISIBLE'			 => empty($page['visible']) ? false : true,
 			'CMBB_ROOT_PATH'		 => generate_board_url() . substr($this->cmbb_root_path, 1),

@@ -20,8 +20,6 @@ class driver
 	protected $db;
 	protected $article_table;
 	protected $category_table;
-	protected $config_table;
-	protected $template_table;
 	protected $phpbb_root_path;
 	public $site_config;
 	public $allowed_extensions = array('jpg', 'jpeg', 'gif', 'png');
@@ -36,7 +34,7 @@ class driver
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $article_table, $category_table, $config_table, $template_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $article_table, $category_table)
 	{
 		$this->config = $config;
 		$this->request = $request;
@@ -44,8 +42,6 @@ class driver
 		$this->db = $db;
 		$this->article_table = $article_table;
 		$this->category_table = $category_table;
-		$this->config_table = $config_table;
-		$this->template_table = $template_table;
 		$this->phpbb_root_path = generate_board_url() . substr($phpbb_root_path, 1);
 	}
 
@@ -234,25 +230,34 @@ class driver
 
 	/**
 	 * Get array of categories
-	 * @param int $access
+	 * @param bool $show_protected
+	 * @param bool $full_specs
 	 * @return array
 	 */
-	public function get_categories($access = 1)
+	public function get_categories($show_protected = false, $full_specs = false)
 	{
 
 		$query = 'SELECT * FROM ' . $this->category_table . ' ';
 
-		if ($access === 1)
+		if (empty($show_protected))
 		{
-			$query.= ' WHERE `access` = "1" ';
+			$query.= ' WHERE `protected` = "0" ';
 		}
 		$query.= ' ORDER BY `category_name` ASC;';
 
 		if ($result = $this->db->sql_query($query))
 		{
+
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$return[$row['category_id']] = $row['category_name'];
+				if ($full_specs == true)
+				{
+					$return[] = $row;
+				}
+				else
+				{
+					$return[$row['category_id']] = $row['category_name'];
+				}
 			}
 			if (!empty($return))
 			{
@@ -283,26 +288,6 @@ class driver
 	}
 
 	/**
-	 * Get filename for template, default to article.html
-	 * @param int $template_id
-	 * @return string
-	 */
-	public function get_template_content($template_id)
-	{
-		$query = 'SELECT `filename` FROM ' . $this->template_table . ' WHERE `template_id` = "' . filter_var($template_id, FILTER_SANITIZE_NUMBER_INT) . '";';
-
-		if ($result = $this->db->sql_query($query))
-		{
-			$return = $this->db->sql_fetchrow($result);
-			if (!empty($return))
-			{
-				return $return['filename'];
-			}
-		}
-		return 'article.html';
-	}
-
-	/**
 	 * Fetch category name, default to Articles
 	 * @param int $category_id
 	 * @return string
@@ -320,6 +305,34 @@ class driver
 			}
 		}
 		return 'Articles';
+	}
+
+	/**
+	 *
+	 * @param array $category_data
+	 * @return int
+	 */
+	public function store_category($category_data)
+	{
+		if (isset($category_data['category_id']))
+		{
+			$category_id = $category_data['category_id'];
+			unset($category_data['category_id']);
+			$action = 'UPDATE ' . $this->category_table . ' SET ' . $this->db->sql_build_array('UPDATE', $category_data) . ' WHERE `category_id` = "' . $category_id . '"';
+		}
+		else
+		{
+			$action = 'INSERT INTO ' . $this->category_table . ' ' . $this->db->sql_build_array('INSERT', $category_data);
+		}
+
+		if (!$this->db->sql_query($action))
+		{
+			return false;
+		}
+		else
+		{
+			return isset($category_id) ? $category_id : $this->db->sql_nextid();
+		}
 	}
 
 	/**

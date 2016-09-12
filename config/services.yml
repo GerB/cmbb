@@ -70,8 +70,6 @@ services:
             - '%core.root_path%'
             - '%ger.cmbb.tables.cms_article%'
             - '%ger.cmbb.tables.cms_category%'
-            - '%ger.cmbb.tables.cms_config%'
-            - '%ger.cmbb.tables.cms_template%'
             
     ger.cmbb.cmbb.presentation:
         class: ger\cmbb\cmbb\presentation

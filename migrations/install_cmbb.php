@@ -33,7 +33,6 @@ class install_cmbb extends container_aware_migration
 						'user_id'		 => array('UINT:10', 0),
 						'parent'		 => array('UINT:10', 0),
 						'is_cat'		 => array('BOOL', 0),
-						'template_id'	 => array('TINT:4', 1),
 						'topic_id'		 => array('UINT:10', 0),
 						'category_id'	 => array('TINT:4', 1),
 						'content'		 => array('MTEXT_UNI', ''),
@@ -50,22 +49,10 @@ class install_cmbb extends container_aware_migration
 						'category_id'	 => array('TINT:4', null, 'auto_increment'),
 						'category_name'	 => array('VCHAR:45', ''),
 						'std_parent'	 => array('UINT:10', 0),
-						'access'		 => array('BOOL', 0),
+						'react_forum_id' => array('UINT:10', 2),
+						'protected'		 => array('BOOL', 0),
 					),
 					'PRIMARY_KEY'	 => 'category_id',
-				),
-				$this->table_prefix . 'cmbb_template'	 => array(
-					'COLUMNS'		 => array(
-						'template_id'	 => array('TINT:4', null, 'auto_increment'),
-						'filename'		 => array('VCHAR:45', ''),
-						'template_name'	 => array('VCHAR:45', ''),
-						'description'	 => array('VCHAR', ''),
-						'access'		 => array('BOOL', 0),
-					),
-					'PRIMARY_KEY'	 => 'template_id',
-					'KEYS'			 => array(
-						'tpl_nm' => array('UNIQUE', 'template_name'),
-					),
 				),
 			),
 		);
@@ -77,7 +64,6 @@ class install_cmbb extends container_aware_migration
 			'drop_tables' => array(
 				$this->table_prefix . 'cmbb_article',
 				$this->table_prefix . 'cmbb_category',
-				$this->table_prefix . 'cmbb_template',
 			),
 		);
 	}
@@ -85,7 +71,7 @@ class install_cmbb extends container_aware_migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('ger_cmbb_react_forum_id', 2)),
+//			array('config.add', array('ger_cmbb_react_forum_id', 2)),
 			array('config.add', array('ger_cmbb_number_index_items', 10)),
 			array('config.add', array('ger_cmbb_min_post_count', 100)),
 			array('config.add', array('ger_cmbb_min_title_length', 4)),
@@ -101,13 +87,30 @@ class install_cmbb extends container_aware_migration
 					'acp',
 					'ACP_CMBB_TITLE',
 					array(
-						'module_basename'	 => '\ger\cmbb\acp\main_module',
+						'module_basename'	 => '\ger\cmbb\acp\settings_module',
 						'modes'				 => array('settings'), // Should correspond to ./acp/main_info.php modes
+					),
+				)),
+			array('module.add', array(
+					'acp',
+					'ACP_CMBB_TITLE',
+					array(
+						'module_basename'	 => '\ger\cmbb\acp\categories_module',
+						'modes'				 => array('categories'), // Should correspond to ./acp/main_info.php modes
 					),
 				)),
 			array('custom', array(array($this, 'add_default_values'))),
 		);
 	}
+
+//	public function revert_data()
+//	{
+//		return array(
+//			'drop_tables' => array(
+//				$this->table_prefix . 'cmbb_article',
+//				$this->table_prefix . 'cmbb_category',
+//			));
+//	}
 
 	/**
 	 * Add default values
@@ -159,37 +162,17 @@ class install_cmbb extends container_aware_migration
 				array(
 					"category_name"	 => "Home",
 					"std_parent"	 => "1",
-					"access"		 => "0",
+					"protected"		 => "0",
 				),
 				array(
 					"category_name"	 => "News",
 					"std_parent"	 => "2",
-					"access"		 => "1",
+					"protected"		 => "1",
 				),
 				array(
 					"category_name"	 => "Articles",
 					"std_parent"	 => "3",
-					"access"		 => "1",
-				),
-			),
-			"cmbb_template"	 => array(
-				array(
-					"filename"		 => "index.html",
-					"template_name"	 => "Index",
-					"description"	 => "Listing article exerpts",
-					"access"		 => "0",
-				),
-				array(
-					"filename"		 => "article.html",
-					"template_name"	 => "Article",
-					"description"	 => "All basic articles can fit in this template",
-					"access"		 => "0",
-				),
-				array(
-					"filename"		 => "base.html",
-					"template_name"	 => "Base",
-					"description"	 => "Basic template, nothing fancy",
-					"access"		 => "0",
+					"protected"		 => "1",
 				),
 			),
 		);
