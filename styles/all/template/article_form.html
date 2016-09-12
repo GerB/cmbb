@@ -4,13 +4,18 @@
     <p><label for="title">{L_TITLE}</label><input name="title" type="text" value="{CMBB_TITLE}" /></p>
     <p><label for="category_id">{L_CATEGORY}</label>{CMBB_CATEGORY_DROPDOWN}</p>
     <p><label for="content">{L_CONTENT}</label></p><textarea name="content">{CMBB_CONTENT}</textarea><br />
-    <!-- IF CAN_HIDE -->
+    <!-- IF CAN_HIDE or S_IS_NEW -->
     <fieldset>
-        <!-- IF IS_VISIBLE -->
-            <input type="checkbox" name="delete" id="delete"  /> <label for="delete">{L_DELETE_ARTICLE}</label>
-        <!-- ELSE -->
-            <input type="checkbox" name="restore" id="show"  /> <label for="restore">{L_RESTORE_ARTICLE}</label>
-        <!-- ENDIF -->
+		<!-- IF CAN_HIDE -->
+			<!-- IF IS_VISIBLE -->
+				<input type="checkbox" name="delete" id="delete"  /> <label for="delete">{L_DELETE_ARTICLE}</label>
+			<!-- ELSE -->
+				<input type="checkbox" name="restore" id="show"  /> <label for="restore">{L_RESTORE_ARTICLE}</label>
+			<!-- ENDIF -->
+		<!-- ENDIF -->
+		<!-- IF S_IS_NEW -->
+			<p><input type="checkbox" name="disable_comments" id="disable_comments"  /> {L_NO_REACTIONS_ARTICLE}</p>
+		<!-- ENDIF -->
     </fieldset>
     <!-- ENDIF -->
     <fieldset class="submit-buttons">

@@ -145,8 +145,10 @@ class save
 				'visible'		 => 1,
 				'datetime'		 => time(),
 			);
-			$article_data['topic_id'] = $this->create_article_topic($article_data, $this->cmbb->fetch_category($this->request->variable('category_id', '1'), true)['react_forum_id']);
-
+			if (!$this->request->is_set('disable_comments'))
+			{
+				$article_data['topic_id'] = $this->create_article_topic($article_data, $this->cmbb->fetch_category($this->request->variable('category_id', '1'), true)['react_forum_id']);
+			}
 			$redirect = $article_data['alias'];
 		}
 		else

@@ -35,6 +35,7 @@ $lang = array_merge($lang, array(
 	'LOG_ARTICLE_VISIBILLITY'	 => 'Changed article visibillity',
 	'NEW_ARTICLE'				 => 'New article',
 	'NO_HIDDEN'					 => 'No hidden articles',
+	'NO_REACTIONS_ARTICLE'		 => 'Disable comments <small>(comments might already be disabled through category setting)</small>',
 	'READ_MORE'					 => 'Read more',
 	'RESTORE_ARTICLE'			 => 'Restore article',
 	'SHOW_HIDDEN'				 => 'Show hidden articles',

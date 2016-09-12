@@ -106,7 +106,8 @@ class edit
 			'IS_VISIBLE'			 => empty($page['visible']) ? false : true,
 			'CMBB_ROOT_PATH'		 => generate_board_url() . substr($this->cmbb_root_path, 1),
 			'CMBB_IMG_DIR'			 => $this->helper->route('ger_cmbb_folders', array('user_id' => $this->user->data['user_id'])),
-			'ALLOWED_EXT'			 => implode(', ', $this->cmbb->allowed_extensions)
+			'ALLOWED_EXT'			 => implode(', ', $this->cmbb->allowed_extensions),
+			'S_IS_NEW'				 => ($article_id == '_new_') ? true : false,
 		));
 		return $this->helper->render('article_form.html', (empty($page['title']) ? $this->user->lang('NEW_ARTICLE') : $page['title']));
 	}
