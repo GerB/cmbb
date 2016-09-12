@@ -71,7 +71,6 @@ class install_cmbb extends container_aware_migration
 	public function update_data()
 	{
 		return array(
-//			array('config.add', array('ger_cmbb_react_forum_id', 2)),
 			array('config.add', array('ger_cmbb_number_index_items', 10)),
 			array('config.add', array('ger_cmbb_min_post_count', 100)),
 			array('config.add', array('ger_cmbb_min_title_length', 4)),
@@ -103,15 +102,6 @@ class install_cmbb extends container_aware_migration
 		);
 	}
 
-//	public function revert_data()
-//	{
-//		return array(
-//			'drop_tables' => array(
-//				$this->table_prefix . 'cmbb_article',
-//				$this->table_prefix . 'cmbb_category',
-//			));
-//	}
-
 	/**
 	 * Add default values
 	 *
@@ -127,7 +117,6 @@ class install_cmbb extends container_aware_migration
 					"alias"			 => "index",
 					"user_id"		 => $user->data['user_id'],
 					"is_cat"		 => 1,
-					"template_id"	 => 1,
 					"category_id"	 => 1,
 					"content"		 => "",
 					"visible"		 => 1,
@@ -139,7 +128,6 @@ class install_cmbb extends container_aware_migration
 					"user_id"		 => $user->data['user_id'],
 					"parent"		 => 1,
 					"is_cat"		 => 1,
-					"template_id"	 => 1,
 					"category_id"	 => 2,
 					"content"		 => "",
 					"visible"		 => 1,
@@ -151,7 +139,6 @@ class install_cmbb extends container_aware_migration
 					"user_id"		 => $user->data['user_id'],
 					"parent"		 => 1,
 					"is_cat"		 => 1,
-					"template_id"	 => 1,
 					"category_id"	 => 3,
 					"content"		 => "",
 					"visible"		 => 1,
