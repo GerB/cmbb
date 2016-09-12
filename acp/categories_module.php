@@ -44,7 +44,7 @@ class categories_module
 				$category_name = $request->variable('add_category', '', true);
 				if (!$this->category_name_unique($categories, $category_name))
 				{
-					trigger_error('L_CMBB_CATEGORY_NAME_INVALID');
+					trigger_error('L_CMBB_CATEGORY_NAME_INVALID' . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
 				// Setup article holder for category
@@ -99,10 +99,31 @@ class categories_module
 							'protected' => strlen($request->variable(array($cat['category_id'], 'protected'), '')) > 0 ? 1 : 0,
 						);
 						$cmbb->store_category($category_data);
+
+						// Make sure that the page matches the category name
+						$article_update = array(
+							'article_id' => $cat['std_parent'],
+							'title' => $category_name
+						);
+						$cmbb->store_article($article_update);
 					}
 				}
 			}
 			trigger_error($user->lang('ACP_CMBB_SETTING_SAVED') . adm_back_link($this->u_action));
+		}
+		else if ($request->variable('action', '') == 'delete')
+		{
+			$category_id = $request->variable('category_id', 0);
+			$children = $cmbb->get_children($category_id);
+			if (count($children) !== 1)
+			{
+				trigger_error($user->lang('ERROR_CATEGORY_NOT_EMPTY') . adm_back_link($this->u_action), E_USER_WARNING);
+			}
+			if ($cmbb->delete_category($category_id))
+			{
+				trigger_error($user->lang('ACP_CMBB_SETTING_SAVED') . adm_back_link($this->u_action));
+			}
+				trigger_error($user->lang('ERROR_FAILED_DELETE') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		// List current

@@ -76,7 +76,10 @@ class main_listener implements EventSubscriberInterface
 		{
 			foreach ($items as $row)
 			{
-				$menu.= '<li><a href="' . $this->helper->route('ger_cmbb_page', array('alias' => $row['alias'])) . '">' . $row['category_name'] . '</a></li>' . "\n";
+				if (count($this->cmbb->get_children($row['article_id'])) > 1)
+				{
+					$menu.= '<li><a href="' . $this->helper->route('ger_cmbb_page', array('alias' => $row['alias'])) . '">' . $row['category_name'] . '</a></li>' . "\n";
+				}
 			}
 		}
 		$this->template->assign_vars(array(

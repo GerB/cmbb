@@ -54,7 +54,7 @@ class driver
 		$html = '';
 
 		$sql_array = array(
-			'SELECT'	 => 'category_name, alias',
+			'SELECT'	 => 'category_name, alias, article_id',
 			'FROM'		 => array(
 				$this->category_table	 => 'c',
 				$this->article_table	 => 'a',
@@ -237,11 +237,11 @@ class driver
 	public function get_categories($show_protected = false, $full_specs = false)
 	{
 
-		$query = 'SELECT * FROM ' . $this->category_table . ' ';
+		$query = 'SELECT * FROM ' . $this->category_table . ' WHERE std_parent > 1 ';
 
 		if (empty($show_protected))
 		{
-			$query.= ' WHERE `protected` = "0" ';
+			$query.= ' AND `protected` = "0" ';
 		}
 		$query.= ' ORDER BY `category_name` ASC;';
 
@@ -312,7 +312,7 @@ class driver
 	}
 
 	/**
-	 *
+	 * Store category data
 	 * @param array $category_data
 	 * @return int
 	 */
@@ -337,6 +337,20 @@ class driver
 		{
 			return isset($category_id) ? $category_id : $this->db->sql_nextid();
 		}
+	}
+
+	/**
+	 * Delete a category
+	 * @param int $category_id
+	 * @return int
+	 */
+	public function delete_category($category_id)
+	{
+		$sql = 'DELETE FROM ' . $this->category_table . "
+				WHERE category_id = {$category_id}";
+		$this->db->sql_query($sql);
+
+		return $this->db->sql_affectedrows();
 	}
 
 	/**

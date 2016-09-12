@@ -24,7 +24,8 @@ $lang = array_merge($lang, array(
 	'ACP_ANNOUNCE_SHOW'					=> 'Show announcement text',
 	'ACP_ANNOUNCE_SHOW_EXPLAIN'			=> 'Wether or not to display the text provided above',
 	'ACP_CATEGORIES_MANAGE'				=> 'Mange categories',
-	'ACP_CATEGORIES_MANAGE_EXPLAIN'		=> 'Here you can add, modify or delete categories. You should first create a category and submit, and change the setting next.',
+	'ACP_CATEGORIES_MANAGE_EXPLAIN'		=> 'Here you can add, modify or delete categories. You should first create a category and submit, and change the setting next.'
+											. '<br />Please note: cmBB uses the category name for the URL. Once you have chosen a category name, it is therefore recommended NOT to change the name afterwards since the URL will NOT be changed accordingly.',
 	'ACP_CMBB_CATEGORIES'				=> 'Categories',
 	'ACP_CMBB_SETTING_SAVED'			=> 'cmBB settings saved',
 	'ACP_CMBB_TITLE'					=> 'cmBB',
@@ -43,6 +44,7 @@ $lang = array_merge($lang, array(
 	'CMBB_SETTINGS'						=> 'cmBB settings',
 	'CMBB_DELETE_CAT_EXPLAIN'			=> 'A category can only be deleted when it holds no articles',
 	'CREATE_CATEGORY'					=> 'Add category',
+	'ERROR_FAILED_DELETE'				=> 'Failed to delete.',
 	'NO_REACTIONS'						=> 'Disable comments',
 	'PROTECTED'							=> 'Protected',
 	'PROTECTED_EXPLAIN'					=> 'Only accesible for moderators',
