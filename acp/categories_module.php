@@ -81,7 +81,7 @@ class categories_module
 			}
 			else
 			{
-				foreach($categories as $cat)
+				foreach ($categories as $cat)
 				{
 					// Exclude homepage
 					if ($cat['category_id'] > 1)
@@ -106,7 +106,8 @@ class categories_module
 		}
 
 		// List current
-		if (!empty($categories)) {
+		if (!empty($categories))
+		{
 			foreach ($categories as $cat)
 			{
 				// Exclude homepage
@@ -132,7 +133,7 @@ class categories_module
 		));
 	}
 
-	/** 
+	/**
 	 * Check if provided category_name is unique
 	 * @param array $categories
 	 * @param string $check_name
