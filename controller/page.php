@@ -135,7 +135,7 @@ class page
 					$page['content'] .= '<div class="box"><a href="' . $child['alias'] . '"><h2>' . $child['title'] . '</h2></a>';
 					$page['content'] .= '<div><div class="exerpt_img"><a href="' . $child['alias'] . '">' . $this->cmbb->phpbb_user_avatar($child['user_id']) . '</a></div>';
 					$page['content'] .= $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content'])));
-					$page['content'] .= ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '</a></div></div>';
+					$page['content'] .= ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '...</a></div></div>';
 
 					if ($counter < $count)
 					{
@@ -187,7 +187,7 @@ class page
 			'CMBB_TITLE'			 => $title,
 			'CMBB_CONTENT'			 => $page['content'],
 			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar($page, $this->auth, $this->helper, 'view'),
-			'CMBB_ARTICLE_TOPIC_ID'	 => $page['topic_id'],
+			'CMBB_ARTICLE_TOPIC_ID'	 => ($page['topic_id'] > 0) ? $page['topic_id'] : false,
 			'CMBB_AUTHOR'			 => ($page['user_id'] > 0) ? $this->cmbb->phpbb_get_user($page['user_id']) : '',
 		));
 

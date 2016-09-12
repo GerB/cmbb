@@ -292,15 +292,19 @@ class driver
 	 * @param int $category_id
 	 * @return string
 	 */
-	public function fetch_category($category_id)
+	public function fetch_category($category_id, $full_specs = false)
 	{
-		$query = 'SELECT `category_name` FROM ' . $this->category_table . ' WHERE `category_id` = "' . filter_var($category_id, FILTER_SANITIZE_NUMBER_INT) . '";';
+		$query = 'SELECT * FROM ' . $this->category_table . ' WHERE `category_id` = "' . filter_var($category_id, FILTER_SANITIZE_NUMBER_INT) . '";';
 
 		if ($result = $this->db->sql_query($query))
 		{
 			$return = $this->db->sql_fetchrow($result);
 			if (!empty($return))
 			{
+				if ($full_specs === true)
+				{
+					return $return;
+				}
 				return $return['category_name'];
 			}
 		}

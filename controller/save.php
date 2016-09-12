@@ -145,7 +145,7 @@ class save
 				'visible'		 => 1,
 				'datetime'		 => time(),
 			);
-			$article_data['topic_id'] = $this->create_article_topic($article_data);
+			$article_data['topic_id'] = $this->create_article_topic($article_data, $this->cmbb->fetch_category($this->request->variable('category_id', '1'), true)['react_forum_id']);
 
 			$redirect = $article_data['alias'];
 		}
@@ -163,8 +163,12 @@ class save
 	 * @param array $article_data
 	 * @return string
 	 */
-	private function create_article_topic($article_data)
+	private function create_article_topic($article_data, $forum_id)
 	{
+		if (empty($forum_id))
+		{
+			return false;
+		}
 		if (!function_exists('get_username_string'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_content.php');
@@ -184,11 +188,11 @@ class save
 		}
 
 		$topic_content = '[b][size=150]' . $article_data['title'] . '[/size][/b]
-[i]' . $this->user->lang['POST_BY_AUTHOR'] . ' ' . $user['username'] . '[/i]
+[i]' . $this->user->lang['POST_BY_AUTHOR'] . ' ' . $this->user->data['username'] . '[/i]
 
 ' . $this->presentation->character_limiter(strip_tags($article_data['content'])) . '
 [url=' . $this->helper->route('ger_cmbb_page', array(
-					'alias' => $article_data['alias'])) . ']' . $this->user->lang['READ_MORE'] . '[/url]';
+					'alias' => $article_data['alias'])) . ']' . $this->user->lang['READ_MORE'] . '...[/url]';
 
 		$poll = $uid = $bitfield = $options = '';
 
@@ -198,7 +202,7 @@ class save
 
 		$data = array(
 			// General Posting Settings
-			'forum_id'			 => $this->config['ger_cmbb_react_forum_id'], // The forum ID in which the post will be placed. (int)
+			'forum_id'			 => $forum_id, // The forum ID in which the post will be placed. (int)
 			'topic_id'			 => 0, // Post a new topic or in an existing one? Set to 0 to create a new one, if not, specify your topic ID here instead.
 			'icon_id'			 => false, // The Icon ID in which the post will be displayed with on the viewforum, set to false for icon_id. (int)
 			// Defining Post Options
