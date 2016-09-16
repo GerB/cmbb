@@ -99,8 +99,8 @@ class install_cmbb extends container_aware_migration
 					),
 				)),
 			array('permission.add', array('u_cmbb_post_article')),
-			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_cmbb_post_article', 'role')), 
-			array('permission.permission_set', array('ROLE_USER_NEW_MEMBER', 'u_cmbb_post_article', 'role', false)), // Set a_new2 to never for ROLE_ADMIN_FULL
+			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_cmbb_post_article', 'role')),
+			array('permission.permission_set', array('ROLE_USER_NEW_MEMBER', 'u_cmbb_post_article', 'role', false)),
 			array('custom', array(array($this, 'add_default_values'))),
 		);
 	}
