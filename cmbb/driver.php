@@ -645,7 +645,18 @@ class driver
 				return true;
 			}
 		}
-		return $auth->acl_get('u_cmbb_post_article');
+		else
+		{
+			if (empty($this->get_categories()))
+			{
+				return $auth->acl_get('m_');
+			}
+			else
+			{
+				return $auth->acl_get('u_cmbb_post_article');
+			}
+		}
+		
 	}
 
 }
