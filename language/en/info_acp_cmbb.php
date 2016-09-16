@@ -47,6 +47,8 @@ $lang = array_merge($lang, array(
 	'ERROR_FAILED_DELETE'				=> 'Failed to delete.',
 	'NO_REACTIONS'						=> 'Disable comments',
 	'PROTECTED'							=> 'Protected',
-	'PROTECTED_EXPLAIN'					=> 'Only accesible for moderators',
+	'PROTECTED_EXPLAIN'					=> 'Only moderators are allowed to post',
+	'SHOW_MENU_BAR'						=> 'Show in menu bar',
+	'SHOW_MENU_BAR_EXPLAIN'				=> 'Wether or not to show this category in the menu bar (only when it has children). Useful to disable if you do not like the category listings or you have just some loose pages.',
 
 		));

@@ -34,7 +34,6 @@ class settings_module
 
 			// Store values
 			$config->set('ger_cmbb_number_index_items', $request->variable('number_index_items', 0));
-			$config->set('ger_cmbb_min_post_count', $request->variable('min_post_count', 0));
 			$config->set('ger_cmbb_min_title_length', $request->variable('min_title_length', 0));
 			$config->set('ger_cmbb_min_content_length', $request->variable('min_content_length', 0));
 			$config->set('ger_cmbb_announce_text', $request->variable('announce_text', ''));
@@ -46,7 +45,6 @@ class settings_module
 		$template->assign_vars(array(
 			'U_ACTION'			 => $this->u_action,
 			'NUMBER_INDEX_ITEMS' => $config['ger_cmbb_number_index_items'],
-			'MIN_POST_COUNT'	 => $config['ger_cmbb_min_post_count'],
 			'MIN_TITLE_LENGTH'	 => $config['ger_cmbb_min_title_length'],
 			'MIN_CONTENT_LENGTH' => $config['ger_cmbb_min_content_length'],
 			'ANNOUNCE_TEXT'		 => $config['ger_cmbb_announce_text'],

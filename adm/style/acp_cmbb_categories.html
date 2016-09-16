@@ -9,6 +9,7 @@
 	<dt><label>{L_ACP_REACT_FORUM_ID}{L_COLON}</label></dt><dd>{L_ACP_REACT_FORUM_ID_EXPLAIN}</dd>
 	<dt><label>{L_CHILDREN}{L_COLON}</label></dt><dd>{L_CHILDREN_EXPLAIN}</dd>
 	<dt><label>{L_PROTECTED}{L_COLON}</label></dt><dd>{L_PROTECTED_EXPLAIN}</dd>
+	<dt><label>{L_SHOW_MENU_BAR}{L_COLON}</label></dt><dd>{L_SHOW_MENU_BAR_EXPLAIN}</dd>
 	<dt><label>{L_DELETE}{L_COLON}</label></dt>	<dd>{L_CMBB_DELETE_CAT_EXPLAIN}</dd>
 </dl>
 
@@ -35,6 +36,7 @@
 		<th style="width: 40%">{L_CATEGORY}</th>
 		<th>{L_ACP_REACT_FORUM_ID}</th>
 		<th>{L_CHILDREN}</th>
+		<th>{L_SHOW_MENU_BAR}</th>
 		<th>{L_PROTECTED}</th>
 		<th>{L_ACTION}</th>
 	</tr>
@@ -44,10 +46,11 @@
 		<!-- BEGIN categories -->
 		<tr>
 			<td>{categories.ID}</td>
-			<td><input type="text" name="{categories.ID}[category_name]" value="{categories.NAME}" /></td>
-			<td style="text-align: center;"><select name="{categories.ID}[react_forum_id]"><option value="0">{L_NO_REACTIONS}</option>{categories.S_REACT_OPTIONS}</select></td>
+			<td><input type="text" name="{categories.ID}_category_name" value="{categories.NAME}" /></td>
+			<td style="text-align: center;"><select name="{categories.ID}_react_forum_id"><option value="0">{L_NO_REACTIONS}</option>{categories.S_REACT_OPTIONS}</select></td>
 			<td style="text-align: center;">{categories.CHILDREN}</td>
-			<td style="text-align: center;"><label><input type="checkbox" class="radio" name="{categories.ID}[protected]"<!-- IF categories.S_PROTECTED --> checked="checked"<!-- ENDIF --> /> {L_PROTECTED}</label></td>
+			<td style="text-align: center;"><label><input type="checkbox" class="radio" name="{categories.ID}_show_menu_bar"<!-- IF categories.S_SHOW_MENU_BAR --> checked="checked"<!-- ENDIF --> /> {L_SHOW_MENU_BAR}</label></td>
+			<td style="text-align: center;"><label><input type="checkbox" class="radio" name="{categories.ID}_protected"<!-- IF categories.S_PROTECTED --> checked="checked"<!-- ENDIF --> /> {L_PROTECTED}</label></td>
 			<td style="text-align: center;"><!-- IF categories.U_DELETE --><a href="{categories.U_DELETE}" data-ajax="row_delete">{L_DELETE}</a><!-- ELSE -->{L_DELETE}<!-- ENDIF --></td>
 		</tr>
 		<!-- END categories -->

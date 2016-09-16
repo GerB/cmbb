@@ -60,7 +60,8 @@ class driver
 				$this->article_table	 => 'a',
 			),
 			'WHERE'		 => 'std_parent > 1
-                    AND std_parent = article_id',
+                    AND std_parent = article_id
+					AND show_menu_bar = 1',
 			'GROUP_BY'	 => 'article_id',
 		);
 
@@ -70,7 +71,6 @@ class driver
 		{
 			$return[] = $row;
 		}
-
 		return $return;
 	}
 
@@ -130,25 +130,6 @@ class driver
 	}
 
 	/**
-	 * Get number of pages written by user
-	 * @param int $user_id
-	 * @return int
-	 */
-	public function has_written($user_id)
-	{
-		$query = 'SELECT count(*) AS counted FROM ' . $this->article_table . '
-				WHERE `user_id` = "' . filter_var($user_id, FILTER_SANITIZE_NUMBER_INT) . '"
-				AND `visible` = 1;';
-
-		if ($result = $this->db->sql_query($query))
-		{
-			$return = $this->db->sql_fetchrow($result);
-			return $return['counted'];
-		}
-		return false;
-	}
-
-	/**
 	 * Get children pages for parent article_id
 	 * @paramt int $parent
 	 * @return array
@@ -166,12 +147,8 @@ class driver
 			{
 				$return[] = $row;
 			}
-			if (!empty($return))
-			{
-				return $return;
-			}
 		}
-		return false;
+		return empty($return) ? false : $return;
 	}
 
 	/**
@@ -557,33 +534,35 @@ class driver
 		{
 
 			$cmbb_sidebar.= "<h3>" . $this->user->lang('WELCOME_USER', $this->user->data['username']) . "</h3>";
-			$cmbb_sidebar.= ' (<a href="' . append_sid("{$this->phpbb_root_path}ucp.php", 'mode=logout', true, $this->user->session_id) . '">' . $this->user->lang('LOGOUT') . '</a>)';
+			$cmbb_sidebar.= ' <p>(<a href="' . append_sid("{$this->phpbb_root_path}ucp.php", 'mode=logout', true, $this->user->session_id) . '">' . $this->user->lang('LOGOUT') . '</a>)</p>';
 
 			// Show link to editor
 			if ($this->can_edit($auth))
 			{
-				$cmbb_sidebar.= '<p class="fakebutton"><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => '_new_')) . '">+ ' . $this->user->lang('NEW_ARTICLE') . '</a></p>';
+				$cmbb_sidebar.= '<p><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => '_new_')) . '" class="button" alt="' . $this->user->lang('NEW_ARTICLE') . '">'
+						. '<span>' . $this->user->lang('NEW_ARTICLE') . '</span> <i class="icon fa-asterisk fa-fw" aria-hidden="true"></i></a></p>';
 			}
 			if ($this->can_edit($auth, $page) && $mode == 'view')
 			{
-				$cmbb_sidebar.= '<p class="fakebutton"><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => $page['article_id'])) . '">' . $this->user->lang('EDIT_ARTICLE') . '</a></p>';
+				$cmbb_sidebar.= '<p><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => $page['article_id'])) . '" class="button" alt="' . $this->user->lang('EDIT_ARTICLE') . '">'
+						. '<span>' . $this->user->lang('EDIT_ARTICLE') . '</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i></a></p>';
 			}
 			if ($auth->acl_get('m_'))
 			{
-				$cmbb_sidebar.= '<br /><hr /><br />';
 				if ($this->get_hidden())
 				{
-					$cmbb_sidebar.= '<p class="fakebutton"><a href="index?showhidden=1">' . $this->user->lang('SHOW_HIDDEN') . '</a></p>';
+					$cmbb_sidebar.= '<p><a href="index?showhidden=1" class="button" alt="' . $this->user->lang('SHOW_HIDDEN') . '">'
+							. '<span>' . $this->user->lang('SHOW_HIDDEN') . '</span> <i class="icon fa-recycle fa-fw icon-green" aria-hidden="true"></i></a></p>';
 				}
 				else
 				{
-					$cmbb_sidebar.= '<p class="fakebutton inactive"><a>' . $this->user->lang('NO_HIDDEN') . '</a></p>';
+					$cmbb_sidebar.= '<p><span class="button"><span>' . $this->user->lang('NO_HIDDEN') . '</span> <i class="icon fa-recycle fa-fw icon-gray" aria-hidden="true"></i></span></p>';
 				}
 			}
 		}
 		else
 		{
-			$cmbb_sidebar.= $this->login_box($page['alias']);
+			$cmbb_sidebar.= $this->login_box($helper, $page['alias']);
 		}
 		$cmbb_sidebar.= '</div>';
 
@@ -627,15 +606,17 @@ class driver
 	 * Fetch formatted login box
 	 * @return type
 	 */
-	private function login_box($alias = 'index')
+	private function login_box($helper, $alias = 'index')
 	{
-		return '<h3>' . $this->user->lang('LOGIN') . ':</h3><br />
-                <form method="post" action="' . $this->phpbb_root_path . 'ucp.php?mode=login">
-                    <p><span>' . $this->user->lang('USERNAME') . ':</span> <input type="text" name="username" size="14" /><br />
-                    <span>' . $this->user->lang('PASSWORD') . ':</span> <input type="password" name="password" size="14" /><br />
-                    <span>' . $this->user->lang('LOG_ME_IN') . ':</span> <input type="checkbox" name="autologin" /><br />
-                    <input type="submit" class="btnmain" value="' . $this->user->lang('LOGIN') . '" name="login" /></p>
-                    <input type="hidden" name="redirect" value="' . $this->phpbb_root_path . 'app.php/page/' . $alias . '" />
+		return '<form method="post" action="' . $this->phpbb_root_path . 'ucp.php?mode=login">
+					<h3>' . $this->user->lang('LOGIN') . ':</h3><br />
+					<fieldset>
+						<p><label for="username">' . $this->user->lang('USERNAME') . ':</label> <input type="text" name="username" /></p>
+						<p><label for="password">' . $this->user->lang('PASSWORD') . ':</label> <input type="password" name="password" /></p>
+						<p><label for="autologin" style="width: 100%"><input type="checkbox" name="autologin" /> ' . $this->user->lang('LOG_ME_IN') . '</span> </label></p>
+						<input type="submit" class="button2" value="' . $this->user->lang('LOGIN') . '" name="login" /></p>
+						<input type="hidden" name="redirect" value="' . $helper->route('ger_cmbb_page', array('alias' => $alias)) . '" />
+					</fieldset>
                 </form>';
 	}
 
@@ -659,17 +640,12 @@ class driver
 			{
 				return false;
 			}
-			else if (($this->user->data['user_id'] == $page['user_id']) || $auth->acl_get('m_'))
+			else if ((($this->user->data['user_id'] == $page['user_id']) && $auth->acl_get('u_cmbb_post_article') ) || $auth->acl_get('m_'))
 			{
 				return true;
 			}
 		}
-
-		// Allow moderators and users with enough posts or that have written before
-		if ($auth->acl_get('m_') || ($this->user->data['user_posts'] >= $this->config['ger_cmbb_min_post_count']) || $this->has_written($this->user->data['user_id']))
-		{
-			return true;
-		}
+		return $auth->acl_get('u_cmbb_post_article');
 	}
 
 }

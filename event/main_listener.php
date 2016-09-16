@@ -27,6 +27,7 @@ class main_listener implements EventSubscriberInterface
 		return array(
 			'core.user_setup'	 => 'load_language_on_setup',
 			'core.page_header'	 => 'page_header_add_menu',
+			'core.permissions'	 => 'set_permissions',
 		);
 	}
 
@@ -76,7 +77,7 @@ class main_listener implements EventSubscriberInterface
 		{
 			foreach ($items as $row)
 			{
-				if (count($this->cmbb->get_children($row['article_id'])) > 1)
+				if ($this->cmbb->get_children($row['article_id']))
 				{
 					$menu.= '<li><a href="' . $this->helper->route('ger_cmbb_page', array('alias' => $row['alias'])) . '">' . $row['category_name'] . '</a></li>' . "\n";
 				}
@@ -85,6 +86,13 @@ class main_listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 			'CMBB_MENU' => $menu
 		));
+	}
+
+	public function set_permissions($event)
+	{
+		$permissions = $event['permissions'];
+		$permissions['u_cmbb_post_article'] = array('lang' => 'ACL_U_CMBB_POST_ARTICLE', 'cat' => 'misc');
+		$event['permissions'] = $permissions;
 	}
 
 }

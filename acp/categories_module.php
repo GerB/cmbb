@@ -67,6 +67,7 @@ class categories_module
 					'category_name'		=> $category_name,
 					'std_parent'		=> $article_id,
 					'protected'			=> 1,
+					'show_menu_bar'		=> 1,
 					'react_forum_id'	=> 0,
 				);
 				$category_id = $cmbb->store_category($category_data);
@@ -86,7 +87,7 @@ class categories_module
 					// Exclude homepage
 					if ($cat['category_id'] > 1)
 					{
-						$category_name = $request->variable(array($cat['category_id'], 'category_name'), '');
+						$category_name = $request->variable($cat['category_id'] . '_category_name', '');
 						if (!$this->category_name_unique($categories, $category_name, $cat['category_id']))
 						{
 							trigger_error('L_CMBB_CATEGORY_NAME_INVALID');
@@ -95,8 +96,9 @@ class categories_module
 						$category_data = array(
 							'category_id' => $cat['category_id'],
 							'category_name' => $category_name,
-							'react_forum_id' => $request->variable(array($cat['category_id'], 'react_forum_id'), 0),
-							'protected' => strlen($request->variable(array($cat['category_id'], 'protected'), '')) > 0 ? 1 : 0,
+							'react_forum_id' => $request->variable($cat['category_id'] . '_react_forum_id', 0),
+							'show_menu_bar' => strlen($request->variable($cat['category_id'] . '_show_menu_bar', '')) > 0 ? 1 : 0,
+							'protected' => strlen($request->variable($cat['category_id'] . '_protected', '')) > 0 ? 1 : 0,
 						);
 						$cmbb->store_category($category_data);
 
@@ -140,6 +142,7 @@ class categories_module
 					$template->assign_block_vars('categories', array(
 						'ID'				 => $cat['category_id'],
 						'NAME'				 => $cat['category_name'],
+						'S_SHOW_MENU_BAR'	 => $cat['show_menu_bar'],
 						'S_PROTECTED'		 => $cat['protected'],
 						'CHILDREN'			 => count($children) -1,
 						'U_DELETE'			 => (count($children) === 1) ? $this->u_action . "&amp;action=delete&amp;category_id=" . $cat['category_id'] : false,

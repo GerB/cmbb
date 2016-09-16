@@ -98,7 +98,7 @@ class save
 			$oldsize = strlen($oldpage['content']);
 			$newsize = strlen(censor_text($this->request->variable('content', '', true)));
 
-			if (($newsize / $oldsize) < 0.7)
+			if ( ($oldsize > 0) && ($newsize / $oldsize) < 0.7)
 			{
 				return $this->helper->message('ERROR_MUCH_REMOVED', 'ERROR', 200);
 			}

@@ -51,6 +51,7 @@ class install_cmbb extends container_aware_migration
 						'std_parent'	 => array('UINT:10', 0),
 						'react_forum_id' => array('UINT:10', 2),
 						'protected'		 => array('BOOL', 0),
+						'show_menu_bar'	 => array('BOOL', 1),
 					),
 					'PRIMARY_KEY'	 => 'category_id',
 				),
@@ -72,7 +73,6 @@ class install_cmbb extends container_aware_migration
 	{
 		return array(
 			array('config.add', array('ger_cmbb_number_index_items', 10)),
-			array('config.add', array('ger_cmbb_min_post_count', 100)),
 			array('config.add', array('ger_cmbb_min_title_length', 4)),
 			array('config.add', array('ger_cmbb_min_content_length', 200)),
 			array('config.add', array('ger_cmbb_announce_text', '')),
@@ -98,6 +98,9 @@ class install_cmbb extends container_aware_migration
 						'modes'				 => array('categories'), // Should correspond to ./acp/main_info.php modes
 					),
 				)),
+			array('permission.add', array('u_cmbb_post_article')),
+			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_cmbb_post_article', 'role')), 
+			array('permission.permission_set', array('ROLE_USER_NEW_MEMBER', 'u_cmbb_post_article', 'role', false)), // Set a_new2 to never for ROLE_ADMIN_FULL
 			array('custom', array(array($this, 'add_default_values'))),
 		);
 	}
@@ -150,16 +153,19 @@ class install_cmbb extends container_aware_migration
 					"category_name"	 => "Home",
 					"std_parent"	 => "1",
 					"protected"		 => "0",
+					"show_menu_bar"	 => "1",
 				),
 				array(
 					"category_name"	 => "News",
 					"std_parent"	 => "2",
 					"protected"		 => "1",
+					"show_menu_bar"	 => "1",
 				),
 				array(
 					"category_name"	 => "Articles",
 					"std_parent"	 => "3",
 					"protected"		 => "1",
+					"show_menu_bar"	 => "1",
 				),
 			),
 		);
