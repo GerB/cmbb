@@ -61,47 +61,19 @@
     min-height: 520px;
 }
 
-.fakebutton {
-    border: 3px solid #000;
-    border-radius: 6px;
-    background-color: #000;
-    margin: 5px auto;
-    text-align: center;
-    max-width: 200px;
-}
-.fakebutton:hover {
-    border-color: #AA0000;
-}
-.fakebutton a, .fakebutton a:link, .fakebutton a:hover, .fakebutton a:visited  {
-    display: inline-block;
-    color: #FEFEFE;
-    padding: 3px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: bold;
-}
-.fakebutton.inactive {
-    background-color: #666;
-    border: 0 none;
-}
-.bread {
-    font-size: 0.9em;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
 #topiclist, #login, #stats {
     padding: 5px;
-}
-#login span {
-    display: inline-block;
-    width: 100px;
 }
 #stats a{
     text-decoration: none;
     font-weight: bold;
 }
-
+#login label {
+    display: block;
+}
+#login input[type=text], #login input[type=password] {
+    width: 90%;
+}
 ul.lt {	
     margin: 0;
     padding: 0;
@@ -111,15 +83,6 @@ ul.lt {
 li.lt {
     margin-bottom: 4px;
     font-size: 12px;
-}
-
-.btnmain {
-    font-weight: bold;
-    background-color: #ECECEC;
-    border: 1px solid #A9B8C2;
-    cursor: pointer;
-    padding: 1px 5px;
-    font-size: 1.1em;
 }
 
 ul.stats {
