@@ -54,7 +54,7 @@
     content: "\00a0\00a0\00a0\00a0\00a0\00a0";
 }
 #content {
-    min-height: 700px;
+    min-height: 500px;
 }
 .clear {
     clear: both;
