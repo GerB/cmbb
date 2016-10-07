@@ -77,6 +77,9 @@ class install_cmbb extends container_aware_migration
 			array('config.add', array('ger_cmbb_min_content_length', 200)),
 			array('config.add', array('ger_cmbb_announce_text', '')),
 			array('config.add', array('ger_cmbb_announce_show', 0)),
+			array('config.add', array('ger_cmbb_show_menubar', 1)),
+			array('config.add', array('ger_cmbb_show_rightbar', 0)),
+			array('config.add', array('ger_cmbb_rightbar_html', '<h3>cmBB is the best! :)</h3>' . "\n" . '<p>Cats are cute</p>')),
 			array('module.add', array(
 					'acp',
 					'ACP_CAT_DOT_MODS',
@@ -99,7 +102,7 @@ class install_cmbb extends container_aware_migration
 					),
 				)),
 			array('permission.add', array('u_cmbb_post_article')),
-			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_cmbb_post_article', 'role')),
+			array('permission.permission_set', array('ROLE_USER_FULL', 'u_cmbb_post_article', 'role')),
 			array('permission.permission_set', array('ROLE_USER_NEW_MEMBER', 'u_cmbb_post_article', 'role', false)),
 			array('custom', array(array($this, 'add_default_values'))),
 		);

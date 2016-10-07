@@ -78,13 +78,13 @@ class edit
 
 		if (is_numeric($article_id))
 		{
-			$page = $this->cmbb->get_article($article_id);
-			if ($page === false)
+			$article = $this->cmbb->get_article($article_id);
+			if ($article === false)
 			{
 				return $this->helper->message('FILE_NOT_FOUND_404', array($article_id), 'FILE_NOT_FOUND_404', 404);
 			}
 			// Check if user is allowed to edit
-			if (!(($this->user->data['user_id'] == $page['user_id']) || $this->auth->acl_get('m_') ))
+			if (!(($this->user->data['user_id'] == $article['user_id']) || $this->auth->acl_get('m_') ))
 			{
 				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
 			}
@@ -96,20 +96,21 @@ class edit
 
 		// Wrap it all up
 		$this->template->assign_vars(array(
-			'CMBB_TITLE'			 => (empty($page['title']) ? $this->user->lang('NEW_ARTICLE') : $page['title']),
-			'CMBB_CONTENT'			 => (empty($page['content']) ? '' : $page['content'] ),
+			'CMBB_TITLE'			 => (empty($article['title']) ? $this->user->lang('NEW_ARTICLE') : $article['title']),
+			'CMBB_CONTENT'			 => (empty($article['content']) ? '' : $article['content'] ),
 			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar(null, $this->auth, $this->helper, 'edit'),
-			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($page['article_id']) ? '_new_' : $page['article_id'] ))),
+			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($article['article_id']) ? '_new_' : $article['article_id'] ))),
 			'U_UPLOAD_ACTION'		 => $this->helper->route('ger_cmbb_upload'),
-			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories($this->auth->acl_get('m_')), (empty($page['category_id']) ? 0 : $page['category_id'])),
-			'CAN_HIDE'				 => (!empty($page['title']) && $this->auth->acl_get('m_')) ? true : false,
-			'IS_VISIBLE'			 => empty($page['visible']) ? false : true,
+			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories($this->auth->acl_get('m_')), (empty($article['category_id']) ? 0 : $article['category_id'])),
+			'CAN_HIDE'				 => (!empty($article['title']) && $this->auth->acl_get('m_')) ? true : false,
+			'IS_VISIBLE'			 => empty($article['visible']) ? false : true,
 			'CMBB_ROOT_PATH'		 => generate_board_url() . substr($this->cmbb_root_path, 1),
 			'CMBB_IMG_DIR'			 => $this->helper->route('ger_cmbb_folders', array('user_id' => $this->user->data['user_id'])),
 			'ALLOWED_EXT'			 => implode(', ', $this->cmbb->allowed_extensions),
 			'S_IS_NEW'				 => ($article_id == '_new_') ? true : false,
+			'S_SHOW_RIGHTBAR'		 => $this->config['ger_cmbb_show_rightbar'],
 		));
-		return $this->helper->render('article_form.html', (empty($page['title']) ? $this->user->lang('NEW_ARTICLE') : $page['title']));
+		return $this->helper->render('article_form.html', (empty($article['title']) ? $this->user->lang('NEW_ARTICLE') : $article['title']));
 	}
 
 }

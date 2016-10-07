@@ -25,7 +25,7 @@ class categories_module
 
 		$user->add_lang_ext('ger/cmbb', 'common');
 		$this->tpl_name = 'acp_cmbb_categories';
-		$this->page_title = $user->lang('ACP_CMBB_TITLE');
+		$this->page_title = $user->lang('ACP_CMBB_CATEGORIES');
 		add_form_key('ger/cmbb');
 
 		// Fetch current categories
@@ -50,7 +50,7 @@ class categories_module
 				// Setup article holder for category
 				$article_data = array(
 					'title'			 => $category_name,
-					'alias'			 => $cmbb->generate_page_alias($category_name),
+					'alias'			 => $cmbb->generate_article_alias($category_name),
 					'user_id'		 => $user->data['user_id'],
 					'parent'		 => 1,
 					'is_cat'		 => 1,
@@ -102,7 +102,7 @@ class categories_module
 						);
 						$cmbb->store_category($category_data);
 
-						// Make sure that the page matches the category name
+						// Make sure that the article matches the category name
 						$article_update = array(
 							'article_id' => $cat['std_parent'],
 							'title' => $category_name

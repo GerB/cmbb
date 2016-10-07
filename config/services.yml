@@ -3,7 +3,7 @@ imports:
 
 services:
     ger.cmbb.viewer:
-        class: ger\cmbb\controller\page
+        class: ger\cmbb\controller\article
         arguments:
             - '@config'
             - '@controller.helper'
@@ -82,6 +82,7 @@ services:
     ger.cmbb.listener:
         class: ger\cmbb\event\main_listener
         arguments:
+            - '@config'
             - '@controller.helper'
             - '@template'
             - '@ger.cmbb.cmbb.driver'

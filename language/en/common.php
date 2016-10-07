@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACL_U_CMBB_POST_ARTICLE'	 => 'Can post cmBB articles',
-	'ARTICLE_HIDDEN_WARNING'	 => 'This page is hidden and therefore only accesible for moderators',
+	'ARTICLE_HIDDEN_WARNING'	 => 'This article is hidden and therefore only accesible for moderators',
 	'BACK'						 => 'Back',
 	'CATEGORY'					 => 'Category',
 	'CMBB_UPLOAD_BROWSE'		 => 'Or browse',

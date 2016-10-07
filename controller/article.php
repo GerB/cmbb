@@ -11,7 +11,7 @@
 
 namespace ger\cmbb\controller;
 
-class page
+class article
 {
 	/* @var \phpbb\config\config */
 
@@ -66,24 +66,24 @@ class page
 	}
 
 	/**
-	 * Controller for route /page/{alias}
+	 * Controller for route /article/{alias}
 	 *
 	 * @param string		$alias
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
 	public function handle($alias = 'index')
 	{
-		$page = $this->cmbb->get_article($alias);
-		if ($page === false)
+		$article = $this->cmbb->get_article($alias);
+		if ($article === false)
 		{
 			return $this->helper->message('FILE_NOT_FOUND_404', array(
 						$alias), 'FILE_NOT_FOUND_404', 404);
 		}
-		if ($page['visible'] == 0)
+		if ($article['visible'] == 0)
 		{
 			if ($this->auth->acl_get('m_'))
 			{
-				$page['content'] = '<div class="warning">' . $this->user->lang('ARTICLE_HIDDEN_WARNING') . '</div>' . $page['content'];
+				$article['content'] = '<div class="warning">' . $this->user->lang('ARTICLE_HIDDEN_WARNING') . '</div>' . $article['content'];
 			}
 			else
 			{
@@ -92,11 +92,11 @@ class page
 			}
 		}
 
-		// List child pages exerpts as content when it's a category
-		if ($page['is_cat'])
+		// List child articles exerpts as content when it's a category
+		if ($article['is_cat'])
 		{
-			$page['content'] = '';
-			if ($page['alias'] == 'index')
+			$article['content'] = '';
+			if ($article['alias'] == 'index')
 			{
 				if ($this->request->variable('showhidden', '') == 1)
 				{
@@ -112,19 +112,19 @@ class page
 					$children = $this->cmbb->get_last($this->config['ger_cmbb_number_index_items']);
 					if ($this->config['ger_cmbb_announce_show'] == 1)
 					{
-						$page['content'] = '<div class="box">' . htmlspecialchars_decode($this->config['ger_cmbb_announce_text']) . '</div><hr>';
+						$article['content'] = '<div class="box">' . htmlspecialchars_decode($this->config['ger_cmbb_announce_text']) . '</div><hr>';
 					}
 				}
 			}
 			else
 			{
-				$children = $this->cmbb->get_children($page['article_id']);
+				$children = $this->cmbb->get_children($article['article_id']);
 			}
 
 			$count = count($children);
 			if (empty($children))
 			{
-				$page['content'] = ' ';
+				$article['content'] = ' ';
 			}
 			else
 			{
@@ -132,32 +132,32 @@ class page
 				foreach ($children as $child)
 				{
 					$counter++;
-					$page['content'] .= '<div class="box"><a href="' . $child['alias'] . '"><h2>' . $child['title'] . '</h2></a>';
-					$page['content'] .= '<div><div class="exerpt_img"><a href="' . $child['alias'] . '">' . $this->cmbb->phpbb_user_avatar($child['user_id']) . '</a></div>';
-					$page['content'] .= $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content'])));
-					$page['content'] .= ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '...</a></div></div>';
+					$article['content'] .= '<div class="box"><a href="' . $child['alias'] . '"><h2>' . $child['title'] . '</h2></a>';
+					$article['content'] .= '<div><div class="exerpt_img"><a href="' . $child['alias'] . '">' . $this->cmbb->phpbb_user_avatar($child['user_id']) . '</a></div>';
+					$article['content'] .= $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content'])));
+					$article['content'] .= ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '...</a></div></div>';
 
 					if ($counter < $count)
 					{
-						$page['content'] .= '<hr>';
+						$article['content'] .= '<hr>';
 					}
 				}
 			}
 		}
 		// Do breadcrumbs
-		if ($page['alias'] == 'index')
+		if ($article['alias'] == 'index')
 		{
 			// No link on homepage, but remove board index from crumbs
 			$this->template->assign_var('CMBB_HOME', true);
 		}
 		else
 		{
-			if ($page['parent'] > 0)
+			if ($article['parent'] > 0)
 			{
-				$trail[] = $page;
-				if ($page['parent'] > 1)
+				$trail[] = $article;
+				if ($article['parent'] > 1)
 				{
-					$trail[] = $this->cmbb->get_article($page['parent']);
+					$trail[] = $this->cmbb->get_article($article['parent']);
 					if ($trail[1]['parent'] > 1)
 					{
 						$trail[] = $this->cmbb->get_article($trail[1]['parent']);
@@ -179,16 +179,18 @@ class page
 		}
 
 		// Wrap it all up
-		$title = empty($page['title']) ? (($this->config['site_home_text'] !== '') ? $this->config['site_home_text'] : $this->user->lang('HOME')) : $page['title'];
+		$title = empty($article['title']) ? (($this->config['site_home_text'] !== '') ? $this->config['site_home_text'] : $this->user->lang('HOME')) : $article['title'];
 
 		$this->template->assign_vars(array(
-			'CMBB_CATEGORY_NAME'	 => $this->cmbb->fetch_category($page['category_id']),
-			'S_CMBB_CATEGORY'		 => $page['is_cat'],
+			'CMBB_CATEGORY_NAME'	 => $this->cmbb->fetch_category($article['category_id']),
+			'S_CMBB_CATEGORY'		 => $article['is_cat'],
 			'CMBB_TITLE'			 => $title,
-			'CMBB_CONTENT'			 => $page['content'],
-			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar($page, $this->auth, $this->helper, 'view'),
-			'CMBB_ARTICLE_TOPIC_ID'	 => ($page['topic_id'] > 0) ? $page['topic_id'] : false,
-			'CMBB_AUTHOR'			 => ($page['user_id'] > 0) ? $this->cmbb->phpbb_get_user($page['user_id']) : '',
+			'CMBB_CONTENT'			 => $article['content'],
+			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar($article, $this->auth, $this->helper, 'view'),
+			'CMBB_ARTICLE_TOPIC_ID'	 => ($article['topic_id'] > 0) ? $article['topic_id'] : false,
+			'CMBB_AUTHOR'			 => ($article['user_id'] > 0) ? $this->cmbb->phpbb_get_user($article['user_id']) : '',
+			'S_SHOW_RIGHTBAR'		 => $this->config['ger_cmbb_show_rightbar'],
+			'CMBB_RIGHTBAR_CONTENT'	 => $this->config['ger_cmbb_rightbar_html'],
 		));
 
 		return $this->helper->render('article.html', $title);

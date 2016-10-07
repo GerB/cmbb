@@ -130,7 +130,7 @@ class driver
 	}
 
 	/**
-	 * Get children pages for parent article_id
+	 * Get children articles for parent article_id
 	 * @paramt int $parent
 	 * @return array
 	 */
@@ -335,7 +335,7 @@ class driver
 	 * @param string $title
 	 * @return string
 	 */
-	public function generate_page_alias($title)
+	public function generate_article_alias($title)
 	{
 		// Basic cleanup
 		$try = trim(strtolower(str_replace('-', ' ', $title)));
@@ -524,9 +524,9 @@ class driver
 	}
 
 	/**
-	 * Build sidebar for front-facing pages
+	 * Build sidebar for front-facing articles
 	 */
-	public function build_sidebar($page, $auth, $helper, $mode)
+	public function build_sidebar($article, $auth, $helper, $mode)
 	{
 		$cmbb_sidebar = '<div id="login">';
 		// Either greet or show login box
@@ -539,12 +539,12 @@ class driver
 			// Show link to editor
 			if ($this->can_edit($auth))
 			{
-				$cmbb_sidebar.= '<p><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => '_new_')) . '" class="button" alt="' . $this->user->lang('NEW_ARTICLE') . '">'
+				$cmbb_sidebar.= '<p><a href="' . $helper->route('ger_cmbb_article_edit', array('article_id' => '_new_')) . '" class="button" alt="' . $this->user->lang('NEW_ARTICLE') . '">'
 						. '<span>' . $this->user->lang('NEW_ARTICLE') . '</span> <i class="icon fa-asterisk fa-fw" aria-hidden="true"></i></a></p>';
 			}
-			if ($this->can_edit($auth, $page) && $mode == 'view')
+			if ($this->can_edit($auth, $article) && $mode == 'view')
 			{
-				$cmbb_sidebar.= '<p><a href="' . $helper->route('ger_cmbb_page_edit', array('article_id' => $page['article_id'])) . '" class="button" alt="' . $this->user->lang('EDIT_ARTICLE') . '">'
+				$cmbb_sidebar.= '<p><a href="' . $helper->route('ger_cmbb_article_edit', array('article_id' => $article['article_id'])) . '" class="button" alt="' . $this->user->lang('EDIT_ARTICLE') . '">'
 						. '<span>' . $this->user->lang('EDIT_ARTICLE') . '</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i></a></p>';
 			}
 			if ($auth->acl_get('m_'))
@@ -562,7 +562,7 @@ class driver
 		}
 		else
 		{
-			$cmbb_sidebar.= $this->login_box($helper, $page['alias']);
+			$cmbb_sidebar.= $this->login_box($helper, $article['alias']);
 		}
 		$cmbb_sidebar.= '</div>';
 
@@ -615,7 +615,7 @@ class driver
 						<p><label for="password">' . $this->user->lang('PASSWORD') . ':</label> <input type="password" name="password" /></p>
 						<p><label for="autologin" style="width: 100%"><input type="checkbox" name="autologin" /> ' . $this->user->lang('LOG_ME_IN') . '</span> </label></p>
 						<input type="submit" class="button2" value="' . $this->user->lang('LOGIN') . '" name="login" /></p>
-						<input type="hidden" name="redirect" value="' . $helper->route('ger_cmbb_page', array('alias' => $alias)) . '" />
+						<input type="hidden" name="redirect" value="' . $helper->route('ger_cmbb_article', array('alias' => $alias)) . '" />
 					</fieldset>
                 </form>';
 	}
@@ -623,10 +623,10 @@ class driver
 	/**
 	 * Is user allowed to edit or not
 	 * @param obj $auth
-	 * @param array $page
+	 * @param array $article
 	 * @return bool
 	 */
-	public function can_edit($auth, $page = null)
+	public function can_edit($auth, $article = null)
 	{
 		// Disallow bots and banned
 		if ($this->user->data['is_bot'] || $this->phpbb_is_banned($this->user->data['user_id']))
@@ -634,20 +634,21 @@ class driver
 			return false;
 		}
 
-		if (is_array($page))
+		if (is_array($article))
 		{
-			if ($page['is_cat'])
+			if ($article['is_cat'])
 			{
 				return false;
 			}
-			else if ((($this->user->data['user_id'] == $page['user_id']) && $auth->acl_get('u_cmbb_post_article') ) || $auth->acl_get('m_'))
+			else if ((($this->user->data['user_id'] == $article['user_id']) && $auth->acl_get('u_cmbb_post_article') ) || $auth->acl_get('m_'))
 			{
 				return true;
 			}
 		}
 		else
 		{
-			if (empty($this->get_categories()))
+			$cats = $this->get_categories();
+			if (empty($cats))
 			{
 				return $auth->acl_get('m_');
 			}
@@ -656,7 +657,6 @@ class driver
 				return $auth->acl_get('u_cmbb_post_article');
 			}
 		}
-		
 	}
 
 }

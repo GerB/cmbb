@@ -28,7 +28,12 @@
     background-color: #ffffff;
     padding: 0 10px;
     float: left;
+}
+#content_container.show-rightbar {
     width: calc(62% - 40px);
+}
+#content_container.hide-rightbar {
+    width: calc(78% - 20px);
 }
 
 #content_pagetitle {

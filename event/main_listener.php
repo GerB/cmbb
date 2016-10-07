@@ -31,8 +31,10 @@ class main_listener implements EventSubscriberInterface
 		);
 	}
 
-	/* @var \phpbb\controller\helper */
+	/* @var \phpbb\config\config */
+	protected $config;
 
+	/* @var \phpbb\controller\helper */
 	protected $helper;
 
 	/* @var \phpbb\template\template */
@@ -44,11 +46,14 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\config\config		$config		Config object
 	 * @param \phpbb\controller\helper	$helper		Controller helper object
 	 * @param \phpbb\template\template	$template	Template object
+	 * @param \ger\cmbb\cmbb\driver		$cmbb		cmBB driver object
 	 */
-	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \ger\cmbb\cmbb\driver $cmbb)
 	{
+		$this->config = $config;
 		$this->helper = $helper;
 		$this->template = $template;
 		$this->cmbb = $cmbb;
@@ -71,21 +76,24 @@ class main_listener implements EventSubscriberInterface
 
 	public function page_header_add_menu($event)
 	{
-		$items = $this->cmbb->list_menu_items();
-		$menu = '';
-		if ($items)
+		if ($this->config['ger_cmbb_show_menubar'] == 1)
 		{
-			foreach ($items as $row)
+			$items = $this->cmbb->list_menu_items();
+			$menu = '';
+			if ($items)
 			{
-				if ($this->cmbb->get_children($row['article_id']))
+				foreach ($items as $row)
 				{
-					$menu.= '<li><a href="' . $this->helper->route('ger_cmbb_page', array('alias' => $row['alias'])) . '">' . $row['category_name'] . '</a></li>' . "\n";
+					if ($this->cmbb->get_children($row['article_id']))
+					{
+						$menu.= '<li><a href="' . $this->helper->route('ger_cmbb_article', array('alias' => $row['alias'])) . '">' . $row['category_name'] . '</a></li>' . "\n";
+					}
 				}
 			}
+			$this->template->assign_vars(array(
+				'CMBB_MENU' => $menu
+			));
 		}
-		$this->template->assign_vars(array(
-			'CMBB_MENU' => $menu
-		));
 	}
 
 	public function set_permissions($event)

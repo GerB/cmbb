@@ -76,17 +76,17 @@ class save
 	{
 		if (is_numeric($article_id))
 		{
-			// Check old page info
-			$oldpage = $this->cmbb->get_article($article_id);
+			// Check old article info
+			$oldarticle = $this->cmbb->get_article($article_id);
 
 			// Check if user is allowed to edit
-			if (!(($this->user->data['user_id'] == $oldpage['user_id']) || $this->auth->acl_get('m_') ))
+			if (!(($this->user->data['user_id'] == $oldarticle['user_id']) || $this->auth->acl_get('m_') ))
 			{
 				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
 			}
-			if (empty($oldpage['user_id']) && (!$this->auth->acl_get('a_')))
+			if (empty($oldarticle['user_id']) && (!$this->auth->acl_get('a_')))
 			{
-				// Special page, admin only
+				// Special article, admin only
 				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
 			}
 			if (!$title = $this->presentation->phpbb_censor_title($this->request->variable('title', '', true)))
@@ -95,7 +95,7 @@ class save
 			}
 
 			// Compare old article content size with new post content size
-			$oldsize = strlen($oldpage['content']);
+			$oldsize = strlen($oldarticle['content']);
 			$newsize = strlen(censor_text($this->request->variable('content', '', true)));
 
 			if ( ($oldsize > 0) && ($newsize / $oldsize) < 0.7)
@@ -125,7 +125,7 @@ class save
 				$this->log->add('mod', $this->user->data['user_id'], $this->user->ip, 'LOG_ARTICLE_VISIBILLITY', time(), array('article_id' => $article_id, 'visible' => $article_data['visible']));
 			}
 
-			$redirect = $oldpage['alias'];
+			$redirect = $oldarticle['alias'];
 		}
 		else if ($article_id == '_new_')
 		{
@@ -136,7 +136,7 @@ class save
 
 			$article_data = array(
 				'title'			 => $title,
-				'alias'			 => $this->cmbb->generate_page_alias($this->request->variable('title', '', true)),
+				'alias'			 => $this->cmbb->generate_article_alias($this->request->variable('title', '', true)),
 				'user_id'		 => $this->user->data['user_id'],
 				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', '')),
 				'is_cat'		 => 0,
@@ -156,7 +156,7 @@ class save
 			return $this->helper->message('ERROR', 'ERROR', 404);
 		}
 		$this->cmbb->store_article($article_data);
-		redirect($this->helper->route('ger_cmbb_page', array(
+		redirect($this->helper->route('ger_cmbb_article', array(
 					'alias' => $redirect)));
 	}
 
@@ -193,7 +193,7 @@ class save
 [i]' . $this->user->lang['POST_BY_AUTHOR'] . ' ' . $this->user->data['username'] . '[/i]
 
 ' . $this->presentation->character_limiter(strip_tags($article_data['content'])) . '
-[url=' . $this->helper->route('ger_cmbb_page', array(
+[url=' . $this->helper->route('ger_cmbb_article', array(
 					'alias' => $article_data['alias'])) . ']' . $this->user->lang['READ_MORE'] . '...[/url]';
 
 		$poll = $uid = $bitfield = $options = '';

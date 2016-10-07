@@ -9,7 +9,7 @@ Copy the extension to phpBB/ext/ger/cmbb
 
 Go to "ACP" > "Customise" > "Extensions" and enable the "cmBB" extension.
 
-If desired, set your Main website URL to < yourforumurl >/app.php/page/index
+If desired, set your Main website URL to < yourforumurl >/app.php/article/index
 This enables the homepage listing the last 10 new articles.
 
 ## Events

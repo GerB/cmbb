@@ -1,8 +1,8 @@
-ger_cmbb_page:
-    path: /page/{alias}
+ger_cmbb_article:
+    path: /article/{alias}
     defaults: { _controller: ger.cmbb.viewer:handle, alias: "index" }
-ger_cmbb_page_edit:
-    path: /page_edit/{article_id}
+ger_cmbb_article_edit:
+    path: /article_edit/{article_id}
     defaults: { _controller: ger.cmbb.editor:handle, article_id: "0" }
 ger_cmbb_save:
     path: /save/{article_id}

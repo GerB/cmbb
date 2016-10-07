@@ -20,10 +20,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACP_ANNOUNCE_TEXT'					=> 'Announcement text',
-	'ACP_ANNOUNCE_TEXT_EXPLAIN'			=> 'Text that will be displayed above all articles and category pages. No BBcode is parsed, use HTML.',
+	'ACP_ANNOUNCE_TEXT_EXPLAIN'			=> 'Text that will be displayed above all articles and category articles. No BBcode is parsed, use HTML.',
 	'ACP_ANNOUNCE_SHOW'					=> 'Show announcement text',
 	'ACP_ANNOUNCE_SHOW_EXPLAIN'			=> 'Wether or not to display the text provided above',
-	'ACP_CATEGORIES_MANAGE'				=> 'Mange categories',
+	'ACP_CATEGORIES_MANAGE'				=> 'Manage categories',
 	'ACP_CATEGORIES_MANAGE_EXPLAIN'		=> 'Here you can add, modify or delete categories. You should first create a category and submit, and change the setting next.'
 											. '<br />Please note: cmBB uses the category name for the URL. Once you have chosen a category name, it is therefore recommended NOT to change the name afterwards since the URL will NOT be changed accordingly.',
 	'ACP_CMBB_CATEGORIES'				=> 'Categories',
@@ -34,11 +34,17 @@ $lang = array_merge($lang, array(
 	'ACP_MIN_TITLE_LENGTH'				=> 'Minumum title length',
 	'ACP_MIN_TITLE_LENGTH_EXPLAIN'		=> 'Required minimum length of article titles',
 	'ACP_MIN_CONTENT_LENGTH'			=> 'Minumum content length',
-	'ACP_MIN_CONTENT_LENGTH_EXPLAIN'	=> 'Required minimum length of article content (body)',
+	'ACP_MIN_CONTENT_LENGTH_EXPLAIN'	=> 'Required minimum length of article content (body). Prevents gibberish articles.',
 	'ACP_NUMBER_INDEX_ITEMS'			=> 'Number of index items',
 	'ACP_NUMBER_INDEX_ITEMS_EXPLAIN'	=> 'Maximum number of latest items to show on index page. Items are sorted by date (latest on top)',
 	'ACP_REACT_FORUM_ID'				=> 'Forum for comment topics',
 	'ACP_REACT_FORUM_ID_EXPLAIN'		=> 'Select the forum to create a topic in for comments.',
+	'ACP_SHOW_MENUBAR'					=> 'Show menubar',
+	'ACP_SHOW_MENUBAR_EXPLAIN'			=> 'Menubar is added to the header, contains all categories with children alongside homepage (if any), board index and contact us (if enabled).',
+	'ACP_SHOW_RIGHTBAR'					=> 'Show right sidebar',
+	'ACP_SHOW_RIGHTBAR_EXPLAIN'			=> 'You can choose to show a sidebar on the right, containg any HTML you want. Useful for advertisements or any other content you might want to show.',
+	'ACP_RIGHTBAR_HTML'					=> 'Right sidebar content.',
+	'ACP_RIGHTBAR_HTML_EXPLAIN'			=> 'If you have the right sidebar enabled, the content entered here will be shown. You can use any HTML/JS you want, just make sure it is valid.',
 	'CHILDREN'							=> 'Children',
 	'CHILDREN_EXPLAIN'					=> 'Number of articles in this category',
 	'CMBB_SETTINGS'						=> 'cmBB settings',
@@ -49,6 +55,6 @@ $lang = array_merge($lang, array(
 	'PROTECTED'							=> 'Protected',
 	'PROTECTED_EXPLAIN'					=> 'Only moderators are allowed to post',
 	'SHOW_MENU_BAR'						=> 'Show in menu bar',
-	'SHOW_MENU_BAR_EXPLAIN'				=> 'Wether or not to show this category in the menu bar (only when it has children). Useful to disable if you do not like the category listings or you have just some loose pages.',
+	'SHOW_MENU_BAR_EXPLAIN'				=> 'Wether or not to show this category in the menu bar (only when it has children). Useful to disable if you do not like the category listings or you have just some loose articles.',
 
 		));

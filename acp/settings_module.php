@@ -22,7 +22,7 @@ class settings_module
 
 		$user->add_lang_ext('ger/cmbb', 'common');
 		$this->tpl_name = 'acp_cmbb_body';
-		$this->page_title = $user->lang('ACP_CMBB_TITLE');
+		$this->page_title = $user->lang('CMBB_SETTINGS');
 		add_form_key('ger/cmbb');
 
 		if ($request->is_set_post('submit'))
@@ -38,6 +38,8 @@ class settings_module
 			$config->set('ger_cmbb_min_content_length', $request->variable('min_content_length', 0));
 			$config->set('ger_cmbb_announce_text', $request->variable('announce_text', ''));
 			$config->set('ger_cmbb_announce_show', $request->variable('announce_show', 0));
+			$config->set('ger_cmbb_show_menubar', $request->variable('show_menubar', 0));
+			$config->set('ger_cmbb_rightbar_html', htmlspecialchars_decode($request->variable('rightbar_html', ''), ENT_COMPAT));
 
 			trigger_error($user->lang('ACP_CMBB_SETTING_SAVED') . adm_back_link($this->u_action));
 		}
@@ -49,7 +51,9 @@ class settings_module
 			'MIN_CONTENT_LENGTH' => $config['ger_cmbb_min_content_length'],
 			'ANNOUNCE_TEXT'		 => $config['ger_cmbb_announce_text'],
 			'S_ANNOUNCE_SHOW'	 => $config['ger_cmbb_announce_show'],
-			'S_REACT_OPTIONS'	 => make_forum_select($config['ger_cmbb_react_forum_id'], false, false, false, false),
+			'S_SHOW_MENUBAR'	 => $config['ger_cmbb_show_menubar'],
+			'S_SHOW_RIGHTBAR'	 => $config['ger_cmbb_show_rightbar'],
+			'RIGHTBAR_HTML'		 => $config['ger_cmbb_rightbar_html'],
 		));
 	}
 
