@@ -39,6 +39,7 @@ class settings_module
 			$config->set('ger_cmbb_announce_text', $request->variable('announce_text', ''));
 			$config->set('ger_cmbb_announce_show', $request->variable('announce_show', 0));
 			$config->set('ger_cmbb_show_menubar', $request->variable('show_menubar', 0));
+			$config->set('ger_cmbb_show_rightbar', $request->variable('show_rightbar', 0));
 			$config->set('ger_cmbb_rightbar_html', htmlspecialchars_decode($request->variable('rightbar_html', ''), ENT_COMPAT));
 
 			trigger_error($user->lang('ACP_CMBB_SETTING_SAVED') . adm_back_link($this->u_action));
