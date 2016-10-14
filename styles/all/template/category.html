@@ -1,0 +1,28 @@
+<!-- INCLUDE overall_header.html -->
+
+<div id="content_container" class="<!-- IF S_SHOW_RIGHTBAR -->show<!-- ELSE -->hide<!-- ENDIF-->-rightbar">
+    <div id="content">
+        <div id="content_pagetitle">
+            <h1>{CMBB_CATEGORY_NAME}</h1>
+        </div>
+		<div id="content_val">
+			<!-- IF category_children -->
+				<!-- BEGIN category_children -->
+				<div class="box">
+					<a href="{category_children.ALIAS}"><h2>{category_children.TITLE}</h2></a>
+					<div>
+						<div class="exerpt_img"><a href="{category_children.ALIAS}">{category_children.AVATAR}</a></div>
+						{category_children.EXERPT}
+					</div>
+				</div>
+				<!-- IF not category_children.S_LAST_CHILD --><hr><!-- ENDIF -->
+				<!-- END category_children -->
+			<!-- ENDIF -->
+			
+			
+			
+		</div>
+    </div>
+</div>
+<!-- INCLUDE footer_extra.html -->
+<!-- INCLUDE overall_footer.html -->

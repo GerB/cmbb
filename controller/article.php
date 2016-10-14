@@ -132,18 +132,17 @@ class article
 				foreach ($children as $child)
 				{
 					$counter++;
-					$article['content'] .= '<div class="box"><a href="' . $child['alias'] . '"><h2>' . $child['title'] . '</h2></a>';
-					$article['content'] .= '<div><div class="exerpt_img"><a href="' . $child['alias'] . '">' . $this->cmbb->phpbb_user_avatar($child['user_id']) . '</a></div>';
-					$article['content'] .= $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content'])));
-					$article['content'] .= ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '...</a></div></div>';
-
-					if ($counter < $count)
-					{
-						$article['content'] .= '<hr>';
-					}
+					$this->template->assign_block_vars('category_children', array(
+						'ALIAS'			=> $child['alias'],
+						'TITLE'			=> $child['title'],
+						'AVATAR'		=> $this->cmbb->phpbb_user_avatar($child['user_id']),
+						'EXERPT'		=> $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content']))) . ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '...</a>',
+						'S_LAST_CHILD'	=> ($counter < $count) ? false : true,
+					));
 				}
 			}
 		}
+
 		// Do breadcrumbs
 		if ($article['alias'] == 'index')
 		{
@@ -185,7 +184,7 @@ class article
 			'CMBB_CATEGORY_NAME'	 => $this->cmbb->fetch_category($article['category_id']),
 			'S_CMBB_CATEGORY'		 => $article['is_cat'],
 			'CMBB_TITLE'			 => $title,
-			'CMBB_CONTENT'			 => $article['content'],
+			'CMBB_CONTENT'			 => empty($article['content']) ? '' : $article['content'],
 			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar($article, $this->auth, $this->helper, 'view'),
 			'CMBB_ARTICLE_TOPIC_ID'	 => ($article['topic_id'] > 0) ? $article['topic_id'] : false,
 			'CMBB_AUTHOR'			 => ($article['user_id'] > 0) ? $this->cmbb->phpbb_get_user($article['user_id']) : '',
@@ -193,7 +192,8 @@ class article
 			'CMBB_RIGHTBAR_CONTENT'	 => $this->config['ger_cmbb_rightbar_html'],
 		));
 
-		return $this->helper->render('article.html', $title);
+		$template_file = $article['is_cat'] ? 'category.html' : 'article.html';
+		return $this->helper->render($template_file, $title);
 	}
 
 }
