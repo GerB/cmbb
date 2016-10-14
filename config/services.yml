@@ -65,6 +65,7 @@ services:
         arguments:
             - '@config'
             - '@request'
+            - '@template'
             - '@user'
             - '@dbal.conn'
             - '%core.root_path%'

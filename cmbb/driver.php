@@ -16,28 +16,30 @@ class driver
 
 	protected $config;
 	protected $request;
+	protected $template;
 	protected $user;
 	protected $db;
 	protected $article_table;
 	protected $category_table;
 	protected $phpbb_root_path;
-	public $site_config;
-	public $allowed_extensions = array('jpg', 'jpeg', 'gif', 'png');
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth							$auth					Auth object
 	 * @param \phpbb\config\config						$config					Config object
-	 * @param ContainerInterface						$phpbb_container		Service container
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
 	 * @param \phpbb\user								$user					User object
+	 * @param \phpbb\user								$db						DB object
+	 * @param string									$phpbb_root_path
+	 * @param string									$article_table
+	 * @param string									$category_table
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $article_table, $category_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $article_table, $category_table)
 	{
 		$this->config = $config;
 		$this->request = $request;
+		$this->template = $template;
 		$this->user = $user;
 		$this->db = $db;
 		$this->article_table = $article_table;
@@ -524,100 +526,38 @@ class driver
 	}
 
 	/**
-	 * Build sidebar for front-facing articles
+	 * Fetch left sidebar
+	 * @param array $article
+	 * @param obj $auth
+	 * @param obj $helper
+	 * @param string $mode
+	 * @return void
 	 */
-	public function build_sidebar($article, $auth, $helper, $mode)
+	public function fetch_leftbar($article, $auth, $helper, $mode)
 	{
-		$cmbb_sidebar = '<div id="login">';
-		// Either greet or show login box
-		if ($this->user->data['is_registered'])
-		{
-
-			$cmbb_sidebar.= "<h3>" . $this->user->lang('WELCOME_USER', $this->user->data['username']) . "</h3>";
-			$cmbb_sidebar.= ' <p>(<a href="' . append_sid("{$this->phpbb_root_path}ucp.php", 'mode=logout', true, $this->user->session_id) . '">' . $this->user->lang('LOGOUT') . '</a>)</p>';
-
-			// Show link to editor
-			if ($this->can_edit($auth))
-			{
-				$cmbb_sidebar.= '<p><a href="' . $helper->route('ger_cmbb_article_edit', array('article_id' => '_new_')) . '" class="button" alt="' . $this->user->lang('NEW_ARTICLE') . '">'
-						. '<span>' . $this->user->lang('NEW_ARTICLE') . '</span> <i class="icon fa-asterisk fa-fw" aria-hidden="true"></i></a></p>';
-			}
-			if ($this->can_edit($auth, $article) && $mode == 'view')
-			{
-				$cmbb_sidebar.= '<p><a href="' . $helper->route('ger_cmbb_article_edit', array('article_id' => $article['article_id'])) . '" class="button" alt="' . $this->user->lang('EDIT_ARTICLE') . '">'
-						. '<span>' . $this->user->lang('EDIT_ARTICLE') . '</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i></a></p>';
-			}
-			if ($auth->acl_get('m_'))
-			{
-				if ($this->get_hidden())
-				{
-					$cmbb_sidebar.= '<p><a href="index?showhidden=1" class="button" alt="' . $this->user->lang('SHOW_HIDDEN') . '">'
-							. '<span>' . $this->user->lang('SHOW_HIDDEN') . '</span> <i class="icon fa-recycle fa-fw icon-green" aria-hidden="true"></i></a></p>';
-				}
-				else
-				{
-					$cmbb_sidebar.= '<p><span class="button"><span>' . $this->user->lang('NO_HIDDEN') . '</span> <i class="icon fa-recycle fa-fw icon-gray" aria-hidden="true"></i></span></p>';
-				}
-			}
-		}
-		else
-		{
-			$cmbb_sidebar.= $this->login_box($helper, $article['alias']);
-		}
-		$cmbb_sidebar.= '</div>';
-
-		/*
-		 * Fetch newest topics
-		 */
-		$cmbb_sidebar.=
-				'<div id="topiclist"><hr />
-                            <h3>' . $this->user->lang('FEED_TOPICS_NEW') . '</h3><br />
-                            <ul class="lt">';
-
 		$latest = $this->phpbb_latest_topics(array_unique(array_keys($auth->acl_getf('f_read', true))), 5);
 		foreach ($latest as $row)
 		{
-			$url = $this->phpbb_root_path . '/viewtopic.php?f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread#unread';
-			$cmbb_sidebar.= '<li class="lt"><a href="' . $url . '">' . $row['topic_title'] . '</a> </li>';
+			$this->template->assign_block_vars('latest_topic_feed', array(
+				'U_TOPIC'		 => $this->phpbb_root_path . '/viewtopic.php?f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread#unread',
+				'TOPIC_TITLE'	 => $row['topic_title'],
+			));
 		}
-
-		$cmbb_sidebar.=
-				'</ul>
-            </div>';
-
-		/*
-		 * Fetch stats
-		 */
-		$whosonline = obtain_users_online_string(obtain_users_online());
-
-		$cmbb_sidebar.=
-				'<div id="stats"><hr />
-                    <h3> ' . $this->user->lang('STATISTICS') . '</h3>
-                    <p><a href="' . $this->phpbb_root_path . 'viewonline.php">' . $this->user->lang('WHO_IS_ONLINE') . '</a>:<br>' . $whosonline['online_userlist'] . '</p>';
-
-		$cmbb_sidebar.= '<p>' . $this->user->lang('TOTAL_USERS', (int) $this->config['num_users']) . '<br />' .
-				$this->user->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])) .
-				'</p></div>';
-
-		return $cmbb_sidebar;
-	}
-
-	/**
-	 * Fetch formatted login box
-	 * @return type
-	 */
-	private function login_box($helper, $alias = 'index')
-	{
-		return '<form method="post" action="' . $this->phpbb_root_path . 'ucp.php?mode=login">
-					<h3>' . $this->user->lang('LOGIN') . ':</h3><br />
-					<fieldset>
-						<p><label for="username">' . $this->user->lang('USERNAME') . ':</label> <input type="text" name="username" /></p>
-						<p><label for="password">' . $this->user->lang('PASSWORD') . ':</label> <input type="password" name="password" /></p>
-						<p><label for="autologin" style="width: 100%"><input type="checkbox" name="autologin" /> ' . $this->user->lang('LOG_ME_IN') . '</span> </label></p>
-						<input type="submit" class="button2" value="' . $this->user->lang('LOGIN') . '" name="login" /></p>
-						<input type="hidden" name="redirect" value="' . $helper->route('ger_cmbb_article', array('alias' => $alias)) . '" />
-					</fieldset>
-                </form>';
+		$this->template->assign_vars(array(
+			'CMBB_LEFTBAR'		 => true,
+			'S_WELCOME_USER'	 => $this->user->lang('WELCOME_USER', $this->user->data['username']),
+			'U_LOGIN_REDIRECT'	 => $helper->route('ger_cmbb_article', array('alias' => $alias)),
+			'S_CAN_EDIT'		 => $this->can_edit($auth),
+			'U_NEW_ARTICLE'		 => $helper->route('ger_cmbb_article_edit', array('article_id' => '_new_')),
+			'U_EDIT_ARTICLE'	 => ($this->can_edit($auth, $article) && $mode == 'view') ? $helper->route('ger_cmbb_article_edit', array('article_id' => $article['article_id'])) : false,
+			'S_CAN_SEE_HIDDEN'	 => $auth->acl_get('m_'),
+			'S_HIDDEN'			 => $this->get_hidden(),
+			'U_VIEWONLINE'		 => $this->phpbb_root_path . 'viewonline.php',
+			'USERS_ONLINE'		 => obtain_users_online_string(obtain_users_online())['online_userlist'],
+			'USERS_TOTAL'		 => $this->user->lang('TOTAL_USERS', (int) $this->config['num_users']),
+			'USER_NEWST'		 => $this->user->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])),
+		));
+		return;
 	}
 
 	/**

@@ -2,7 +2,49 @@
 <div id="content-wrapper">
     <div id="cmbb_leftbar" class="cmbb_sidebar">
 		<!-- EVENT ger_cmbb_leftbar_prepend -->
-		{CMBB_LEFTBAR}
+		<div id="login">
+			<!-- IF S_USER_LOGGED_IN -->
+				<h3>{S_WELCOME_USER}</h3> 
+				<p>(<a href="{U_LOGIN_LOGOUT}" title="{L_LOGIN_LOGOUT}">{L_LOGIN_LOGOUT}</a>)</p>
+				<!-- IF S_CAN_EDIT -->
+					<p><a href="{U_NEW_ARTICLE}" class="button" alt="{L_NEW_ARTICLE}"><span>{L_NEW_ARTICLE}</span> <i class="icon fa-asterisk fa-fw" aria-hidden="true"></i></a></p>
+					<!-- IF U_EDIT_ARTICLE --> 
+						<p><a href="{U_EDIT_ARTICLE}" class="button" alt="{L_EDIT_ARTICLE}"><span>{L_EDIT_ARTICLE}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i></a></p>
+					<!-- ENDIF -->
+				<!-- ENDIF -->
+				<!-- IF S_CAN_SEE_HIDDEN -->
+					<!-- IF S_HIDDEN -->
+						<p><a href="index?showhidden=1" class="button" alt="{L_SHOW_HIDDEN}"><span>{L_SHOW_HIDDEN}</span> <i class="icon fa-recycle fa-fw icon-green" aria-hidden="true"></i></a></p>
+					<!-- ELSE -->
+						<p><span class="button"><span>{L_NO_HIDDEN}</span> <i class="icon fa-recycle fa-fw icon-gray" aria-hidden="true"></i></span></p>
+					<!-- ENDIF -->
+				<!-- ENDIF -->
+			<!-- ELSE -->
+				<form method="post" action="{U_LOGIN_LOGOUT}">
+					<h3>{L_LOGIN}:</h3><br />
+					<fieldset>
+						<p><label for="username">{L_USERNAME}:</label> <input type="text" name="username" /></p>
+						<p><label for="password">{L_PASSWORD}:</label> <input type="password" name="password" /></p>
+						<p><label for="autologin" style="width: 100%"><input type="checkbox" name="autologin" />{L_LOG_ME_IN}</label></p>
+						<input type="submit" class="button2" value="{L_LOGIN}" name="login" /></p>
+						<input type="hidden" name="redirect" value="{U_LOGIN_REDIRECT}" />
+					</fieldset>
+				</form>
+			<!-- ENDIF -->
+		</div>
+		<div id="topiclist">
+			<h3>{L_FEED_TOPICS_NEW}</h3><br />
+				<ul class="lt">
+					<!-- BEGIN latest_topic_feed -->
+						<li class="lt"><a href="{latest_topic_feed.U_TOPIC}">{latest_topic_feed.TOPIC_TITLE}</a> </li>
+					<!-- END latest_topic_feed -->						
+				</ul>
+		</div>
+		<div id="stats">
+			<h3>{L_STATISTICS}</h3>
+			 <p><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a>:<br />{USERS_ONLINE}</p>
+			 <p>{USERS_TOTAL}<br />{USER_NEWST}</p>
+		</div>
 		<!-- EVENT ger_cmbb_leftbar_append -->
     </div>
 <!-- ENDIF -->

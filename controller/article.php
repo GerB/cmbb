@@ -133,11 +133,11 @@ class article
 				{
 					$counter++;
 					$this->template->assign_block_vars('category_children', array(
-						'ALIAS'			=> $child['alias'],
-						'TITLE'			=> $child['title'],
-						'AVATAR'		=> $this->cmbb->phpbb_user_avatar($child['user_id']),
-						'EXERPT'		=> $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content']))) . ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '...</a>',
-						'S_LAST_CHILD'	=> ($counter < $count) ? false : true,
+						'ALIAS'			 => $child['alias'],
+						'TITLE'			 => $child['title'],
+						'AVATAR'		 => $this->cmbb->phpbb_user_avatar($child['user_id']),
+						'EXERPT'		 => $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content']))) . ' <a href="' . $child['alias'] . '">' . $this->user->lang('READ_MORE') . '...</a>',
+						'S_LAST_CHILD'	 => ($counter < $count) ? false : true,
 					));
 				}
 			}
@@ -179,19 +179,18 @@ class article
 
 		// Wrap it all up
 		$title = empty($article['title']) ? (($this->config['site_home_text'] !== '') ? $this->config['site_home_text'] : $this->user->lang('HOME')) : $article['title'];
-
 		$this->template->assign_vars(array(
 			'CMBB_CATEGORY_NAME'	 => $this->cmbb->fetch_category($article['category_id']),
 			'S_CMBB_CATEGORY'		 => $article['is_cat'],
 			'CMBB_TITLE'			 => $title,
 			'CMBB_CONTENT'			 => empty($article['content']) ? '' : $article['content'],
-			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar($article, $this->auth, $this->helper, 'view'),
 			'CMBB_ARTICLE_TOPIC_ID'	 => ($article['topic_id'] > 0) ? $article['topic_id'] : false,
 			'CMBB_AUTHOR'			 => ($article['user_id'] > 0) ? $this->cmbb->phpbb_get_user($article['user_id']) : '',
 			'S_SHOW_RIGHTBAR'		 => $this->config['ger_cmbb_show_rightbar'],
 			'CMBB_RIGHTBAR_CONTENT'	 => $this->config['ger_cmbb_rightbar_html'],
 		));
 
+		$this->cmbb->fetch_leftbar($article, $this->auth, $this->helper, 'view');
 		$template_file = $article['is_cat'] ? 'category.html' : 'article.html';
 		return $this->helper->render($template_file, $title);
 	}

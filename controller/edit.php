@@ -98,7 +98,6 @@ class edit
 		$this->template->assign_vars(array(
 			'CMBB_TITLE'			 => (empty($article['title']) ? $this->user->lang('NEW_ARTICLE') : $article['title']),
 			'CMBB_CONTENT'			 => (empty($article['content']) ? '' : $article['content'] ),
-			'CMBB_LEFTBAR'			 => $this->cmbb->build_sidebar(null, $this->auth, $this->helper, 'edit'),
 			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($article['article_id']) ? '_new_' : $article['article_id'] ))),
 			'U_UPLOAD_ACTION'		 => $this->helper->route('ger_cmbb_upload'),
 			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories($this->auth->acl_get('m_')), (empty($article['category_id']) ? 0 : $article['category_id'])),
@@ -110,6 +109,7 @@ class edit
 			'S_IS_NEW'				 => ($article_id == '_new_') ? true : false,
 			'S_SHOW_RIGHTBAR'		 => $this->config['ger_cmbb_show_rightbar'],
 		));
+		$this->cmbb->fetch_leftbar($article, $this->auth, $this->helper, 'view');
 		return $this->helper->render('article_form.html', (empty($article['title']) ? $this->user->lang('NEW_ARTICLE') : $article['title']));
 	}
 
