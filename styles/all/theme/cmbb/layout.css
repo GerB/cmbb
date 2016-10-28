@@ -62,17 +62,15 @@
 .clear {
     clear: both;
 }
-
 .article_box {
     border-bottom: 1px solid #cccccc;
     border-top: 1px solid #cccccc;
     min-height: 520px;
 }
-
 #topiclist, #login, #stats, #responsive_rightbar {
     padding: 5px;
 }
-#stats a{
+#stats a {
     text-decoration: none;
     font-weight: bold;
 }
@@ -100,8 +98,6 @@ ul.stats {
 
 }
 
-/* tekst opmaak */
-
 p {
     margin: 0 0 15px 0;
     text-align: justify;
@@ -110,13 +106,6 @@ p {
 #stats p {
     text-align: left;
 }
-
-.message{
-    font-style: italic;
-    text-align: center;
-    color: #AA0000;
-}
-
 .article_box h1 {
     font-size: 16px;
     margin: 15px 0 0 0;
@@ -142,11 +131,9 @@ img {
     text-align: right;
 }
 
-.geenwitregel, .box p {
-    margin: 0;
+.exerpt_title {
+    display: none;
 }
-
-
 .auteur {
     font-size: 10px;
     font-style: italic;
@@ -175,22 +162,6 @@ blockquote {
     margin: 0;
 }
 
-.artikel_thumb {
-    float: left;
-    width: 100px;
-    height: 90px;
-    border: none;
-    margin-left: -4px;
-}
-
-.artikel_thumb_schaduw {
-    float: left;
-    width: 95px;
-    height: 85px;
-    border: none;
-    background: url(schaduw.jpg) no-repeat bottom right;
-    margin: 0 5px 5px -5px;
-}
 .exerpt_img {
     width: 110px;
     height: 110px;
@@ -259,8 +230,6 @@ hr {
 /*----------------------------
     The file upload form
 -----------------------------*/
-
-
 #upload{
     font-family:'PT Sans Narrow', sans-serif;
     background-color:#373a3d;
@@ -381,10 +350,6 @@ hr {
     color:red;
 }
 
-form.contact input[type=submit] {
-    /*float: none;*/
-}
-
 @media only screen and (max-width: 1000px) {
     #cmbb_leftbar {
         width: 170px;
@@ -414,22 +379,41 @@ form.contact input[type=submit] {
     #responsive_rightbar {
         display: block;
     }
-}
-@media only screen and (max-width: 767px) {
-    #content-wrapper {
-        margin-top: 65px;
-    }	
+    #content_container.show-rightbar {
+        width: initial;
+    }
 }
 @media only screen and (max-width: 550px), only screen and (max-device-width: 550px) {
-    #login, #topiclist, #stats {
+    #cmbb_leftbar {
         display: none;
     }
-    #cmbb_leftbar {
-        width: 62px;
-    }
+    #content_container.show-rightbar,
     #content_container {
         width: auto;
-        max-width: calc(100% - 84px);
-        float: right
-    }		
+        max-width: 100%;
+    }
+    .child_title {
+        display: none;
+    }
+    .exerpt_title {
+        float: left;
+        display: block;
+    }
+    .exerpt_img {
+        width: auto;
+        height: auto;
+    }
+    .exerpt_img img {
+        max-width: 30px;
+        max-height: 30px;
+        float: left;
+    }
+    #content_val .box .read_more,
+    #content_val .box div p {
+        display: none;
+    }
+    #content {
+        min-height: initial;
+        padding-bottom: 50px;
+    }
 }

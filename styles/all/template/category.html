@@ -9,9 +9,9 @@
 			<!-- IF category_children -->
 				<!-- BEGIN category_children -->
 				<div class="box">
-					<a href="{category_children.ALIAS}"><h2>{category_children.TITLE}</h2></a>
+					<a class="child_title" href="{category_children.ALIAS}"><h2>{category_children.TITLE}</h2></a>
 					<div>
-						<div class="exerpt_img"><a href="{category_children.ALIAS}">{category_children.AVATAR}</a></div>
+						<div class="exerpt_img"><a href="{category_children.ALIAS}">{category_children.AVATAR}<h2 class="exerpt_title">{category_children.TITLE}</h2></a></div>
 						{category_children.EXERPT}
 					</div>
 				</div>
