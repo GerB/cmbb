@@ -142,6 +142,13 @@ class article
 				}
 			}
 		}
+		else
+		{
+			if ($article['topic_id'] > 0)
+			{
+				$topic_replies = $this->cmbb->count_reactions($article['topic_id'], $this->auth);
+			}
+		}
 
 		// Do breadcrumbs
 		if ($article['alias'] == 'index')
@@ -185,6 +192,7 @@ class article
 			'CMBB_TITLE'			 => $title,
 			'CMBB_CONTENT'			 => empty($article['content']) ? '' : $article['content'],
 			'CMBB_ARTICLE_TOPIC_ID'	 => ($article['topic_id'] > 0) ? $article['topic_id'] : false,
+			'CMBB_ARTICLE_REACTIONS' => isset($topic_replies) ? $topic_replies : false,
 			'CMBB_AUTHOR'			 => ($article['user_id'] > 0) ? $this->cmbb->phpbb_get_user($article['user_id']) : '',
 			'S_SHOW_RIGHTBAR'		 => $this->config['ger_cmbb_show_rightbar'],
 			'CMBB_RIGHTBAR_CONTENT'	 => $this->config['ger_cmbb_rightbar_html'],

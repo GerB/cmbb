@@ -220,9 +220,9 @@ class driver
 
 		if (empty($show_protected))
 		{
-			$query.= ' AND `protected` = "0" ';
+			$query .= ' AND `protected` = "0" ';
 		}
-		$query.= ' ORDER BY `category_name` ASC;';
+		$query .= ' ORDER BY `category_name` ASC;';
 
 		if ($result = $this->db->sql_query($query))
 		{
@@ -461,6 +461,41 @@ class driver
 		}
 
 		return '<img src="' . $path . '" ' . $width_height . ' alt= "' . $row['username'] . '" title="' . $row['username'] . '" style="' . $style . '" />';
+	}
+
+	/**
+	 * Count number of reactions on article from phpBB
+	 * @param int $article_topic_id
+	 * @return int
+	 */
+	public function count_reactions($article_topic_id, $auth)
+	{
+		// Simplified query borrowed from ./viewtopic.php
+		$sql_array = array(
+			'SELECT' => 't.*, f.*',
+			'FROM' => array(FORUMS_TABLE => 'f'),
+		);
+		$sql_array['FROM'][TOPICS_TABLE] = 't';
+		$sql_array['WHERE'] = "t.topic_id = " . $article_topic_id;
+		$sql_array['WHERE'] .= ' AND f.forum_id = t.forum_id';
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$topic_data = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		// If topic is hidden, don't go any further
+		if ($topic_data['topic_visibility'] != ITEM_APPROVED && !$auth->acl_get('m_approve', $topic_data['forum_id']))
+		{
+			return 0;
+		}
+		// We're a mere user. Show only approved
+		if (!$auth->acl_get('m_approve', $topic_data['forum_id']))
+		{
+			return (int) $topic_data['topic_posts_approved'] - 1;
+		}
+		// Sum of all statusses
+		return (int) $topic_data['topic_posts_approved'] + (int) $topic_data['topic_posts_unapproved'] + (int) $topic_data['topic_posts_softdeleted'] - 1;
 	}
 
 	/**
