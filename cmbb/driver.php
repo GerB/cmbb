@@ -23,6 +23,9 @@ class driver
 	protected $category_table;
 	protected $phpbb_root_path;
 
+	/* array of allowed extensions */
+	public $allowed_extensions = array('jpg', 'jpeg', 'gif', 'png');
+
 	/**
 	 * Constructor
 	 *

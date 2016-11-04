@@ -32,9 +32,6 @@ class upload
 	/* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
 
-	/* array of allowed extensions */
-	protected $allowed = array('jpg', 'jpeg', 'gif', 'png');
-
 	/**
 	 * Constructor
 	 *
