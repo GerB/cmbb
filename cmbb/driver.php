@@ -67,7 +67,7 @@ class driver
 			'WHERE'		 => 'std_parent > 1
                     AND std_parent = article_id
 					AND show_menu_bar = 1',
-			'GROUP_BY'	 => 'article_id',
+			'GROUP_BY'	 => 'category_name, alias, article_id',
 		);
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
