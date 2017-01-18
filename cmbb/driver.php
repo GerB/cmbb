@@ -67,7 +67,7 @@ class driver
 			'WHERE'		 => 'std_parent > 1
                     AND std_parent = article_id
 					AND show_menu_bar = 1',
-			'GROUP_BY'	 => 'article_id',
+			'GROUP_BY'	 => 'category_name, alias, article_id',
 		);
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -451,7 +451,7 @@ class driver
 		}
 		else
 		{
-			$path = '../../download/file.php?avatar=' . $row['user_avatar'];
+			$path = generate_board_url() . '/download/file.php?avatar=' . $row['user_avatar'];
 		}
 
 		if ($row['user_avatar_width'] > $row['user_avatar_height'])
@@ -577,7 +577,7 @@ class driver
 		foreach ($latest as $row)
 		{
 			$this->template->assign_block_vars('latest_topic_feed', array(
-				'U_TOPIC'		 => $this->phpbb_root_path . '/viewtopic.php?f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread#unread',
+				'U_TOPIC'		 => $this->phpbb_root_path . 'viewtopic.php?f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread#unread',
 				'TOPIC_TITLE'	 => $row['topic_title'],
 			));
 		}

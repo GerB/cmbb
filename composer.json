@@ -9,9 +9,7 @@
     "authors": [
         {
             "name": "Ger",
-            "email": "none@yet.com",
-            "homepage": "https://github.com/GerB/cmbb",
-            "role": ""
+            "homepage": "https://github.com/GerB/cmbb"
         }
     ],
     "require": {
@@ -24,7 +22,7 @@
     "extra": {
         "display-name": "cmBB",
         "soft-require": {
-            "phpbb/phpbb": ">=3.2.0"
+            "phpbb/phpbb": "~3.2"
         }
     }
 }
