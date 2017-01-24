@@ -18,12 +18,14 @@ class settings_module
 
 	public function main($id, $mode)
 	{
-		global $config, $request, $template, $user;
+		global $config, $request, $template, $user, $phpbb_container;
 
 		$user->add_lang_ext('ger/cmbb', 'common');
 		$this->tpl_name = 'acp_cmbb_body';
 		$this->page_title = $user->lang('CMBB_SETTINGS');
 		add_form_key('ger/cmbb');
+
+		$config_text = $phpbb_container->get('config_text');
 
 		if ($request->is_set_post('submit'))
 		{
@@ -40,7 +42,7 @@ class settings_module
 			$config->set('ger_cmbb_announce_show', $request->variable('announce_show', 0));
 			$config->set('ger_cmbb_show_menubar', $request->variable('show_menubar', 0));
 			$config->set('ger_cmbb_show_rightbar', $request->variable('show_rightbar', 0));
-			$config->set('ger_cmbb_rightbar_html', htmlspecialchars_decode($request->variable('rightbar_html', ''), ENT_COMPAT));
+			$config_text->set('ger_cmbb_rightbar_html', htmlspecialchars_decode($request->variable('rightbar_html', ''), ENT_COMPAT));
 
 			trigger_error($user->lang('ACP_CMBB_SETTING_SAVED') . adm_back_link($this->u_action));
 		}
@@ -54,7 +56,7 @@ class settings_module
 			'S_ANNOUNCE_SHOW'	 => $config['ger_cmbb_announce_show'],
 			'S_SHOW_MENUBAR'	 => $config['ger_cmbb_show_menubar'],
 			'S_SHOW_RIGHTBAR'	 => $config['ger_cmbb_show_rightbar'],
-			'RIGHTBAR_HTML'		 => $config['ger_cmbb_rightbar_html'],
+			'RIGHTBAR_HTML'		 => $config_text->get('ger_cmbb_rightbar_html'),
 		));
 	}
 

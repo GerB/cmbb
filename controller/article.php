@@ -17,6 +17,9 @@ class article
 
 	protected $config;
 
+	/* @var $config_text \phpbb\config\db_text */
+	protected $config_text;
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
@@ -52,9 +55,10 @@ class article
 	 * @param \ger\cmbb\cmbb			$cmbb
 	 * @param \ger\cmbb\presentation	$presentation
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
+	public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
 	{
 		$this->config = $config;
+		$this->config_text = $config_text;
 		$this->helper = $helper;
 		$this->template = $template;
 		$this->user = $user;
@@ -195,7 +199,7 @@ class article
 			'CMBB_ARTICLE_REACTIONS' => isset($topic_replies) ? $topic_replies : false,
 			'CMBB_AUTHOR'			 => ($article['user_id'] > 0) ? $this->cmbb->phpbb_get_user($article['user_id']) : '',
 			'S_SHOW_RIGHTBAR'		 => $this->config['ger_cmbb_show_rightbar'],
-			'CMBB_RIGHTBAR_CONTENT'	 => $this->config['ger_cmbb_rightbar_html'],
+			'CMBB_RIGHTBAR_CONTENT'	 => $this->config_text->get('ger_cmbb_rightbar_html'),
 		));
 
 		$this->cmbb->fetch_leftbar($article, $this->auth, $this->helper, 'view');

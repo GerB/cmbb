@@ -6,6 +6,7 @@ services:
         class: ger\cmbb\controller\article
         arguments:
             - '@config'
+            - '@config_text'
             - '@controller.helper'
             - '@template'
             - '@user'
