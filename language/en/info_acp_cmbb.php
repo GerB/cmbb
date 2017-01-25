@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 	'ACP_MIN_TITLE_LENGTH_EXPLAIN'		=> 'Required minimum length of article titles',
 	'ACP_MIN_CONTENT_LENGTH'			=> 'Minumum content length',
 	'ACP_MIN_CONTENT_LENGTH_EXPLAIN'	=> 'Required minimum length of article content (body). Prevents gibberish articles.',
+	'ACP_NO_ARTICLES'					=> 'You have no (active) articles. Create a new article using the link below:',
 	'ACP_NUMBER_INDEX_ITEMS'			=> 'Number of index items',
 	'ACP_NUMBER_INDEX_ITEMS_EXPLAIN'	=> 'Maximum number of latest items to show on index page. Items are sorted by date (latest on top)',
 	'ACP_REACT_FORUM_ID'				=> 'Forum for comment topics',

@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 	'ACP_MIN_TITLE_LENGTH_EXPLAIN'		=> 'Vereiste minimumlengte voor de titel van een artikel',
 	'ACP_MIN_CONTENT_LENGTH'			=> 'Minumumlengte inhoud',
 	'ACP_MIN_CONTENT_LENGTH_EXPLAIN'	=> 'Vereiste minimumlengte voor de inhoud van een artikel. Voorkomt onzin artikelen.',
+	'ACP_NO_ARTICLES'					=> 'Je hebt geen (actieve) artikelen. Maak een nieuw artikel aan via onderstaande link:',
 	'ACP_NUMBER_INDEX_ITEMS'			=> 'Aantal indexitems',
 	'ACP_NUMBER_INDEX_ITEMS_EXPLAIN'	=> 'Maximum aantal artikelen dat op de indexpagina (homepage) getoond wordt. Artikelen worden gesorteerd op datum (laatste artikel bovenaan).',
 	'ACP_REACT_FORUM_ID'				=> 'Forum voor reacties.',

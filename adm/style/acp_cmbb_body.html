@@ -1,7 +1,10 @@
 <!-- INCLUDE overall_header.html -->
 
 <h1>{L_CMBB_SETTINGS}</h1>
+<!-- IF not S_NO_ARTICLES -->
+<p>{L_ACP_NO_ARTICLES}<br><strong><a href="{U_NEW_ARTICLE}">{L_NEW_ARTICLE}</a></strong></p>
 
+<!-- ENDIF-->
 <form id="acp_board" method="post" action="{U_ACTION}">
     <fieldset>
         <dl>
