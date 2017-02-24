@@ -77,11 +77,11 @@ class article
 	 */
 	public function handle($alias = 'index')
 	{
+		$this->user->add_lang('viewtopic');
 		$article = $this->cmbb->get_article($alias);
 		if ($article === false)
 		{
-			return $this->helper->message('FILE_NOT_FOUND_404', array(
-						$alias), 'FILE_NOT_FOUND_404', 404);
+			return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $alias));
 		}
 		if ($article['visible'] == 0)
 		{
@@ -91,8 +91,7 @@ class article
 			}
 			else
 			{
-				return $this->helper->message('FILE_NOT_FOUND_404', array(
-							$alias), 'FILE_NOT_FOUND_404', 404);
+				return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $alias));
 			}
 		}
 
@@ -106,8 +105,8 @@ class article
 				{
 					if (!$this->auth->acl_get('m_'))
 					{
-						return $this->helper->message('NOT_AUTHORISED', array(
-									$alias), 'NOT_AUTHORISED', 404);
+						return $this->helper->error($this->user->lang('NOT_AUTHORISED', $alias));
+
 					}
 					$children = $this->cmbb->get_hidden();
 				}

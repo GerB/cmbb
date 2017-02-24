@@ -82,16 +82,16 @@ class save
 			// Check if user is allowed to edit
 			if (!(($this->user->data['user_id'] == $oldarticle['user_id']) || $this->auth->acl_get('m_') ))
 			{
-				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
+				return $this->helper->error('NOT_AUTHORISED');
 			}
 			if (empty($oldarticle['user_id']) && (!$this->auth->acl_get('a_')))
 			{
 				// Special article, admin only
-				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
+				return $this->helper->error('NOT_AUTHORISED');
 			}
 			if (!$title = $this->presentation->phpbb_censor_title($this->request->variable('title', '', true)))
 			{
-				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
+				return $this->helper->error('NOT_AUTHORISED');
 			}
 
 			// Compare old article content size with new post content size
@@ -100,7 +100,7 @@ class save
 
 			if ( ($oldsize > 0) && ($newsize / $oldsize) < 0.7)
 			{
-				return $this->helper->message('ERROR_MUCH_REMOVED', 'ERROR', 200);
+				return $this->helper->error('ERROR_MUCH_REMOVED');
 			}
 
 			$article_data = array(
@@ -131,7 +131,7 @@ class save
 		{
 			if (!$title = $this->presentation->phpbb_censor_title($this->request->variable('title', '', true)))
 			{
-				return $this->helper->message('INVALID_TITLE', 'ERROR', 200);
+				return $this->helper->error('INVALID_TITLE');
 			}
 
 			$article_data = array(
@@ -153,7 +153,7 @@ class save
 		}
 		else
 		{
-			return $this->helper->message('ERROR', 'ERROR', 404);
+			return $this->helper->error('ERROR');
 		}
 		$this->cmbb->store_article($article_data);
 		redirect($this->helper->route('ger_cmbb_article', array(

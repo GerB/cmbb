@@ -81,17 +81,17 @@ class edit
 			$article = $this->cmbb->get_article($article_id);
 			if ($article === false)
 			{
-				return $this->helper->message('FILE_NOT_FOUND_404', array($article_id), 'FILE_NOT_FOUND_404', 404);
+				return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $alias));
 			}
 			// Check if user is allowed to edit
 			if (!(($this->user->data['user_id'] == $article['user_id']) || $this->auth->acl_get('m_') ))
 			{
-				return $this->helper->message('NOT_AUTHORISED', 'NOT_AUTHORISED', 403);
+				return $this->helper->error($this->user->lang('NOT_AUTHORISED', $alias));
 			}
 		}
 		else if (!$article_id == '_new_')
 		{
-			return $this->helper->message('FILE_NOT_FOUND_404', array($article_id), 'FILE_NOT_FOUND_404', 404);
+			return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $alias));
 		}
 
 		// Wrap it all up
