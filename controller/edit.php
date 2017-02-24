@@ -75,7 +75,7 @@ class edit
 	 */
 	public function handle($article_id = 0)
 	{
-
+		$this->user->add_lang_ext('ger/cmbb', 'common');
 		if (is_numeric($article_id))
 		{
 			$article = $this->cmbb->get_article($article_id);

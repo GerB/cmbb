@@ -74,6 +74,7 @@ class save
 	 */
 	public function handle($article_id = 0)
 	{
+		$this->user->add_lang_ext('ger/cmbb', 'common');
 		if (is_numeric($article_id))
 		{
 			// Check old article info
@@ -131,7 +132,7 @@ class save
 		{
 			if (!$title = $this->presentation->phpbb_censor_title($this->request->variable('title', '', true)))
 			{
-				return $this->helper->error('INVALID_TITLE');
+				return $this->helper->error('ERROR_TITLE');
 			}
 
 			$article_data = array(

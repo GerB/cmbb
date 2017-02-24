@@ -56,8 +56,6 @@ class driver
 	 */
 	public function list_menu_items()
 	{
-		$html = '';
-
 		$sql_array = array(
 			'SELECT'	 => 'category_name, alias, article_id',
 			'FROM'		 => array(

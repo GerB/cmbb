@@ -78,6 +78,7 @@ class article
 	public function handle($alias = 'index')
 	{
 		$this->user->add_lang('viewtopic');
+		$this->user->add_lang_ext('ger/cmbb', 'common');
 		$article = $this->cmbb->get_article($alias);
 		if ($article === false)
 		{
