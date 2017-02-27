@@ -1,6 +1,3 @@
-ger_cmbb_news:
-    path: /news
-    defaults: { _controller: ger.cmbb.viewer:handle, alias: "news" }
 ger_cmbb_article:
     path: /article/{alias}
     defaults: { _controller: ger.cmbb.viewer:handle, alias: "index" }
