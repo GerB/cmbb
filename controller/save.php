@@ -230,8 +230,12 @@ class save
 		);
 
 		$url = submit_post('post', $article_data['title'], 'cmBB', POST_NORMAL, $poll, $data);
+		if (strpos($url, 'sid=') !== false)
+		{
+			$url = substr($url, 0, strpos($url, 'sid='));
+		}
 		$topic_id = str_replace('&amp;t=', '', strstr($url, '&amp;t='));
-		return $topic_id;
+		return filter_var($topic_id, FILTER_SANITIZE_NUMBER_INT);
 	}
 
 }
