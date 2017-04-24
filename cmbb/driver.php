@@ -15,13 +15,13 @@ class driver
 {
 
 	protected $config;
-	protected $request;
 	protected $template;
 	protected $user;
 	protected $db;
 	protected $article_table;
 	protected $category_table;
 	protected $phpbb_root_path;
+	protected $php_ext;
 
 	/* array of allowed extensions */
 	public $allowed_extensions = array('jpg', 'jpeg', 'gif', 'png');
@@ -38,16 +38,22 @@ class driver
 	 * @param string									$article_table
 	 * @param string									$category_table
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $article_table, $category_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $article_table, $category_table, $php_ext)
 	{
 		$this->config = $config;
-		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
 		$this->db = $db;
 		$this->article_table = $article_table;
 		$this->category_table = $category_table;
 		$this->phpbb_root_path = generate_board_url() . substr($phpbb_root_path, 1);
+		$this->php_ext = $php_ext;
+
+		// phpBB likes some constants...
+		define('CMBB_FALSE', 0);
+		define('CMBB_TRUE', 1);
+		define('CMBB_INDEX_ID', 1);
+
 	}
 
 	/**
@@ -62,9 +68,9 @@ class driver
 				$this->category_table	 => 'c',
 				$this->article_table	 => 'a',
 			),
-			'WHERE'		 => 'std_parent > 1
+			'WHERE'		 => 'std_parent > ' . CMBB_INDEX_ID . '
                     AND std_parent = article_id
-					AND show_menu_bar = 1',
+					AND show_menu_bar = ' . CMBB_TRUE . '',
 			'GROUP_BY'	 => 'category_name, alias, article_id',
 		);
 
@@ -74,6 +80,7 @@ class driver
 		{
 			$return[] = $row;
 		}
+		$this->db->sql_freeresult($result);
 		return $return;
 	}
 
@@ -86,11 +93,11 @@ class driver
 	{
 		if (is_numeric($find))
 		{
-			$query = 'SELECT * FROM ' . $this->article_table . ' WHERE `article_id` = "' . intval($find) . '";';
+			$query = 'SELECT * FROM ' . $this->article_table . ' WHERE article_id = ' . (int) $find . '"';
 		}
 		else
 		{
-			$query = 'SELECT * FROM ' . $this->article_table . ' WHERE `alias` = "' . $this->db->sql_escape($find) . '";';
+			$query = 'SELECT * FROM ' . $this->article_table . " WHERE alias = '" . $this->db->sql_escape($find) . "'";
 		}
 
 		if ($result = $this->db->sql_query($query))
@@ -98,9 +105,11 @@ class driver
 			$return = $this->db->sql_fetchrow($result);
 			if (!empty($return))
 			{
+				$this->db->sql_freeresult($result);
 				return $return;
 			}
 		}
+		$this->db->sql_freeresult($result);
 		return false;
 	}
 
@@ -115,7 +124,7 @@ class driver
 		{
 			$article_id = $article_data['article_id'];
 			unset($article_data['article_id']);
-			$action = 'UPDATE ' . $this->article_table . ' SET ' . $this->db->sql_build_array('UPDATE', $article_data) . ' WHERE `article_id` = "' . $article_id . '"';
+			$action = 'UPDATE ' . $this->article_table . ' SET ' . $this->db->sql_build_array('UPDATE', $article_data) . ' WHERE article_id = "' . $article_id . '"';
 		}
 		else
 		{
@@ -139,10 +148,10 @@ class driver
 	 */
 	public function get_children($parent)
 	{
-		$query = 'SELECT * FROM ' . $this->article_table . '
-				WHERE `parent` = "' . $this->db->sql_escape($parent) . '"
-				AND `visible` = 1
-				ORDER BY `datetime` DESC, `article_id` DESC;';
+		$query = 'SELECT * FROM ' . $this->article_table . "
+				WHERE parent = '" . $this->db->sql_escape($parent) . "'
+				AND visible = " . ITEM_APPROVED . "
+				ORDER BY datetime DESC, article_id DESC";
 
 		if ($result = $this->db->sql_query($query))
 		{
@@ -151,6 +160,7 @@ class driver
 				$return[] = $row;
 			}
 		}
+		$this->db->sql_freeresult($result);
 		return empty($return) ? false : $return;
 	}
 
@@ -162,12 +172,11 @@ class driver
 	public function get_last($limit)
 	{
 		$query = 'SELECT * FROM ' . $this->article_table . '
-				WHERE `is_cat` = 0
-				AND `visible` = 1
-				AND `article_id` <> 1
-				AND `category_id` <> 9
-				ORDER BY `datetime` DESC, `article_id` DESC
-				LIMIT ' . filter_var($limit, FILTER_SANITIZE_NUMBER_INT) . ' ;';
+				WHERE is_cat = ' . CMBB_FALSE . '
+				AND visible = ' . ITEM_APPROVED . '
+				AND article_id <> ' . CMBB_INDEX_ID . '
+				ORDER BY datetime DESC, article_id DESC
+				LIMIT ' . (int) $limit;
 
 		if ($result = $this->db->sql_query($query))
 		{
@@ -175,6 +184,7 @@ class driver
 			{
 				$return[] = $row;
 			}
+			$this->db->sql_freeresult($result);
 			if (!empty($return))
 			{
 				return $return;
@@ -190,9 +200,9 @@ class driver
 	public function get_hidden()
 	{
 		$query = 'SELECT * FROM ' . $this->article_table . '
-				WHERE `is_cat` = 0
-				AND `visible` = 0
-				ORDER BY `datetime` DESC, `article_id` DESC ;';
+				WHERE is_cat = ' . CMBB_FALSE . '
+				AND visible = ' . ITEM_UNAPPROVED . '
+				ORDER BY datetime DESC, article_id DESC';
 
 		if ($result = $this->db->sql_query($query))
 		{
@@ -200,6 +210,7 @@ class driver
 			{
 				$return[] = $row;
 			}
+			$this->db->sql_freeresult($result);
 			if (!empty($return))
 			{
 				return $return;
@@ -217,13 +228,13 @@ class driver
 	public function get_categories($show_protected = false, $full_specs = false)
 	{
 
-		$query = 'SELECT * FROM ' . $this->category_table . ' WHERE std_parent > 1 ';
+		$query = 'SELECT * FROM ' . $this->category_table . ' WHERE std_parent > ' . CMBB_INDEX_ID;
 
 		if (empty($show_protected))
 		{
-			$query .= ' AND `protected` = "0" ';
+			$query .= ' AND protected = "' . CMBB_FALSE . '" ';
 		}
-		$query .= ' ORDER BY `category_name` ASC;';
+		$query .= ' ORDER BY category_name ASC';
 
 		if ($result = $this->db->sql_query($query))
 		{
@@ -239,6 +250,7 @@ class driver
 					$return[$row['category_id']] = $row['category_name'];
 				}
 			}
+			$this->db->sql_freeresult($result);
 			if (!empty($return))
 			{
 				return $return;
@@ -254,11 +266,12 @@ class driver
 	 */
 	public function get_std_parent($category_id)
 	{
-		$query = 'SELECT `std_parent` FROM ' . $this->category_table . ' WHERE `category_id` = "' . filter_var($category_id, FILTER_SANITIZE_NUMBER_INT) . '";';
+		$query = 'SELECT std_parent FROM ' . $this->category_table . ' WHERE category_id = ' . (int) $category_id ;
 
 		if ($result = $this->db->sql_query($query))
 		{
 			$return = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
 			if (!empty($return))
 			{
 				return $return['std_parent'];
@@ -274,11 +287,12 @@ class driver
 	 */
 	public function fetch_category($category_id, $full_specs = false)
 	{
-		$query = 'SELECT * FROM ' . $this->category_table . ' WHERE `category_id` = "' . filter_var($category_id, FILTER_SANITIZE_NUMBER_INT) . '";';
+		$query = 'SELECT * FROM ' . $this->category_table . ' WHERE category_id = ' . (int) $category_id ;
 
 		if ($result = $this->db->sql_query($query))
 		{
 			$return = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
 			if (!empty($return))
 			{
 				if ($full_specs === true)
@@ -302,7 +316,7 @@ class driver
 		{
 			$category_id = $category_data['category_id'];
 			unset($category_data['category_id']);
-			$action = 'UPDATE ' . $this->category_table . ' SET ' . $this->db->sql_build_array('UPDATE', $category_data) . ' WHERE `category_id` = "' . $category_id . '"';
+			$action = 'UPDATE ' . $this->category_table . ' SET ' . $this->db->sql_build_array('UPDATE', $category_data) . ' WHERE category_id = "' . $category_id . '"';
 		}
 		else
 		{
@@ -380,25 +394,19 @@ class driver
 	public function phpbb_get_user($userid)
 	{
 
-		$user_id = filter_var($userid, FILTER_SANITIZE_NUMBER_INT);
-		if (empty($user_id))
-		{
-			return false;
-		}
-
-		$sql = 'SELECT `username`, `user_colour` , `user_id`, `group_id`
+		$sql = 'SELECT username, user_colour , user_id, group_id
                    FROM ' . USERS_TABLE . '
-                   WHERE user_id =' . $userid;
+                   WHERE user_id =' . (int) $userid;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-
+		$this->db->sql_freeresult($result);
 		if (empty($row))
 		{
 			return false;
 		}
 		if ($row['group_id'] != "754")
 		{
-			return'<a href="' . $this->phpbb_root_path . 'memberlist.php?mode=viewprofile&amp;u=' . $row['user_id'] . '" style="color:#' . $row['user_colour'] . '; font-weight: bold;">' . $row['username'] . '</a>';
+			return'<a href="' . $this->phpbb_root_path . 'memberlist.' . $this->php_ext . '?mode=viewprofile&amp;u=' . $row['user_id'] . '" style="color:#' . $row['user_colour'] . '; font-weight: bold;">' . $row['username'] . '</a>';
 		}
 		else
 		{
@@ -416,18 +424,12 @@ class driver
 	 */
 	function phpbb_user_avatar($userid, $style = '')
 	{
-		$user_id = filter_var($userid, FILTER_SANITIZE_NUMBER_INT);
-		if (empty($user_id))
-		{
-			return false;
-		}
-
-		$sql = 'SELECT `username`, `user_avatar`, `user_avatar_type` , `user_avatar_width`, `user_avatar_height`
+		$sql = 'SELECT username, user_avatar, user_avatar_type , user_avatar_width, user_avatar_height
                    FROM ' . USERS_TABLE . '
-                   WHERE user_id = ' . $userid;
+                   WHERE user_id = ' . (int) $userid;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-
+		$this->db->sql_freeresult($result);
 		if (!$row)
 		{
 			$row = array(
@@ -449,7 +451,7 @@ class driver
 		}
 		else
 		{
-			$path = generate_board_url() . '/download/file.php?avatar=' . $row['user_avatar'];
+			$path = generate_board_url() . '/download/file.' . $this->php_ext . '?avatar=' . $row['user_avatar'];
 		}
 
 		if ($row['user_avatar_width'] > $row['user_avatar_height'])
@@ -507,20 +509,14 @@ class driver
 	 */
 	public function phpbb_latest_topics($forums, $topic_limit = 5)
 	{
-		$topic_limit = filter_var($topic_limit, FILTER_SANITIZE_NUMBER_INT);
-		if (empty($topic_limit))
-		{
-			return false;
-		}
-
 		// Select the last topics to which we have permissions
 		$sql = 'SELECT t.topic_id, t.forum_id, t.topic_title
                             FROM ' . TOPICS_TABLE . ' t , ' . USERS_TABLE . ' u
-                            WHERE topic_visibility = 1
+                            WHERE topic_visibility = ' . ITEM_APPROVED . '
                             AND ' . $this->db->sql_in_set('forum_id', $forums) . '
                             AND u.user_id = t.topic_poster
                             ORDER BY topic_time DESC
-                            LIMIT 0,' . $topic_limit;
+                            LIMIT 0,' . (int) $topic_limit;
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -531,6 +527,7 @@ class driver
 				'topic_title'	 => strlen($row['topic_title']) > 30 ? substr($row['topic_title'], 0, 30) . '&hellip;' : $row['topic_title'],
 			);
 		}
+		$this->db->sql_freeresult($result);
 		return empty($return) ? false : $return;
 	}
 
@@ -541,12 +538,7 @@ class driver
 	 */
 	public function phpbb_is_banned($userid)
 	{
-		$user_id = filter_var($userid, FILTER_SANITIZE_NUMBER_INT);
-		if (empty($user_id))
-		{
-			return false;
-		}
-		$sql = 'SELECT count(*) as banned FROM ' . BANLIST_TABLE . ' WHERE ban_userid = ' . $userid;
+		$sql = 'SELECT count(*) as banned FROM ' . BANLIST_TABLE . ' WHERE ban_userid = ' . (int) $userid;
 		$result = $this->db->sql_query($sql);
 		$banned = (int) $this->db->sql_fetchfield('banned');
 		$this->db->sql_freeresult($result);
@@ -575,20 +567,20 @@ class driver
 		foreach ($latest as $row)
 		{
 			$this->template->assign_block_vars('latest_topic_feed', array(
-				'U_TOPIC'		 => $this->phpbb_root_path . 'viewtopic.php?f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread#unread',
+				'U_TOPIC'		 => $this->phpbb_root_path . 'viewtopic.' . $this->php_ext . '?f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread#unread',
 				'TOPIC_TITLE'	 => $row['topic_title'],
 			));
 		}
 		$this->template->assign_vars(array(
 			'CMBB_LEFTBAR'		 => true,
 			'S_WELCOME_USER'	 => $this->user->lang('WELCOME_USER', $this->user->data['username']),
-			'U_LOGIN_REDIRECT'	 => $helper->route('ger_cmbb_article', array('alias' => $alias)),
+			'U_LOGIN_REDIRECT'	 => $helper->route('ger_cmbb_article', array('alias' => $article['alias'])),
 			'S_CAN_EDIT'		 => $this->can_edit($auth),
 			'U_NEW_ARTICLE'		 => $helper->route('ger_cmbb_article_edit', array('article_id' => '_new_')),
 			'U_EDIT_ARTICLE'	 => ($this->can_edit($auth, $article) && $mode == 'view') ? $helper->route('ger_cmbb_article_edit', array('article_id' => $article['article_id'])) : false,
 			'S_CAN_SEE_HIDDEN'	 => $auth->acl_get('m_'),
 			'S_HIDDEN'			 => $this->get_hidden(),
-			'U_VIEWONLINE'		 => $this->phpbb_root_path . 'viewonline.php',
+			'U_VIEWONLINE'		 => $this->phpbb_root_path . 'viewonline.' . $this->php_ext,
 			'USERS_ONLINE'		 => obtain_users_online_string(obtain_users_online())['online_userlist'],
 			'USERS_TOTAL'		 => $this->user->lang('TOTAL_USERS', (int) $this->config['num_users']),
 			'USER_NEWST'		 => $this->user->lang('NEWEST_USER', get_username_string('full', $this->config['newest_user_id'], $this->config['newest_username'], $this->config['newest_user_colour'])),

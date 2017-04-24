@@ -19,10 +19,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACP_ANNOUNCE_TEXT'					=> 'Anuncio de texto',
-	'ACP_ANNOUNCE_TEXT_EXPLAIN'			=> 'Texto que se mostrará sobre todos los artículos y artículos de la categoría. El BBCode no esta soportado, usa HTML.',
-	'ACP_ANNOUNCE_SHOW'					=> 'Mostrar anuncio de texto',
-	'ACP_ANNOUNCE_SHOW_EXPLAIN'			=> 'Seleccione "Si" o "No" si desea o no mostrar el texto proporcionado anteriormente',
 	'ACP_CATEGORIES_MANAGE'				=> 'Administrar categorías',
 	'ACP_CATEGORIES_MANAGE_EXPLAIN'		=> 'Aquí puede Añadir, Modificar o Borrar categorías. Puede crear primero una categoría y envíarla, después puede cambiar la configuración.'
 											. '<br />Nota: cmBB utiliza el nombre de categoría de la URL. Una vez que haya elegido un nombre de categoría, se recomienda NO cambiar el nombre después ya que la URL NO se cambiará en consecuencia..',
@@ -46,9 +42,11 @@ $lang = array_merge($lang, array(
 	'ACP_RIGHTBAR_HTML_EXPLAIN'			=> 'Si tiene activada la barra lateral derecha, se mostrará el contenido introducido aquí. Puede utilizar cualquier código HTML/JS que desee, sólo asegúrese de que es válido..',
 	'CHILDREN'							=> 'Hijo',
 	'CHILDREN_EXPLAIN'					=> 'Número de artículos en esta categoría',
+	'CMBB_CATEGORY_NAME_INVALID'		=> 'Nombre de categoría no válido',
 	'CMBB_SETTINGS'						=> 'Configuración de cmBB',
 	'CMBB_DELETE_CAT_EXPLAIN'			=> 'Una categoría sólo se puede eliminar si esta no contiene artículos',
 	'CREATE_CATEGORY'					=> 'Añadir categoría',
+	'ERROR_CATEGORY_NOT_EMPTY'			=> 'Categoría no está vacía',
 	'ERROR_FAILED_DELETE'				=> 'No se pudo eliminar.',
 	'NO_REACTIONS'						=> 'desactivar los comentarios',
 	'PROTECTED'							=> 'Protegido',

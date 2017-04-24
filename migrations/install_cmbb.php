@@ -75,8 +75,6 @@ class install_cmbb extends container_aware_migration
 			array('config.add', array('ger_cmbb_number_index_items', 10)),
 			array('config.add', array('ger_cmbb_min_title_length', 4)),
 			array('config.add', array('ger_cmbb_min_content_length', 200)),
-			array('config.add', array('ger_cmbb_announce_text', '')),
-			array('config.add', array('ger_cmbb_announce_show', 0)),
 			array('config.add', array('ger_cmbb_show_menubar', 1)),
 			array('config.add', array('ger_cmbb_show_rightbar', 0)),
 			array('config_text.add', array('ger_cmbb_rightbar_html', '<h3>cmBB is the best! :)</h3>' . "\n" . '<p>Cats are cute</p>')),

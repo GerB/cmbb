@@ -19,10 +19,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACP_ANNOUNCE_TEXT'					=> 'Announcement text',
-	'ACP_ANNOUNCE_TEXT_EXPLAIN'			=> 'Text that will be displayed above all articles and category articles. No BBcode is parsed, use HTML.',
-	'ACP_ANNOUNCE_SHOW'					=> 'Show announcement text',
-	'ACP_ANNOUNCE_SHOW_EXPLAIN'			=> 'Wether or not to display the text provided above',
 	'ACP_CATEGORIES_MANAGE'				=> 'Manage categories',
 	'ACP_CATEGORIES_MANAGE_EXPLAIN'		=> 'Here you can add, modify or delete categories. You should first create a category and submit, and change the setting next.'
 											. '<br />Please note: cmBB uses the category name for the URL. Once you have chosen a category name, it is therefore recommended NOT to change the name afterwards since the URL will NOT be changed accordingly.',
@@ -46,9 +42,11 @@ $lang = array_merge($lang, array(
 	'ACP_RIGHTBAR_HTML_EXPLAIN'			=> 'If you have the right sidebar enabled, the content entered here will be shown. You can use any HTML/JS you want, just make sure it is valid.',
 	'CHILDREN'							=> 'Children',
 	'CHILDREN_EXPLAIN'					=> 'Number of articles in this category',
+	'CMBB_CATEGORY_NAME_INVALID'		=> 'Category name invalid',
 	'CMBB_SETTINGS'						=> 'cmBB settings',
 	'CMBB_DELETE_CAT_EXPLAIN'			=> 'A category can only be deleted when it holds no articles',
 	'CREATE_CATEGORY'					=> 'Add category',
+	'ERROR_CATEGORY_NOT_EMPTY'			=> 'Category not empty',
 	'ERROR_FAILED_DELETE'				=> 'Failed to delete.',
 	'NO_REACTIONS'						=> 'Disable comments',
 	'PROTECTED'							=> 'Protected',

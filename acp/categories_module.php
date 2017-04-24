@@ -18,7 +18,7 @@ class categories_module
 
 	public function main($id, $mode)
 	{
-		global $config, $request, $template, $user, $phpbb_container;
+		global $request, $template, $user, $phpbb_container;
 
 		// Get an instance of the admin controller
 		$cmbb = $phpbb_container->get('ger.cmbb.cmbb.driver');
@@ -44,7 +44,7 @@ class categories_module
 				$category_name = $request->variable('add_category', '', true);
 				if (!$this->category_name_unique($categories, $category_name))
 				{
-					trigger_error('L_CMBB_CATEGORY_NAME_INVALID' . adm_back_link($this->u_action), E_USER_WARNING);
+					trigger_error('CMBB_CATEGORY_NAME_INVALID' . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
 				// Setup article holder for category
@@ -90,7 +90,7 @@ class categories_module
 						$category_name = $request->variable($cat['category_id'] . '_category_name', '');
 						if (!$this->category_name_unique($categories, $category_name, $cat['category_id']))
 						{
-							trigger_error('L_CMBB_CATEGORY_NAME_INVALID');
+							trigger_error('CMBB_CATEGORY_NAME_INVALID');
 						}
 
 						$category_data = array(

@@ -114,10 +114,6 @@ class article
 				else
 				{
 					$children = $this->cmbb->get_last($this->config['ger_cmbb_number_index_items']);
-					if ($this->config['ger_cmbb_announce_show'] == 1)
-					{
-						$article['content'] = '<div class="box">' . htmlspecialchars_decode($this->config['ger_cmbb_announce_text']) . '</div><hr>';
-					}
 				}
 			}
 			else

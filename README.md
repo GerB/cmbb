@@ -19,8 +19,6 @@ I have included some template events:
 * ger_cmbb_leftbar_prepend (before left sidebar content) 
 * ger_cmbb_leftbar_append (after left sidebar content)
 
-Further events may be requested, but addition depends on further development (extension code might change heavily in the future). PHP events will not be included at this point because of this very reason.
-
 # Support and more information
 https://www.phpbb.com/community/viewtopic.php?f=456&t=2383541
 

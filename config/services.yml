@@ -41,6 +41,7 @@ services:
             - '%core.root_path%'
             - '@ger.cmbb.cmbb.driver'
             - '@ger.cmbb.cmbb.presentation'
+            - '%core.php_ext%'
 
     ger.cmbb.folders:
         class: ger\cmbb\controller\folders
@@ -49,7 +50,7 @@ services:
             - '@user'
             - '@request'
             - '%core.root_path%'
-            - '@ger.cmbb.cmbb.driver'
+            - '%core.php_ext%'
 
     ger.cmbb.upload:
         class: ger\cmbb\controller\upload
@@ -60,18 +61,19 @@ services:
             - '@request'
             - '@files.factory'
             - '@ger.cmbb.cmbb.driver'
+            - '%core.php_ext%'
             
     ger.cmbb.cmbb.driver:
         class: ger\cmbb\cmbb\driver
         arguments:
             - '@config'
-            - '@request'
             - '@template'
             - '@user'
             - '@dbal.conn'
             - '%core.root_path%'
             - '%ger.cmbb.tables.cms_article%'
             - '%ger.cmbb.tables.cms_category%'
+            - '%core.php_ext%'
             
     ger.cmbb.cmbb.presentation:
         class: ger\cmbb\cmbb\presentation

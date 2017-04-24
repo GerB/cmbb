@@ -19,10 +19,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACP_ANNOUNCE_TEXT'					=> 'Aankondigingstekst',
-	'ACP_ANNOUNCE_TEXT_EXPLAIN'			=> 'Tekstblok dat getoond wordt boven alle artikelen en categoriepagina\'s. BBcode is uitgeschakeld, gebruik HTML.',
-	'ACP_ANNOUNCE_SHOW'					=> 'Toon aankondigingstekst',
-	'ACP_ANNOUNCE_SHOW_EXPLAIN'			=> 'Toon (of toon niet) de tekst die hierboven is ingevuld.',
 	'ACP_CATEGORIES_MANAGE'				=> 'Beheer categoriën',
 	'ACP_CATEGORIES_MANAGE_EXPLAIN'		=> 'Hier kun je categoriën toevoegen, aanpassen of verwijderen. Maak eerst een categorie aan, vervolgens kun je de instellingen aanpassen voor de nieuwe categorie.'
 											. '<br />Let op: cmBB gebruikt de categorienaam voor de URL. Als je eenmaal de categorienaam hebt gekozen is het daarom niet verstandig deze aan te passen omdat de URL vervolgens NIET meer wordt aangepast.',
@@ -46,9 +42,11 @@ $lang = array_merge($lang, array(
 	'ACP_RIGHTBAR_HTML_EXPLAIN'			=> 'Indien de rechter zijbalk is geactiveerd kun je de inhoud daarvan hier bepalen. Je kunt elke vorm van HTML5 of Javascript gebruiken, zorg er wel voor dat het valideert.',
 	'CHILDREN'							=> 'Onderliggend',
 	'CHILDREN_EXPLAIN'					=> 'Aantal artikelen in deze categorie',
+	'CMBB_CATEGORY_NAME_INVALID'		=> 'Categorie naam ongeldig',
 	'CMBB_SETTINGS'						=> 'cmBB instellingen',
 	'CMBB_DELETE_CAT_EXPLAIN'			=> 'Een categorie kan alleen verwijderd worden indien er geen artikelen in geplaatst zijn.',
 	'CREATE_CATEGORY'					=> 'Categorie toevoegen',
+	'ERROR_CATEGORY_NOT_EMPTY'			=> 'Categorie is niet leeg',
 	'ERROR_FAILED_DELETE'				=> 'Verwijderen mislukt.',
 	'NO_REACTIONS'						=> 'Reacties uitschakelen',
 	'PROTECTED'							=> 'Beschermd',

@@ -14,7 +14,7 @@ jQuery( document ).ready( function() {
             var hSet = 'auto';            
         }
         else {
-            var hSet = jQuery( window ).height();
+            hSet = jQuery( window ).height();
         }
         jQuery( "#main-navigation" ).css( "height", hSet );
 	} );

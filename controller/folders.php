@@ -23,21 +23,24 @@ class folders
 	/* @var \phpbb\request\request_interface */
 	protected $request;
 	protected $phpbb_root_path;
+	protected $php_ext;
 
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\controller\helper	$helper
-	 * @param \phpbb\template\template	$template
 	 * @param \phpbb\user				$user
+	 * @param \phpbb\request\request_interface $request
+	 * @param $phpbb_root_path
+	 * @param $php_ext
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\request\request_interface $request, $phpbb_root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->user = $user;
 		$this->request = $request;
 		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -54,7 +57,7 @@ class folders
 		}
 		else
 		{
-			$file_root = $this->request->server('DOCUMENT_ROOT') . str_replace('app.php', 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME'));
+			$file_root = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME'));
 			$url_root = generate_board_url() . '/images/cmbb_upload/';
 			$structure = $this->listfolders($file_root, $url_root, $user_id);
 		}
@@ -77,7 +80,7 @@ class folders
 			{
 				if (is_dir($dir . '/' . $folder))
 				{
-					$subs = listfolders($dir . '/' . $folder);
+					$subs = $this->listfolders($dir . '/' . $folder);
 					foreach ($subs as $sub)
 					{
 						$return[] = $sub;

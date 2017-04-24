@@ -40,6 +40,8 @@ class save
 	/* @var \ger\cmbb\cmbb\presentation */
 	protected $presentation;
 
+	protected $php_ext;
+
 	/**
 	 * Constructor
 	 *
@@ -53,7 +55,7 @@ class save
 	 * @param \ger\cmbb\cmbb			$cmbb
 	 * @param \ger\cmbb\presentation	$presentation
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $phpbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation, $php_ext)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -64,6 +66,7 @@ class save
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->cmbb = $cmbb;
 		$this->presentation = $presentation;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -174,11 +177,11 @@ class save
 		}
 		if (!function_exists('get_username_string'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_content.php');
+			include($this->phpbb_root_path . 'includes/functions_content.' . $this->php_ext);
 		}
 		if (!function_exists('submit_post'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_posting.php');
+			include($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
 		}
 		$article_data['user_id'] = filter_var($article_data['user_id'], FILTER_SANITIZE_NUMBER_INT);
 		if (empty($article_data['user_id']))

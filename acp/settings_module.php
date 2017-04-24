@@ -40,8 +40,6 @@ class settings_module
 			$config->set('ger_cmbb_number_index_items', $request->variable('number_index_items', 0));
 			$config->set('ger_cmbb_min_title_length', $request->variable('min_title_length', 0));
 			$config->set('ger_cmbb_min_content_length', $request->variable('min_content_length', 0));
-			$config->set('ger_cmbb_announce_text', $request->variable('announce_text', ''));
-			$config->set('ger_cmbb_announce_show', $request->variable('announce_show', 0));
 			$config->set('ger_cmbb_show_menubar', $request->variable('show_menubar', 0));
 			$config->set('ger_cmbb_show_rightbar', $request->variable('show_rightbar', 0));
 			$config_text->set('ger_cmbb_rightbar_html', htmlspecialchars_decode($request->variable('rightbar_html', ''), ENT_COMPAT));
@@ -61,8 +59,6 @@ class settings_module
 			'NUMBER_INDEX_ITEMS' => $config['ger_cmbb_number_index_items'],
 			'MIN_TITLE_LENGTH'	 => $config['ger_cmbb_min_title_length'],
 			'MIN_CONTENT_LENGTH' => $config['ger_cmbb_min_content_length'],
-			'ANNOUNCE_TEXT'		 => $config['ger_cmbb_announce_text'],
-			'S_ANNOUNCE_SHOW'	 => $config['ger_cmbb_announce_show'],
 			'S_NO_ARTICLES'		 => empty($has_articles) ? false : true,
 			'S_SHOW_MENUBAR'	 => $config['ger_cmbb_show_menubar'],
 			'S_SHOW_RIGHTBAR'	 => $config['ger_cmbb_show_rightbar'],

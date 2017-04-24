@@ -32,6 +32,8 @@ class upload
 	/* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
 
+	protected $php_ext;
+
 	/**
 	 * Constructor
 	 *
@@ -39,7 +41,7 @@ class upload
 	 * @param \phpbb\user				$user
 	 * @param \phpbb\files\factory								$files_factory		File classes factory
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\files\factory $factory, \ger\cmbb\cmbb\driver $cmbb)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\files\factory $factory, \ger\cmbb\cmbb\driver $cmbb, $php_ext)
 	{
 		$this->config = $config;
 		$this->user = $user;
@@ -47,6 +49,7 @@ class upload
 		$this->request = $request;
 		$this->files_factory = $factory;
 		$this->cmbb = $cmbb;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -60,12 +63,11 @@ class upload
 		{
 			// We have a separate folder for each user. Let's make sure we have it.
 			$user_upload_dir = 'images/cmbb_upload/' . $this->user->data['user_id'];
-			$full_upload_dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.php', $user_upload_dir, $this->request->server('SCRIPT_NAME'));
+			$full_upload_dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.'. $this->php_ext, $user_upload_dir, $this->request->server('SCRIPT_NAME'));
 			if (!is_dir($full_upload_dir))
 			{
-				$test = mkdir($full_upload_dir, 0755, true);
+				mkdir($full_upload_dir, 0755, true);
 			}
-			$full_upload_dir .= '/';
 
 			$upload = $this->files_factory->get('upload')
 					->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false))

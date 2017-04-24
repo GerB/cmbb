@@ -21,11 +21,11 @@
 				<!-- ENDIF -->
 			<!-- ELSE -->
 				<form method="post" action="{U_LOGIN_LOGOUT}">
-					<h3>{L_LOGIN}:</h3><br />
+					<h3>{L_LOGIN}{L_COLON}</h3><br />
 					<fieldset>
-						<p><label for="username">{L_USERNAME}:</label> <input type="text" name="username" /></p>
-						<p><label for="password">{L_PASSWORD}:</label> <input type="password" name="password" /></p>
-						<p><label for="autologin" style="width: 100%"><input type="checkbox" name="autologin" />{L_LOG_ME_IN}</label></p>
+						<p><label for="username">{L_USERNAME}{L_COLON}</label> <input type="text" id="username" name="username" /></p>
+						<p><label for="password">{L_PASSWORD}{L_COLON}</label> <input type="password" id="password" name="password" /></p>
+						<p><label for="autologin" style="width: 100%"><input type="checkbox" id="autologin" name="autologin" />{L_LOG_ME_IN}</label></p>
 						<input type="submit" class="button2" value="{L_LOGIN}" name="login" /></p>
 						<input type="hidden" name="redirect" value="{U_LOGIN_REDIRECT}" />
 					</fieldset>
@@ -42,7 +42,7 @@
 		</div>
 		<div id="stats">
 			<h3>{L_STATISTICS}</h3>
-			 <p><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a>:<br />{USERS_ONLINE}</p>
+			 <p><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a>{L_COLON}<br />{USERS_ONLINE}</p>
 			 <p>{USERS_TOTAL}<br />{USER_NEWST}</p>
 		</div>
 		<!-- EVENT ger_cmbb_leftbar_append -->
