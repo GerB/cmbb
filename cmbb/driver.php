@@ -93,7 +93,7 @@ class driver
 	{
 		if (is_numeric($find))
 		{
-			$query = 'SELECT * FROM ' . $this->article_table . ' WHERE article_id = ' . (int) $find . '"';
+			$query = 'SELECT * FROM ' . $this->article_table . ' WHERE article_id = ' . (int) $find;
 		}
 		else
 		{
