@@ -140,7 +140,7 @@ class save
 
 			$article_data = array(
 				'title'			 => $title,
-				'alias'			 => $this->cmbb->generate_article_alias($this->request->variable('title', '', true)),
+				'alias'			 => $this->cmbb->generate_article_alias($title),
 				'user_id'		 => $this->user->data['user_id'],
 				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', '')),
 				'is_cat'		 => 0,

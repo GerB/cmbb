@@ -114,6 +114,30 @@ class driver
 	}
 
 	/**
+	 * Get all articles written by a user
+	 * @param int $user_id
+	 * @return array
+	 */
+	public function get_user_articles($user_id)
+	{
+		$query = 'SELECT * FROM ' . $this->article_table . ' 
+				  WHERE user_id  = ' . (int) $user_id . " 
+				  AND visible = " . ITEM_APPROVED . "
+				  AND is_cat = " . CMBB_FALSE . "
+				  ORDER BY datetime DESC, article_id DESC";
+	
+		if ($result = $this->db->sql_query($query))
+		{
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$return[] = $row;
+			}
+		}
+		$this->db->sql_freeresult($result);
+		return empty($return) ? false : $return;
+	}
+	
+	/**
 	 * Store new or edited article data
 	 * @param array $article_data
 	 * @return int

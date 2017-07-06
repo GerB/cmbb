@@ -73,13 +73,32 @@ class article
 	 * Controller for route /article/{alias}
 	 *
 	 * @param string		$alias
+	 * @param int			$param
 	 * @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	 */
-	public function handle($alias = 'index')
+	public function handle($alias = 'index', $param = 0)
 	{
 		$this->user->add_lang('viewtopic');
 		$this->user->add_lang_ext('ger/cmbb', 'common');
-		$article = $this->cmbb->get_article($alias);
+		if (($alias == 'search') && $param > 0)
+		{
+			$children = $this->cmbb->get_user_articles($param);
+			$article = array(
+				'article_id'	=> 0,
+				'title'			=> $this->user->lang('SEARCH'),
+				'alias'			=> $param,
+				'user_id'		=> $param,
+				'parent'		=> 1,
+				'is_cat'		=> 1,
+				'topic_id'		=> 0,
+				'category_id'	=> -1,
+				'visible'		=> 1,
+			);
+		}
+		else
+		{
+			$article = $this->cmbb->get_article($alias);		
+		}
 		if ($article === false)
 		{
 			return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $alias));
@@ -116,7 +135,7 @@ class article
 					$children = $this->cmbb->get_last($this->config['ger_cmbb_number_index_items']);
 				}
 			}
-			else
+			else if (empty($children))
 			{
 				$children = $this->cmbb->get_children($article['article_id']);
 			}
@@ -188,7 +207,7 @@ class article
 		// Wrap it all up
 		$title = empty($article['title']) ? (($this->config['site_home_text'] !== '') ? $this->config['site_home_text'] : $this->user->lang('HOME')) : $article['title'];
 		$this->template->assign_vars(array(
-			'CMBB_CATEGORY_NAME'	 => $this->cmbb->fetch_category($article['category_id']),
+			'CMBB_CATEGORY_NAME'	 => ($article['category_id'] > 0) ? $this->cmbb->fetch_category($article['category_id']) : $this->user->lang('SEARCH'),
 			'S_CMBB_CATEGORY'		 => $article['is_cat'],
 			'CMBB_TITLE'			 => $title,
 			'CMBB_CONTENT'			 => empty($article['content']) ? '' : $article['content'],

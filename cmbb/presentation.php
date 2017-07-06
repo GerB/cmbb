@@ -284,6 +284,7 @@ class presentation
 			'index',
 			'home',
 			'homepage',
+			'search',
 			'test',
 		);
 		if (in_array(strtolower(trim($title)), $disallowed))
