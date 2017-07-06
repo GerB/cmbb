@@ -21,6 +21,8 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACL_U_CMBB_POST_ARTICLE'	 => 'Can post cmBB articles',
 	'ARTICLE_HIDDEN_WARNING'	 => 'This article is hidden and therefore only accesible for moderators',
+	'ARTICLES'					 => 'Articles',
+	'ARTICLES_TOTAL'			 => 'Total articles',
 	'BACK'						 => 'Back',
 	'CATEGORY'					 => 'Category',
 	'CMBB_UPLOAD_BROWSE'		 => 'Or browse',
@@ -39,6 +41,7 @@ $lang = array_merge($lang, array(
 	'NO_REACTIONS_ARTICLE'		 => 'Disable comments <small>(comments might already be disabled through category setting)</small>',
 	'READ_MORE'					 => 'Read more',
 	'RESTORE_ARTICLE'			 => 'Restore article',
+	'SEARCH_USER_ARTICLES'		 => 'Search user\'s articles',
 	'SHOW_HIDDEN'				 => 'Show hidden articles',
 	'TITLE'						 => 'Title',
 	'WELCOME_USER'				 => 'Hello %s!',

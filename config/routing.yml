@@ -5,7 +5,7 @@ ger_cmbb_article_search_user:
     path: /article/search/{param}
     defaults: { _controller: ger.cmbb.viewer:handle, alias: "search" }
     requirements:
-        id: \d+
+        param: \d+
 ger_cmbb_article_edit:
     path: /article_edit/{article_id}
     defaults: { _controller: ger.cmbb.editor:handle, article_id: "0" }

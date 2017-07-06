@@ -116,21 +116,38 @@ class driver
 	/**
 	 * Get all articles written by a user
 	 * @param int $user_id
-	 * @return array
+	 * @return array | int
 	 */
-	public function get_user_articles($user_id)
+	public function get_user_articles($user_id, $count = false)
 	{
-		$query = 'SELECT * FROM ' . $this->article_table . ' 
+		if ($count === true)
+		{
+			$query = 'SELECT count(*) as counted FROM ' . $this->article_table . ' 
+				  WHERE user_id  = ' . (int) $user_id . " 
+				  AND visible = " . ITEM_APPROVED . "
+				  AND is_cat = " . CMBB_FALSE;
+			
+		}
+		else 
+		{
+			$query = 'SELECT * FROM ' . $this->article_table . ' 
 				  WHERE user_id  = ' . (int) $user_id . " 
 				  AND visible = " . ITEM_APPROVED . "
 				  AND is_cat = " . CMBB_FALSE . "
 				  ORDER BY datetime DESC, article_id DESC";
-	
+		}
 		if ($result = $this->db->sql_query($query))
 		{
-			while ($row = $this->db->sql_fetchrow($result))
+			if ($count === true)
 			{
-				$return[] = $row;
+				$return = (int) $this->db->sql_fetchrow($result)['counted'];
+			}
+			else 
+			{
+				while ($row = $this->db->sql_fetchrow($result))
+				{
+					$return[] = $row;
+				}
 			}
 		}
 		$this->db->sql_freeresult($result);

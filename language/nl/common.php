@@ -20,10 +20,12 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACL_U_CMBB_POST_ARTICLE'	 => 'Kan cmBB artikelen schrijven',
+	'ARTICLES'					 => 'Artikelen',
+	'ARTICLES_TOTAL'			 => 'Aantal artikelen',
 	'ARTICLE_HIDDEN_WARNING'	 => 'Dit artikel is verborgen en daarom alleen toegankelijk voor moderators',
 	'BACK'						 => 'Terug',
 	'CATEGORY'					 => 'Categorie',
-	'CMBB_UPLOAD_BROWSE'		 => 'Of bladere',
+	'CMBB_UPLOAD_BROWSE'		 => 'Of bladeren',
 	'CMBB_UPLOAD_DRAG'			 => 'Sleep je bestanden naar dit vak',
 	'CMBB_UPLOAD_EXPLAIN'		 => 'Upload bestanden via de uploadbox hieronder. <br /> Toegestande bestandstypen: ',
 	'COMMENTS'					 => 'Plaats en bekijk reacties',
@@ -39,6 +41,7 @@ $lang = array_merge($lang, array(
 	'NO_REACTIONS_ARTICLE'		 => 'Reacties uitschakelen <small>(Reacties kunnen reeds uitgeschakeld zijn via categorie instellingen)</small>',
 	'READ_MORE'					 => 'Lees meer',
 	'RESTORE_ARTICLE'			 => 'Herstel artikel',
+	'SEARCH_USER_ARTICLES'		 => 'Zoek gebruikers artikelen',
 	'SHOW_HIDDEN'				 => 'Toon verborgen artikelen',
 	'TITLE'						 => 'Titel',
 	'WELCOME_USER'				 => 'Hallo %s!',

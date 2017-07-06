@@ -25,9 +25,11 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'	 => 'load_language_on_setup',
-			'core.page_header'	 => 'page_header_add_menu',
-			'core.permissions'	 => 'set_permissions',
+			'core.user_setup'					=> 'load_language_on_setup',
+			'core.page_header'					=> 'page_header_add_menu',
+			'core.permissions'					=> 'set_permissions',
+			'core.viewtopic_modify_post_row'	=> 'add_postrow_search_link',
+			'core.memberlist_view_profile'		=> 'add_memberlist_search_link',
 		);
 	}
 
@@ -74,6 +76,9 @@ class main_listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
+	/**
+	 * Add menubar
+	 */
 	public function page_header_add_menu($event)
 	{
 		if ($this->config['ger_cmbb_show_menubar'] == 1)
@@ -101,6 +106,29 @@ class main_listener implements EventSubscriberInterface
 		$permissions = $event['permissions'];
 		$permissions['u_cmbb_post_article'] = array('lang' => 'ACL_U_CMBB_POST_ARTICLE', 'cat' => 'misc');
 		$event['permissions'] = $permissions;
+	}
+	
+	/**
+	 * Add search link to miniprofile
+	 */
+	public function add_postrow_search_link($event)
+	{
+		$count = $this->cmbb->get_user_articles($event['poster_id'], true);
+		$postrow = $event['post_row'];
+		$postrow['POSTER_ARTICLES'] = empty($count) ? '0' : '<a href="' . $this->helper->route('ger_cmbb_article_search_user', array('param' => $event['poster_id'])) . ' ">' . $count . '</a>';
+		$event['post_row'] = $postrow;
+	}
+	
+	/**
+	 * Add search link to miniprofile
+	 */
+	public function add_memberlist_search_link($event)
+	{
+		$count = $this->cmbb->get_user_articles($event['member']['user_id'], true);
+		$this->template->assign_vars(array(
+				'U_ARTICLES_SEARCH' => $this->helper->route('ger_cmbb_article_search_user', array('param' => $event['member']['user_id'])),
+				'ARTICLES_TOTAL' => $count
+			));
 	}
 
 }

@@ -20,6 +20,8 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACL_U_CMBB_POST_ARTICLE'	 => 'Puede postear artículos',
+	'ARTICLES'					 => 'Artículos',
+	'ARTICLES_TOTAL'			 => 'Algunos artículos',
 	'ARTICLE_HIDDEN_WARNING'	 => 'Este artículo esta oculto y esta accesible solo para Moderadores',
 	'BACK'						 => 'Atrás',
 	'CATEGORY'					 => 'Categoría',
@@ -39,6 +41,7 @@ $lang = array_merge($lang, array(
 	'NO_REACTIONS_ARTICLE'		 => 'Desactivar los comentarios <small>(Los comentarios podrían estar desactivados a través de la configuración de categorías)</small>',
 	'READ_MORE'					 => 'Leer Más...',
 	'RESTORE_ARTICLE'			 => 'Restaurar articulo',
+	'SEARCH_USER_ARTICLES'		 => 'Buscar en los artículos del usuario',
 	'SHOW_HIDDEN'				 => 'Mostrar artículos ocultos',
 	'TITLE'						 => 'Título',
 	'WELCOME_USER'				 => 'Hola %s!',
