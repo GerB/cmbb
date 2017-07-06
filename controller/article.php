@@ -82,7 +82,12 @@ class article
 		$this->user->add_lang_ext('ger/cmbb', 'common');
 		if (($alias == 'search') && $param > 0)
 		{
+			$this->user->add_lang('search');
 			$children = $this->cmbb->get_user_articles($param);
+			if (empty($children))
+			{
+				return $this->helper->error($this->user->lang('NO_SEARCH_RESULTS', $alias));
+			}
 			$article = array(
 				'article_id'	=> 0,
 				'title'			=> $this->user->lang('SEARCH'),
@@ -207,7 +212,7 @@ class article
 		// Wrap it all up
 		$title = empty($article['title']) ? (($this->config['site_home_text'] !== '') ? $this->config['site_home_text'] : $this->user->lang('HOME')) : $article['title'];
 		$this->template->assign_vars(array(
-			'CMBB_CATEGORY_NAME'	 => ($article['category_id'] > 0) ? $this->cmbb->fetch_category($article['category_id']) : $this->user->lang('SEARCH'),
+			'CMBB_CATEGORY_NAME'	 => ($article['category_id'] > 0) ? $this->cmbb->fetch_category($article['category_id']) : $this->user->lang('SEARCH_AUTHOR') . ' ' . $this->cmbb->phpbb_get_user($param, false),
 			'S_CMBB_CATEGORY'		 => $article['is_cat'],
 			'CMBB_TITLE'			 => $title,
 			'CMBB_CONTENT'			 => empty($article['content']) ? '' : $article['content'],

@@ -413,9 +413,10 @@ class driver
 	/**
 	 * Get formatted link to user
 	 * @param int $userid
+	 * @param bool $formatted
 	 * @return string
 	 */
-	public function phpbb_get_user($userid)
+	public function phpbb_get_user($userid, $formatted = true)
 	{
 
 		$sql = 'SELECT username, user_colour , user_id, group_id
@@ -428,11 +429,15 @@ class driver
 		{
 			return false;
 		}
+		if (!$formatted)
+		{
+			return $row['username'];
+		}
 		if ($row['group_id'] != "754")
 		{
 			return'<a href="' . $this->phpbb_root_path . 'memberlist.' . $this->php_ext . '?mode=viewprofile&amp;u=' . $row['user_id'] . '" style="color:#' . $row['user_colour'] . '; font-weight: bold;">' . $row['username'] . '</a>';
 		}
-		else
+		else 
 		{
 			return '<span style="color:#' . $row['user_colour'] . ';">' . $row['username'] . '</span>';
 		}
