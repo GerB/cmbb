@@ -35,6 +35,7 @@ $lang = array_merge($lang, array(
 	'EDIT_ARTICLE'				 => 'Edit article',
 	'ERROR_MUCH_REMOVED'		 => 'You have removed quite a lot from this article. This might be abusive or simple user error. Data is NOT stored.',
 	'ERROR_TITLE'				 => 'The provided title is not allowed.',
+	'FEATURED_IMG'				 => 'Featured image',
 	'LOG_ARTICLE_VISIBILLITY'	 => 'Changed article visibillity',
 	'NEW_ARTICLE'				 => 'New article',
 	'NO_HIDDEN'					 => 'No hidden articles',
@@ -44,5 +45,6 @@ $lang = array_merge($lang, array(
 	'SEARCH_USER_ARTICLES'		 => 'Search user\'s articles',
 	'SHOW_HIDDEN'				 => 'Show hidden articles',
 	'TITLE'						 => 'Title',
+	'USE_AVATAR'				 => '-use avatar-',
 	'WELCOME_USER'				 => 'Hello %s!',
 		));

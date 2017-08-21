@@ -35,6 +35,7 @@ $lang = array_merge($lang, array(
 	'EDIT_ARTICLE'				 => 'Editar artículo',
 	'ERROR_MUCH_REMOVED'		 => 'Se ha eliminado bastante de este artículo. Esto puede ser un error abusivo o simple del usuario. Los datos no se guardarán.',
 	'ERROR_TITLE'				 => 'El título proporcionado no está permitido.',
+	'FEATURED_IMG'				 => 'Foto principal',
 	'LOG_ARTICLE_VISIBILLITY'	 => 'Cambia la visibilidad del artículo',
 	'NEW_ARTICLE'				 => 'Nuevo Articulo',
 	'NO_HIDDEN'					 => 'No ocultar los articulos',
@@ -44,5 +45,6 @@ $lang = array_merge($lang, array(
 	'SEARCH_USER_ARTICLES'		 => 'Buscar en los artículos del usuario',
 	'SHOW_HIDDEN'				 => 'Mostrar artículos ocultos',
 	'TITLE'						 => 'Título',
+	'USE_AVATAR'				 => '-utilizar avatar-',
 	'WELCOME_USER'				 => 'Hola %s!',
 ));

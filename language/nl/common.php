@@ -35,6 +35,7 @@ $lang = array_merge($lang, array(
 	'EDIT_ARTICLE'				 => 'Bewerk artikel',
 	'ERROR_MUCH_REMOVED'		 => 'Je hebt vrij veel inhoud uit het artikel verwijderd. Dit kan door een fout of door misbruik komen. Uit voorzorg is het artikel niet opgeslagen.',
 	'ERROR_TITLE'				 => 'De opgegeven titel is niet toegestaan.',
+	'FEATURED_IMG'				 => 'Uitgelichte afbeelding',
 	'LOG_ARTICLE_VISIBILLITY'	 => 'Zichtbaarheid artikel aangepast',
 	'NEW_ARTICLE'				 => 'Nieuw artikel',
 	'NO_HIDDEN'					 => 'Geen verborgen artikelen',
@@ -44,5 +45,6 @@ $lang = array_merge($lang, array(
 	'SEARCH_USER_ARTICLES'		 => 'Zoek gebruikers artikelen',
 	'SHOW_HIDDEN'				 => 'Toon verborgen artikelen',
 	'TITLE'						 => 'Titel',
+	'USE_AVATAR'				 => '-gebruik avatar-',
 	'WELCOME_USER'				 => 'Hallo %s!',
 		));
