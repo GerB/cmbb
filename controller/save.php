@@ -159,9 +159,93 @@ class save
 		{
 			return $this->helper->error('ERROR');
 		}
-		$this->cmbb->store_article($article_data);
+		$article_id = $this->cmbb->store_article($article_data);
+		$featured_img = $this->request->variable('featured_img', '');
+//		var_dump($featured_img);die;
+		if (!empty($featured_img))
+		{
+			$this->store_featured_img($featured_img, $article_id);
+		}
 		redirect($this->helper->route('ger_cmbb_article', array(
 					'alias' => $redirect)));
+	}
+	
+	/**
+	 * Store a featured image
+	 * @param type $orig_path
+	 * @param type $article_id
+	 * @return boolean
+	 */
+	private function store_featured_img($orig_filename, $article_id)
+	{
+		if (empty($orig_filename)) 
+		{
+			$article_data = array(
+				'article_id' => $article_id,
+				'featured_img' => ''
+			);
+			return $this->cmbb->store_article($article_data);
+		}
+		
+		$orig_path = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->cmbb->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME')) . $this->user->data['user_id'] . '/' . $orig_filename;
+		if (!file_exists($orig_path))
+		{
+			return false;
+		}
+		$dest_dir = 'images/cmbb_upload/featured'; 
+		if (!is_dir($dest_dir)) 
+		{
+			mkdir($dest_dir, 0755, true);
+		}
+		
+		// What 'up?
+		$orig = getimagesize($orig_path);
+		switch(strtolower($orig['mime']))
+		{
+			case 'image/png':
+				$image = imagecreatefrompng($orig_path);
+				$dest_filname = $article_id . '.png';
+				$create_func = 'imagepng';
+				break;
+			case 'image/jpeg':
+				$image = imagecreatefromjpeg($orig_path);
+				$dest_filname = $article_id . '.jpg';
+				$create_func = 'imagejpeg';
+				break;
+			case 'image/gif':
+				$image = imagecreatefromgif($orig_path);
+				$dest_filname = $article_id . '.gif';
+				$create_func = 'imagegif';
+				break;
+			default: 
+				return FALSE;
+		}
+		
+		// Resize
+		$max = 90;
+		list($width, $height) = getimagesize($orig_path);
+		if ($width > $height) 
+		{
+			$new_width = $max;
+			$ratio = $new_width / $width;
+			$new_height = abs($ratio * $height);
+		}
+		else
+		{
+			$new_height = $max;
+			$ratio = $new_height / $height;
+			$new_width = abs($ratio * $width);
+		}
+		$image_p = imagecreatetruecolor($new_width, $new_height);
+		imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+		imagejpeg($image_p, $dest_dir . '/' . $article_id . '.jpg'); 
+			
+		// Write down
+		$article_data = array(
+			'article_id' => $article_id,
+			'featured_img' => $orig_filename
+		);
+		return $this->cmbb->store_article($article_data);
 	}
 
 	/**

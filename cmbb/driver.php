@@ -21,7 +21,7 @@ class driver
 	protected $article_table;
 	protected $category_table;
 	protected $phpbb_root_path;
-	protected $php_ext;
+	public $php_ext;
 
 	/* array of allowed extensions */
 	public $allowed_extensions = array('jpg', 'jpeg', 'gif', 'png');
@@ -461,14 +461,26 @@ class driver
 	}
 
 	/**
+	 * Get formatted featured img
+	 * @param int $article_id
+	 * @param string $title
+	 * @param string $style = ''
+	 * @return string
+	 */	
+	public function get_featured_img($article_id, $title, $style = '')
+	{
+		$full_url = generate_board_url() . '/images/cmbb_upload/featured/' . $article_id . '.jpg';		
+		return '<img src="' . $full_url . '" title="' . $title . '" style="' . $style . '" />';
+	}
+
+	/**
 	 * Get formatted user avatar or default avatar
-	 *
-	 * @param int $user_id
+	 * @param int $userid
 	 * @param string $style = ''
 	 *
 	 * @return string
 	 */
-	function phpbb_user_avatar($userid, $style = '')
+	public function phpbb_user_avatar($userid, $style = '')
 	{
 		$sql = 'SELECT username, user_avatar, user_avatar_type , user_avatar_width, user_avatar_height
                    FROM ' . USERS_TABLE . '

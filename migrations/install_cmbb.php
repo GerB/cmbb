@@ -36,6 +36,7 @@ class install_cmbb extends container_aware_migration
 						'topic_id'		 => array('UINT:10', 0),
 						'category_id'	 => array('TINT:4', 1),
 						'content'		 => array('MTEXT_UNI', ''),
+						'featured_img'	 => array('VCHAR:255', ''),
 						'visible'		 => array('BOOL', 0),
 						'datetime'		 => array('TIMESTAMP', 0),
 					),

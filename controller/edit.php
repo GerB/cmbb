@@ -101,6 +101,7 @@ class edit
 			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($article['article_id']) ? '_new_' : $article['article_id'] ))),
 			'U_UPLOAD_ACTION'		 => $this->helper->route('ger_cmbb_upload'),
 			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories($this->auth->acl_get('m_')), (empty($article['category_id']) ? 0 : $article['category_id'])),
+			'IMAGE_DROPDOWN'		 => $this->presentation->form_dropdown('featured_img', $this->get_imagelist(), (empty($article['featured_img']) ? '' : $article['featured_img'])),
 			'CAN_HIDE'				 => (!empty($article['title']) && $this->auth->acl_get('m_')) ? true : false,
 			'IS_VISIBLE'			 => empty($article['visible']) ? false : true,
 			'CMBB_ROOT_PATH'		 => generate_board_url() . substr($this->cmbb_root_path, 1),
@@ -112,6 +113,26 @@ class edit
 		));
 		$this->cmbb->fetch_leftbar($article, $this->auth, $this->helper, 'view');
 		return $this->helper->render('article_form.html', (empty($article['title']) ? $this->user->lang('NEW_ARTICLE') : $article['title']));
+	}
+	
+	/**
+	 * Fetch list of user images
+	 * @return array
+	 */
+	private function get_imagelist()
+	{
+		$dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->cmbb->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME')) . $this->user->data['user_id'];
+		$dh = scandir($dir);
+		$return[''] = $this->user->lang('USE_AVATAR');
+		foreach ($dh as $item)
+		{
+			if ($item != '.' && $item != '..' && $item != 'index.html' && strtolower($item) != 'thumbs.db')
+			{
+				$dir = str_replace('//', '/', $dir);
+				$return[$item] = $this->presentation->character_limiter($item);			
+			}
+		}
+		return $return;		
 	}
 
 }
