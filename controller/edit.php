@@ -121,18 +121,22 @@ class edit
 	 */
 	private function get_imagelist()
 	{
-		$dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->cmbb->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME')) . $this->user->data['user_id'];
-		$dh = scandir($dir);
 		$return[''] = $this->user->lang('USE_AVATAR');
-		foreach ($dh as $item)
+		$dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->cmbb->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME')) . $this->user->data['user_id'];
+		if (is_dir($dir)) 
 		{
-			if ($item != '.' && $item != '..' && $item != 'index.html' && strtolower($item) != 'thumbs.db')
+			$dh = scandir($dir);
+			foreach ($dh as $item)
 			{
-				$dir = str_replace('//', '/', $dir);
-				$return[$item] = $this->presentation->character_limiter($item);			
+				if ($item != '.' && $item != '..' && $item != 'index.html' && strtolower($item) != 'thumbs.db')
+				{
+					$dir = str_replace('//', '/', $dir);
+					$return[$item] = $this->presentation->character_limiter($item);			
+				}
 			}
+			return $return;		
 		}
-		return $return;		
+		return $return;
 	}
 
 }
