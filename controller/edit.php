@@ -134,7 +134,6 @@ class edit
 					$return[$item] = $this->presentation->character_limiter($item);			
 				}
 			}
-			return $return;		
 		}
 		return $return;
 	}
