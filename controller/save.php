@@ -161,7 +161,7 @@ class save
 		}
 		$article_id = $this->cmbb->store_article($article_data);
 		$featured_img = $this->request->variable('featured_img', '');
-//		var_dump($featured_img);die;
+
 		if (!empty($featured_img))
 		{
 			$this->store_featured_img($featured_img, $article_id);
@@ -326,5 +326,3 @@ class save
 	}
 
 }
-
-// EoF

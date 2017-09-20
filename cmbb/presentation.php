@@ -295,4 +295,3 @@ class presentation
 	}
 
 }
-// Eof

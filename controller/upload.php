@@ -115,5 +115,3 @@ class upload
 		return new \Symfony\Component\HttpFoundation\JsonResponse($response);
 	}
 }
-
-// EoF

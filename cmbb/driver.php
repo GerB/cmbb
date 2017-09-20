@@ -165,7 +165,7 @@ class driver
 		{
 			$article_id = $article_data['article_id'];
 			unset($article_data['article_id']);
-			$action = 'UPDATE ' . $this->article_table . ' SET ' . $this->db->sql_build_array('UPDATE', $article_data) . ' WHERE article_id = "' . $article_id . '"';
+			$action = 'UPDATE ' . $this->article_table . ' SET ' . $this->db->sql_build_array('UPDATE', $article_data) . ' WHERE article_id =  ' . (int) $article_id;
 		}
 		else
 		{
@@ -357,7 +357,7 @@ class driver
 		{
 			$category_id = $category_data['category_id'];
 			unset($category_data['category_id']);
-			$action = 'UPDATE ' . $this->category_table . ' SET ' . $this->db->sql_build_array('UPDATE', $category_data) . ' WHERE category_id = "' . $category_id . '"';
+			$action = 'UPDATE ' . $this->category_table . ' SET ' . $this->db->sql_build_array('UPDATE', $category_data) . ' WHERE category_id = ' . (int) $category_id;
 		}
 		else
 		{
@@ -537,7 +537,7 @@ class driver
 			'FROM' => array(FORUMS_TABLE => 'f'),
 		);
 		$sql_array['FROM'][TOPICS_TABLE] = 't';
-		$sql_array['WHERE'] = "t.topic_id = " . $article_topic_id;
+		$sql_array['WHERE'] = "t.topic_id = " . (int) $article_topic_id;
 		$sql_array['WHERE'] .= ' AND f.forum_id = t.forum_id';
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -686,5 +686,3 @@ class driver
 	}
 
 }
-
-// EoF
