@@ -20,6 +20,9 @@ class edit
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
+	/* @var \phpbb\path_helper */
+	protected $path_helper;
+
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -54,10 +57,11 @@ class edit
 	 * @param \ger\cmbb\cmbb $cmbb
 	 * @param \ger\cmbb\presentation $presentation
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $cmbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\path_helper $path_helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, $cmbb_root_path, \ger\cmbb\cmbb\driver $cmbb, \ger\cmbb\cmbb\presentation $presentation)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
+		$this->path_helper = $path_helper;
 		$this->template = $template;
 		$this->user = $user;
 		$this->auth = $auth;
@@ -114,7 +118,7 @@ class edit
 			'U_UPLOAD_ACTION'		 => $this->helper->route('ger_cmbb_upload'),
 			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories($this->auth->acl_get('m_')), $article['category_id']),
 			'IMAGE_DROPDOWN'		 => $this->presentation->form_dropdown('featured_img', $this->get_imagelist(), $article['featured_img']),
-			'CAN_HIDE'				 => (!empty($article['title']) && $this->auth->acl_get('m_')) ? true : false,
+			'CAN_HIDE'				 => (!empty($article['content']) && $this->auth->acl_get('m_')) ? true : false,
 			'IS_VISIBLE'			 => empty($article['visible']) ? false : true,
 			'CMBB_ROOT_PATH'		 => generate_board_url() . substr($this->cmbb_root_path, 1),
 			'CMBB_IMG_DIR'			 => $this->helper->route('ger_cmbb_folders', array('user_id' => $this->user->data['user_id'])),
@@ -134,7 +138,7 @@ class edit
 	private function get_imagelist()
 	{
 		$return[''] = $this->user->lang('USE_AVATAR');
-		$dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->cmbb->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME')) . $this->user->data['user_id'];
+		$dir = $this->path_helper->get_phpbb_root_path() . 'images/cmbb_upload/' . $this->user->data['user_id'];
 		if (is_dir($dir)) 
 		{
 			$dh = scandir($dir);

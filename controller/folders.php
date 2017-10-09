@@ -57,7 +57,8 @@ class folders
 		}
 		else
 		{
-			$file_root = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME'));
+//			$file_root = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME'));
+			$file_root = $this->phpbb_root_path . 'images/cmbb_upload/';
 			$url_root = generate_board_url() . '/images/cmbb_upload/';
 			$structure = $this->listfolders($file_root, $url_root, $user_id);
 		}

@@ -21,6 +21,7 @@ services:
         arguments:
             - '@config'
             - '@controller.helper'
+            - '@path_helper'
             - '@template'
             - '@user'
             - '@auth'
@@ -60,6 +61,7 @@ services:
             - '@auth'
             - '@request'
             - '@files.factory'
+            - '@path_helper'
             - '@ger.cmbb.cmbb.driver'
             - '%core.php_ext%'
             

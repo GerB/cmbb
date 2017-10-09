@@ -187,7 +187,7 @@ class save
 			return $this->cmbb->store_article($article_data);
 		}
 		
-		$orig_path = $this->request->server('DOCUMENT_ROOT') . str_replace('app.' . $this->cmbb->php_ext, 'images/cmbb_upload/', $this->request->server('SCRIPT_NAME')) . $this->user->data['user_id'] . '/' . $orig_filename;
+		$orig_path = $this->phpbb_root_path . 'images/cmbb_upload/' . $this->user->data['user_id'] . '/' . $orig_filename;
 		if (!file_exists($orig_path))
 		{
 			return false;

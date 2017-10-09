@@ -29,6 +29,9 @@ class upload
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 
+	/** @var \phpbb\path_helper */
+	protected $path_helper;
+
 	/* @var \ger\cmbb\cmbb\driver */
 	protected $cmbb;
 
@@ -41,13 +44,14 @@ class upload
 	 * @param \phpbb\user				$user
 	 * @param \phpbb\files\factory								$files_factory		File classes factory
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\files\factory $factory, \ger\cmbb\cmbb\driver $cmbb, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\request\request_interface $request, \phpbb\files\factory $factory, \phpbb\path_helper $path_helper, \ger\cmbb\cmbb\driver $cmbb, $php_ext)
 	{
 		$this->config = $config;
 		$this->user = $user;
 		$this->auth = $auth;
 		$this->request = $request;
 		$this->files_factory = $factory;
+		$this->path_helper = $path_helper;
 		$this->cmbb = $cmbb;
 		$this->php_ext = $php_ext;
 	}
@@ -63,7 +67,9 @@ class upload
 		{
 			// We have a separate folder for each user. Let's make sure we have it.
 			$user_upload_dir = 'images/cmbb_upload/' . $this->user->data['user_id'];
-			$full_upload_dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.'. $this->php_ext, $user_upload_dir, $this->request->server('SCRIPT_NAME'));
+//			$full_upload_dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.'. $this->php_ext, $user_upload_dir, $this->request->server('SCRIPT_NAME'));
+			$full_upload_dir = $this->path_helper->get_phpbb_root_path() . $user_upload_dir;
+
 			if (!is_dir($full_upload_dir))
 			{
 				mkdir($full_upload_dir, 0755, true);
