@@ -65,7 +65,7 @@ class folders
 	}
 
 	/**
-	 * List folder in directory recursively
+	 * List content in directory but skip subfolders
 	 * @param string $dir
 	 * @return array
 	 */
@@ -78,15 +78,7 @@ class folders
 		{
 			if ($folder != '.' && $folder != '..' && $folder != 'index.html' && strtolower($folder) != 'thumbs.db')
 			{
-				if (is_dir($dir . '/' . $folder))
-				{
-					$subs = $this->listfolders($dir . '/' . $folder);
-					foreach ($subs as $sub)
-					{
-						$return[] = $sub;
-					}
-				}
-				else
+				if (!is_dir($dir . '/' . $folder))
 				{
 					$dir = str_replace('//', '/', $dir);
 					$return[] = array(

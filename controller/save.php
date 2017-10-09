@@ -110,8 +110,8 @@ class save
 			$article_data = array(
 				'article_id'	 => $article_id,
 				'title'			 => $title,
-				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', '1')),
-				'category_id'	 => $this->request->variable('category_id', '1'),
+				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', 1)),
+				'category_id'	 => $this->request->variable('category_id', 1),
 				'content'		 => censor_text(htmlspecialchars_decode($this->request->variable('content', ''), ENT_COMPAT)),
 			);
 
@@ -142,9 +142,9 @@ class save
 				'title'			 => $title,
 				'alias'			 => $this->cmbb->generate_article_alias($title),
 				'user_id'		 => $this->user->data['user_id'],
-				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', '')),
+				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', 0)),
 				'is_cat'		 => 0,
-				'category_id'	 => $this->request->variable('category_id', ''),
+				'category_id'	 => $this->request->variable('category_id', 0),
 				'content'		 => htmlspecialchars_decode($this->request->variable('content', '', true), ENT_COMPAT),
 				'visible'		 => 1,
 				'datetime'		 => time(),
@@ -204,18 +204,12 @@ class save
 		{
 			case 'image/png':
 				$image = imagecreatefrompng($orig_path);
-				$dest_filname = $article_id . '.png';
-				$create_func = 'imagepng';
 				break;
 			case 'image/jpeg':
 				$image = imagecreatefromjpeg($orig_path);
-				$dest_filname = $article_id . '.jpg';
-				$create_func = 'imagejpeg';
 				break;
 			case 'image/gif':
 				$image = imagecreatefromgif($orig_path);
-				$dest_filname = $article_id . '.gif';
-				$create_func = 'imagegif';
 				break;
 			default: 
 				return FALSE;
@@ -267,7 +261,7 @@ class save
 		{
 			include($this->phpbb_root_path . 'includes/functions_posting.' . $this->php_ext);
 		}
-		$article_data['user_id'] = filter_var($article_data['user_id'], FILTER_SANITIZE_NUMBER_INT);
+		$article_data['user_id'] = (int) $article_data['user_id'];
 		if (empty($article_data['user_id']))
 		{
 			return false;
@@ -282,7 +276,7 @@ class save
 
 ' . $this->presentation->character_limiter(strip_tags($article_data['content'])) . '
 [url=' . $this->helper->route('ger_cmbb_article', array(
-					'alias' => $article_data['alias'])) . ']' . $this->user->lang['READ_MORE'] . '...[/url]';
+					'alias' => $article_data['alias'])) . ']' . $this->user->lang['READ_MORE'] . '[/url]';
 
 		$poll = $uid = $bitfield = $options = '';
 
@@ -322,7 +316,7 @@ class save
 			$url = substr($url, 0, strpos($url, 'sid='));
 		}
 		$topic_id = str_replace('&amp;t=', '', strstr($url, '&amp;t='));
-		return filter_var($topic_id, FILTER_SANITIZE_NUMBER_INT);
+		return (int) $topic_id;
 	}
 
 }

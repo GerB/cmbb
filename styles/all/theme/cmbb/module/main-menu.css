@@ -51,10 +51,10 @@
     }
     #main-navigation {
         position: fixed;
-        left: -280px;
+        left: -200px;
         top: 0;
         bottom: 0;
-        width: 280px;
+        width: 200px;
         display: block;
         overflow: hidden;
         overflow-y: auto;
@@ -82,7 +82,7 @@
     .menu-active #header-wrapper,
     .menu-active #main-content,
     .menu-active #main-footer {
-        left: 280px;
+        left: 200px;
     }
     #main-menu,
     #main-menu > li {

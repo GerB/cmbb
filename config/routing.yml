@@ -14,7 +14,7 @@ ger_cmbb_save:
     defaults: { _controller: ger.cmbb.save:handle, article_id: "0" }
 ger_cmbb_folders:
     path: /folders/{user_id}
-    defaults: { _controller: ger.cmbb.folders:handle, user_id: "0" }
+    defaults: { _controller: ger.cmbb.folders:handle, user_id: 0 }
 ger_cmbb_upload:
     path: /upload
     defaults: { _controller: ger.cmbb.upload:handle }

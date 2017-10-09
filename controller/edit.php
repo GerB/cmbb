@@ -81,27 +81,39 @@ class edit
 			$article = $this->cmbb->get_article($article_id);
 			if ($article === false)
 			{
-				return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $alias));
+				return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $article_id));
 			}
 			// Check if user is allowed to edit
 			if (!(($this->user->data['user_id'] == $article['user_id']) || $this->auth->acl_get('m_') ))
 			{
-				return $this->helper->error($this->user->lang('NOT_AUTHORISED', $alias));
+				return $this->helper->error($this->user->lang('NOT_AUTHORISED', $article_id));
 			}
 		}
 		else if (!$article_id == '_new_')
 		{
-			return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $alias));
+			return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $article_id));
+		}
+		else
+		{
+			// New article, build basic array to statisfy template and leftbar
+			$article = [
+				'title' => $this->user->lang('NEW_ARTICLE'),
+				'content' => '',
+				'article_id' => '_new_',
+				'alias' => 'index',
+				'category_id' => 0,
+				'featured_img' => '',
+			];
 		}
 
 		// Wrap it all up
 		$this->template->assign_vars(array(
-			'CMBB_TITLE'			 => (empty($article['title']) ? $this->user->lang('NEW_ARTICLE') : $article['title']),
-			'CMBB_CONTENT'			 => (empty($article['content']) ? '' : $article['content'] ),
-			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => (empty($article['article_id']) ? '_new_' : $article['article_id'] ))),
+			'CMBB_TITLE'			 => $article['title'],
+			'CMBB_CONTENT'			 => $article['content'],
+			'U_FORM_ACTION'			 => $this->helper->route('ger_cmbb_save', array('article_id' => $article['article_id'])),
 			'U_UPLOAD_ACTION'		 => $this->helper->route('ger_cmbb_upload'),
-			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories($this->auth->acl_get('m_')), (empty($article['category_id']) ? 0 : $article['category_id'])),
-			'IMAGE_DROPDOWN'		 => $this->presentation->form_dropdown('featured_img', $this->get_imagelist(), (empty($article['featured_img']) ? '' : $article['featured_img'])),
+			'CMBB_CATEGORY_DROPDOWN' => $this->presentation->form_dropdown('category_id', $this->cmbb->get_categories($this->auth->acl_get('m_')), $article['category_id']),
+			'IMAGE_DROPDOWN'		 => $this->presentation->form_dropdown('featured_img', $this->get_imagelist(), $article['featured_img']),
 			'CAN_HIDE'				 => (!empty($article['title']) && $this->auth->acl_get('m_')) ? true : false,
 			'IS_VISIBLE'			 => empty($article['visible']) ? false : true,
 			'CMBB_ROOT_PATH'		 => generate_board_url() . substr($this->cmbb_root_path, 1),

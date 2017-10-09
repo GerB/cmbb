@@ -621,6 +621,7 @@ class driver
 	 */
 	public function fetch_leftbar($article, $auth, $helper, $mode)
 	{
+//		var_dump($article);
 		$latest = $this->phpbb_latest_topics(array_unique(array_keys($auth->acl_getf('f_read', true))), 5);
 		foreach ($latest as $row)
 		{

@@ -161,7 +161,7 @@ class article
 						'URL'			 => $this->helper->route('ger_cmbb_article', array('alias' => $child['alias'])),
 						'TITLE'			 => $child['title'],
 						'FEATURED_IMG'	 => empty($child['featured_img']) ? $this->cmbb->phpbb_user_avatar($child['user_id']) : $this->cmbb->get_featured_img($child['article_id'], $child['title']),
-						'EXERPT'		 => $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content']))) . ' <a href="' . $this->helper->route('ger_cmbb_article', array('alias' => $child['alias'])) . '" class="read_more">' . $this->user->lang('READ_MORE') . '...</a>',
+						'EXERPT'		 => $this->presentation->closetags($this->presentation->character_limiter($this->presentation->clean_html($child['content']))) . ' <a href="' . $this->helper->route('ger_cmbb_article', array('alias' => $child['alias'])) . '" class="read_more">' . $this->user->lang('READ_MORE') . '</a>',
 						'S_LAST_CHILD'	 => ($counter < $count) ? false : true,
 					));
 				}
