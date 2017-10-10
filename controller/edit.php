@@ -93,7 +93,7 @@ class edit
 				return $this->helper->error($this->user->lang('NOT_AUTHORISED', $article_id));
 			}
 		}
-		else if (!$article_id == '_new_')
+		else if ($article_id != '_new_')
 		{
 			return $this->helper->error($this->user->lang('FILE_NOT_FOUND_404', $article_id));
 		}
