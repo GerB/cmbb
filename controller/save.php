@@ -78,6 +78,7 @@ class save
 	public function handle($article_id = 0)
 	{
 		$this->user->add_lang_ext('ger/cmbb', 'common');
+		$content = $this->sanitize_content($this->request->variable('content', '', true));
 		if (is_numeric($article_id))
 		{
 			// Check old article info
@@ -100,7 +101,7 @@ class save
 
 			// Compare old article content size with new post content size
 			$oldsize = strlen($oldarticle['content']);
-			$newsize = strlen(censor_text($this->request->variable('content', '', true)));
+			$newsize = strlen(censor_text($content));
 
 			if ( ($oldsize > 0) && ($newsize / $oldsize) < 0.7)
 			{
@@ -112,7 +113,7 @@ class save
 				'title'			 => $title,
 				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', 1)),
 				'category_id'	 => $this->request->variable('category_id', 1),
-				'content'		 => censor_text(htmlspecialchars_decode($this->request->variable('content', ''), ENT_COMPAT)),
+				'content'		 => censor_text($content),
 			);
 
 			// Delete or restore, but only if we're moderator
@@ -145,7 +146,7 @@ class save
 				'parent'		 => $this->cmbb->get_std_parent($this->request->variable('category_id', 0)),
 				'is_cat'		 => 0,
 				'category_id'	 => $this->request->variable('category_id', 0),
-				'content'		 => htmlspecialchars_decode($this->request->variable('content', '', true), ENT_COMPAT),
+				'content'		 => $content,
 				'visible'		 => 1,
 				'datetime'		 => time(),
 			);
@@ -274,7 +275,7 @@ class save
 		$topic_content = '[b][size=150]' . $article_data['title'] . '[/size][/b]
 [i]' . $this->user->lang['POST_BY_AUTHOR'] . ' ' . $this->user->data['username'] . '[/i]
 
-' . $this->presentation->character_limiter(strip_tags($article_data['content'])) . '
+' . $this->presentation->character_limiter(strip_tags(html_entity_decode($article_data['content'], ENT_COMPAT))) . '
 [url=' . $this->helper->route('ger_cmbb_article', array(
 					'alias' => $article_data['alias'])) . ']' . $this->user->lang['READ_MORE'] . '[/url]';
 
@@ -318,5 +319,34 @@ class save
 		$topic_id = str_replace('&amp;t=', '', strstr($url, '&amp;t='));
 		return (int) $topic_id;
 	}
+	
+	/**
+	 * Strip empty lines from beginning and end
+	 * @param string $content
+	 * @return string 
+	 */
+	private function sanitize_content($content)
+	{
+		$content = trim(htmlspecialchars_decode($content, ENT_COMPAT));
+//		var_dump(substr($content, -13, 13));
+		if (substr($content, -13, 13) == '<p>&nbsp;</p>')
+		{
+		  $content = substr($content, 0, -13);
+//		  var_dump($content . 'eind');
+		}
+		if (substr($content, 0, 13) == '<p>&nbsp;</p>')
+		{
+		  $content = substr($content, 13);
+//		  var_dump($content . 'start');
+		}
+		$content = trim($content);
+		// Might occur more than once
+		if ( (substr($content, -13, 13) == '<p>&nbsp;</p>') || (substr($content, 0, 13) == '<p>&nbsp;</p>') )
+		{
+			return $this->sanitize_content($content);
+		}
+		return $content;
+	}
+	
 
 }
