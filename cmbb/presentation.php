@@ -176,7 +176,7 @@ class presentation
 	 * @param string $end_char
 	 * @return string
 	 */
-	function character_limiter($str, $n = 300, $end_char = '&nbsp;')
+	function character_limiter($str, $n = 300, $end_char = '...')
 	{
 		if (strlen($str) < $n)
 		{

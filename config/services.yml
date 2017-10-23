@@ -70,6 +70,7 @@ services:
         arguments:
             - '@config'
             - '@template'
+            - '@controller.helper'
             - '@user'
             - '@dbal.conn'
             - '%core.root_path%'

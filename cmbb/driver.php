@@ -16,6 +16,7 @@ class driver
 
 	protected $config;
 	protected $template;
+	protected $helper;
 	protected $user;
 	protected $db;
 	protected $article_table;
@@ -32,16 +33,18 @@ class driver
 	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\request\request_interface			$request				Request object
 	 * @param \phpbb\template\template					$template				Template object
+	 * @param \phpbb\controller\helper					$helper					Helper object
 	 * @param \phpbb\user								$user					User object
 	 * @param \phpbb\user								$db						DB object
 	 * @param string									$phpbb_root_path
 	 * @param string									$article_table
 	 * @param string									$category_table
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $article_table, $category_table, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\controller\helper $helper, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $article_table, $category_table, $php_ext)
 	{
 		$this->config = $config;
 		$this->template = $template;
+		$this->helper = $helper;
 		$this->user = $user;
 		$this->db = $db;
 		$this->article_table = $article_table;
@@ -615,13 +618,11 @@ class driver
 	 * Fetch left sidebar
 	 * @param array $article
 	 * @param obj $auth
-	 * @param obj $helper
 	 * @param string $mode
 	 * @return void
 	 */
-	public function fetch_leftbar($article, $auth, $helper, $mode)
+	public function fetch_leftbar($article, $auth, $mode)
 	{
-//		var_dump($article);
 		$latest = $this->phpbb_latest_topics(array_unique(array_keys($auth->acl_getf('f_read', true))), 5);
 		foreach ($latest as $row)
 		{
@@ -633,12 +634,13 @@ class driver
 		$this->template->assign_vars(array(
 			'CMBB_LEFTBAR'		 => true,
 			'S_WELCOME_USER'	 => $this->user->lang('WELCOME_USER', $this->user->data['username']),
-			'U_LOGIN_REDIRECT'	 => $helper->route('ger_cmbb_article', array('alias' => $article['alias'])),
+			'U_LOGIN_REDIRECT'	 => $this->helper->route('ger_cmbb_article', array('alias' => $article['alias'])),
 			'S_CAN_EDIT'		 => $this->can_edit($auth),
-			'U_NEW_ARTICLE'		 => $helper->route('ger_cmbb_article_edit', array('article_id' => '_new_')),
-			'U_EDIT_ARTICLE'	 => ($this->can_edit($auth, $article) && $mode == 'view') ? $helper->route('ger_cmbb_article_edit', array('article_id' => $article['article_id'])) : false,
+			'U_NEW_ARTICLE'		 => $this->helper->route('ger_cmbb_article_edit', array('article_id' => '_new_')),
+			'U_EDIT_ARTICLE'	 => ($this->can_edit($auth, $article) && $mode == 'view') ? $this->helper->route('ger_cmbb_article_edit', array('article_id' => $article['article_id'])) : false,
 			'S_CAN_SEE_HIDDEN'	 => $auth->acl_get('m_'),
 			'S_HIDDEN'			 => $this->get_hidden(),
+			'U_HIDDEN'			 => $this->helper->route('ger_cmbb_article', array('alias' => 'index')) . '?showhidden=1',   //$this->get_hidden(),index?showhidden=1
 			'U_VIEWONLINE'		 => $this->phpbb_root_path . 'viewonline.' . $this->php_ext,
 			'USERS_ONLINE'		 => obtain_users_online_string(obtain_users_online())['online_userlist'],
 			'USERS_TOTAL'		 => $this->user->lang('TOTAL_USERS', (int) $this->config['num_users']),
@@ -661,7 +663,7 @@ class driver
 			return false;
 		}
 
-		if (is_array($article))
+		if (is_array($article) && $article['article_id'] != '_new_')
 		{
 			if ($article['is_cat'])
 			{

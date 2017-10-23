@@ -223,7 +223,7 @@ class article
 			'CMBB_RIGHTBAR_CONTENT'	 => $this->config_text->get('ger_cmbb_rightbar_html'),
 		));
 
-		$this->cmbb->fetch_leftbar($article, $this->auth, $this->helper, 'view');
+		$this->cmbb->fetch_leftbar($article, $this->auth, 'view');
 		$template_file = $article['is_cat'] ? 'category.html' : 'article.html';
 		return $this->helper->render($template_file, $title);
 	}

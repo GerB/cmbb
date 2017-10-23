@@ -127,7 +127,7 @@ class edit
 			'S_SHOW_RIGHTBAR'		 => $this->config['ger_cmbb_show_rightbar'],
 			'CMBB_RIGHTBAR_CONTENT'	 => $this->config['ger_cmbb_rightbar_html'],
 		));
-		$this->cmbb->fetch_leftbar($article, $this->auth, $this->helper, 'view');
+		$this->cmbb->fetch_leftbar($article, $this->auth, 'edit');
 		return $this->helper->render('article_form.html', (empty($article['title']) ? $this->user->lang('NEW_ARTICLE') : $article['title']));
 	}
 	
