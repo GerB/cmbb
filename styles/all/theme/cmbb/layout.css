@@ -126,6 +126,9 @@ img {
     padding: 5px;
     border: none;
 }
+#content_val img {
+    max-width: 100%;
+}
 
 .page_link {
     text-align: right;

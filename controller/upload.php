@@ -67,7 +67,6 @@ class upload
 		{
 			// We have a separate folder for each user. Let's make sure we have it.
 			$user_upload_dir = 'images/cmbb_upload/' . $this->user->data['user_id'];
-//			$full_upload_dir = $this->request->server('DOCUMENT_ROOT') . str_replace('app.'. $this->php_ext, $user_upload_dir, $this->request->server('SCRIPT_NAME'));
 			$full_upload_dir = $this->path_helper->get_phpbb_root_path() . $user_upload_dir;
 
 			if (!is_dir($full_upload_dir))
@@ -107,7 +106,7 @@ class upload
 			if (sizeof($file->error))
 			{
 				$file->remove();
-				$response = array('status' => 'error1');
+				$response = array('status' => 'error1', $file->error);
 			}
 			else
 			{
