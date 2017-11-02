@@ -128,7 +128,10 @@ class save
 				{
 					$article_data['visible'] = 1;
 				}
-				$this->log->add('mod', $this->user->data['user_id'], $this->user->ip, 'LOG_ARTICLE_VISIBILLITY', time(), array('article_id' => $article_id, 'visible' => $article_data['visible']));
+				if (isset($article_data['visible']))
+				{
+					$this->log->add('mod', $this->user->data['user_id'], $this->user->ip, 'LOG_ARTICLE_VISIBILLITY', time(), array('article_id' => $article_id, 'visible' => $article_data['visible']));
+				}
 			}
 
 			$redirect = $oldarticle['alias'];
