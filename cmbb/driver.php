@@ -399,7 +399,7 @@ class driver
 	public function generate_article_alias($title)
 	{
 		// Basic cleanup
-		$try = trim(strtolower(str_replace('-', ' ', $title)));
+		$try = trim(strtolower(str_replace('-', ' ', utf8_clean_string($title))));
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$try = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $try);

@@ -54,7 +54,7 @@ class categories_module
 					'user_id'		 => $user->data['user_id'],
 					'parent'		 => 1,
 					'is_cat'		 => 1,
-					'category_id'	 => 1, // We'l change this later
+					'category_id'	 => 1, // We'll change this later
 					'content'		 => '',
 					'visible'		 => 1,
 					'topic_id'		 => 0,
