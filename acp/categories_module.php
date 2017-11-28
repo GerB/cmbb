@@ -87,7 +87,7 @@ class categories_module
 					// Exclude homepage
 					if ($cat['category_id'] > 1)
 					{
-						$category_name = $request->variable($cat['category_id'] . '_category_name', '');
+						$category_name = $request->variable($cat['category_id'] . '_category_name', '', true);
 						if (!$this->category_name_unique($categories, $category_name, $cat['category_id']))
 						{
 							trigger_error('CMBB_CATEGORY_NAME_INVALID');
