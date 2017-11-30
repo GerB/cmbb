@@ -79,7 +79,7 @@ class save
 	{
 		$this->user->add_lang_ext('ger/cmbb', 'common');
 		$content = $this->sanitize_content($this->request->variable('content', '', true));
-//		var_dump($this->request->variable('content', ''), $content);die;
+
 		if (is_numeric($article_id))
 		{
 			// Check old article info
@@ -287,9 +287,9 @@ class save
 
 		// will be modified by generate_text_for_storage
 		$allow_bbcode = $allow_urls = $allow_smilies = true;
-//		var_dump($topic_content);
+
 		generate_text_for_storage($topic_content, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
-//var_dump($topic_content);die;
+
 		$data = array(
 			// General Posting Settings
 			'forum_id'			 => $forum_id, // The forum ID in which the post will be placed. (int)
@@ -333,19 +333,17 @@ class save
 	private function sanitize_content($content)
 	{
 		$content = trim(str_replace("&nbsp;", " ", html_entity_decode($content, ENT_COMPAT, 'UTF-8')));
-//		$content = trim($content);
-//		var_dump(substr($content, -13, 13));
+
 		if (substr($content, -13, 13) == '<p>&nbsp;</p>')
 		{
 		  $content = substr($content, 0, -13);
-//		  var_dump($content . 'eind');
 		}
 		if (substr($content, 0, 13) == '<p>&nbsp;</p>')
 		{
 		  $content = substr($content, 13);
-//		  var_dump($content . 'start');
 		}
 		$content = trim($content);
+
 		// Might occur more than once
 		if ( (substr($content, -13, 13) == '<p>&nbsp;</p>') || (substr($content, 0, 13) == '<p>&nbsp;</p>') )
 		{

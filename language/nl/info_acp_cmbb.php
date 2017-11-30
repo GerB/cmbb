@@ -52,6 +52,6 @@ $lang = array_merge($lang, array(
 	'PROTECTED'							=> 'Beschermd',
 	'PROTECTED_EXPLAIN'					=> 'Alleen moderators mogen artikelen in deze categorie plaatsen.',
 	'SHOW_MENU_BAR'						=> 'Toon in menubalk',
-	'SHOW_MENU_BAR_EXPLAIN'				=> 'Deze categorie wel of neit tonen in de menubalk (alleen indien er artikelen in geplaatst zijn). Zinvol om uit te schakelen indien je de categorieweergave niet praktisch vind of als je slechts enkele losse artikelen wil plaatsen.',
+	'SHOW_MENU_BAR_EXPLAIN'				=> 'Deze categorie wel of niet tonen in de menubalk (alleen indien er artikelen in geplaatst zijn). Zinvol om uit te schakelen indien je de categorieweergave niet praktisch vind of als je slechts enkele losse artikelen wil plaatsen.',
 
 		));

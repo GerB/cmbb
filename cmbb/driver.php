@@ -399,14 +399,13 @@ class driver
 	public function generate_article_alias($title)
 	{
 		// Basic cleanup
-		$try = trim(strtolower(str_replace('-', ' ', utf8_clean_string($title))));
+		$try = str_replace(' ', '-', utf8_clean_string($title));
 
-		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
-		$try = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $try);
-
-		// Trim dashes at beginning and end of alias
-		$try = trim($try, '-');
-
+		$try = trim(preg_replace('~[^\\pL\d]+~u', '-', $try), '-');
+		
+		// No double-dash please
+		$try = preg_replace('#-{2,}#', '-', $try);
+		
 		// Now see if this alias already exists
 		if (!$this->get_article($try))
 		{

@@ -144,8 +144,8 @@ class categories_module
 						'NAME'				 => $cat['category_name'],
 						'S_SHOW_MENU_BAR'	 => $cat['show_menu_bar'],
 						'S_PROTECTED'		 => $cat['protected'],
-						'CHILDREN'			 => count($children) -1,
-						'U_DELETE'			 => (count($children) === 1) ? $this->u_action . "&amp;action=delete&amp;category_id=" . $cat['category_id'] : false,
+						'CHILDREN'			 => ($children === false) ? 0 : count($children),
+						'U_DELETE'			 => ($children =r== false) ? $this->u_action . "&amp;action=delete&amp;category_id=" . $cat['category_id'] : false,
 						'S_REACT_OPTIONS'	 => make_forum_select($cat['react_forum_id'], false, false, false, false),
 					));
 				}
