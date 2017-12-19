@@ -115,9 +115,9 @@ class categories_module
 		}
 		else if ($request->variable('action', '') == 'delete')
 		{
+			$children = $cmbb->get_children($request->variable('std_parent', 0));
 			$category_id = $request->variable('category_id', 0);
-			$children = $cmbb->get_children($category_id);
-			if (count($children) !== 1)
+			if ($children !== false)
 			{
 				trigger_error($user->lang('ERROR_CATEGORY_NOT_EMPTY') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
@@ -125,7 +125,7 @@ class categories_module
 			{
 				trigger_error($user->lang('ACP_CMBB_SETTING_SAVED') . adm_back_link($this->u_action));
 			}
-				trigger_error($user->lang('ERROR_FAILED_DELETE') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($user->lang('ERROR_FAILED_DELETE') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		// List current
@@ -145,7 +145,7 @@ class categories_module
 						'S_SHOW_MENU_BAR'	 => $cat['show_menu_bar'],
 						'S_PROTECTED'		 => $cat['protected'],
 						'CHILDREN'			 => ($children === false) ? 0 : count($children),
-						'U_DELETE'			 => ($children =r== false) ? $this->u_action . "&amp;action=delete&amp;category_id=" . $cat['category_id'] : false,
+						'U_DELETE'			 => ($children === false) ? $this->u_action . "&amp;action=delete&amp;category_id=" . $cat['category_id'] . "&amp;std_parent=" . $cat['std_parent'] : false,
 						'S_REACT_OPTIONS'	 => make_forum_select($cat['react_forum_id'], false, false, false, false),
 					));
 				}
