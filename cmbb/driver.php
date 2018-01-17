@@ -623,12 +623,15 @@ class driver
 	public function fetch_leftbar($article, $auth, $mode)
 	{
 		$latest = $this->phpbb_latest_topics(array_unique(array_keys($auth->acl_getf('f_read', true))), 5);
-		foreach ($latest as $row)
+		if ($latest)
 		{
-			$this->template->assign_block_vars('latest_topic_feed', array(
-				'U_TOPIC'		 => $this->phpbb_root_path . 'viewtopic.' . $this->php_ext . '?f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread#unread',
-				'TOPIC_TITLE'	 => $row['topic_title'],
-			));
+			foreach ($latest as $row)
+			{
+				$this->template->assign_block_vars('latest_topic_feed', array(
+					'U_TOPIC'		 => $this->phpbb_root_path . 'viewtopic.' . $this->php_ext . '?f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread#unread',
+					'TOPIC_TITLE'	 => $row['topic_title'],
+				));
+			}
 		}
 		$this->template->assign_vars(array(
 			'CMBB_LEFTBAR'		 => true,

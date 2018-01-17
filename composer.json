@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Simple Content Management for phpBB",
     "homepage": "https://github.com/GerB/cmbb",
-    "version": "1.0.5",
-    "time": "2017-11-30",
+    "version": "1.0.6",
+    "time": "2018-01-17",
     "license": "GPL-2.0",
     "authors": [
         {
