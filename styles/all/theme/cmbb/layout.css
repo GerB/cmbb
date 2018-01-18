@@ -390,6 +390,7 @@ hr {
     #cmbb_leftbar {
         display: none;
     }
+    #content_container.hide-rightbar,
     #content_container.show-rightbar,
     #content_container {
         width: auto;
