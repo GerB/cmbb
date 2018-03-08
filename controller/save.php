@@ -313,7 +313,6 @@ class save
 			'post_time'			 => 0, // Set a specific time, use 0 to let submit_post() take care of getting the proper time (int)
 			'forum_name'		 => '', // For identifying the name of the forum in a notification email. (string)    // Indexing
 			'enable_indexing'	 => true, // Allow indexing the post? (bool)    // 3.0.6
-			'force_visibility'	 => true, // 3.1.x: Allow the post to be submitted without going into unapproved queue, or make it be deleted (replaces force_approved_state)
 		);
 
 		$url = submit_post('post', $article_data['title'], 'cmBB', POST_NORMAL, $poll, $data);

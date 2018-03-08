@@ -1,6 +1,7 @@
 $(function(){
 
     var ul = $('#upload ul');
+    var selbox = $('select[name="featured_img"]');
 
     $('#drop a').click(function(){
         // Simulate a click on the file input button
@@ -27,6 +28,7 @@ $(function(){
 
             // Add the HTML to the UL element
             data.context = tpl.appendTo(ul);
+            selbox.append('<option value="' + data.files[0].name + '">' + data.files[0].name + '</option>');
 
             // Initialize the knob plugin
             tpl.find('input').knob();
