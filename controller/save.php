@@ -271,10 +271,6 @@ class save
 		{
 			return false;
 		}
-		if ($user = $this->cmbb->phpbb_get_user($article_data['user_id']) == false)
-		{
-			return false;
-		}
 
 		$topic_content = '[b][size=150]' . $article_data['title'] . '[/size][/b]
 [i]' . $this->user->lang['POST_BY_AUTHOR'] . ' ' . $this->user->data['username'] . '[/i]
