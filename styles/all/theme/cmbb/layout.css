@@ -56,7 +56,7 @@
 #content_pagetitle h1::after {
     content: "\00a0\00a0\00a0\00a0\00a0\00a0";
 }
-#content {
+#article_content {
     min-height: 500px;
 }
 .clear {
@@ -95,7 +95,6 @@ ul.stats {
     margin: -15px 0 15px 5px;
     padding: 0;
     list-style-type: none;
-
 }
 
 p {
@@ -106,6 +105,7 @@ p {
 #stats p {
     text-align: left;
 }
+
 .article_box h1 {
     font-size: 16px;
     margin: 15px 0 0 0;
@@ -122,12 +122,10 @@ h3,h4,h5 {
     margin: 0;
 }
 
-img {
-    padding: 5px;
-    border: none;
-}
 #content_val img {
     max-width: 100%;
+    padding: 5px;
+    border: none;
 }
 
 .page_link {
@@ -160,7 +158,7 @@ dfn.bold {
     font-weight: bold;
 }
 
-blockquote {
+#content_val blockquote {
     font-style: italic;
     margin: 0;
 }
@@ -171,11 +169,11 @@ blockquote {
     text-align: center;
     float: left;
 }
-object {
+#content_val object {
     border: none;
 }
 
-hr {
+#content_val hr {
     height: 1px;
     color: #cccccc;
     background-color: #cccccc; 
@@ -183,7 +181,7 @@ hr {
     clear: both;
 }
 
-.warning {
+.cmbb_warning {
     background: none repeat scroll 0 0 #fcc;
     border: 2px solid #aa0000;
     border-radius: 10px;

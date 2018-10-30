@@ -4,7 +4,7 @@
     <p><label for="title">{L_TITLE}</label><input id="title" name="title" type="text" value="{CMBB_TITLE}" /></p>
     <p><label for="category_id">{L_CATEGORY}</label>{CMBB_CATEGORY_DROPDOWN}</p>
 	<p><label for="featured_img">{L_FEATURED_IMG}</label>{IMAGE_DROPDOWN}</p>
-    <p><label for="content">{L_CONTENT}</label></p><textarea id="content" name="content">{CMBB_CONTENT}</textarea><br />
+    <p><label for="content">{L_CONTENT}</label></p><textarea id="article_content" name="content">{CMBB_CONTENT}</textarea><br />
     <!-- IF CAN_HIDE or S_IS_NEW -->
     <fieldset>
 		<!-- IF CAN_HIDE -->
@@ -29,7 +29,7 @@
 
 <script src="{CMBB_ROOT_PATH}vendor/ckeditor/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace( "content", {
+    CKEDITOR.replace( "article_content", {
     "extraPlugins": "imagebrowser",
     "imageBrowser_listUrl": "{CMBB_IMG_DIR}?t=" + Math.random()
         } );

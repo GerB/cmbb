@@ -112,7 +112,7 @@ class article
 		{
 			if ($this->auth->acl_get('m_'))
 			{
-				$article['content'] = '<div class="warning">' . $this->user->lang('ARTICLE_HIDDEN_WARNING') . '</div>' . $article['content'];
+				$article['content'] = '<div class="cmbb_warning">' . $this->user->lang('ARTICLE_HIDDEN_WARNING') . '</div>' . $article['content'];
 			}
 			else
 			{
