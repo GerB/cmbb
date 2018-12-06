@@ -97,7 +97,7 @@ ul.stats {
     list-style-type: none;
 }
 
-p {
+#content_val p {
     margin: 0 0 15px 0;
     text-align: justify;
 }
@@ -112,12 +112,12 @@ p {
     color: #115098;
 }
 
-h2 {
+#content_val h2 {
     font-size: 16px;
     margin: 10px 0 0 0;
 }
 
-h3,h4,h5 {
+#content_val h3,h4,h5 {
     font-size: 12px;
     margin: 0;
 }
