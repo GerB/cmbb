@@ -569,15 +569,14 @@ class driver
 	 */
 	public function phpbb_latest_topics($forums, $topic_limit = 5)
 	{
-		// Select the last topics to which we have permissions
-		$sql = 'SELECT t.topic_id, t.forum_id, t.topic_title
+        // Select the last topics to which we have permissions
+        $sql = 'SELECT t.topic_id, t.forum_id, t.topic_title
                             FROM ' . TOPICS_TABLE . ' t , ' . USERS_TABLE . ' u
                             WHERE topic_visibility = ' . ITEM_APPROVED . '
                             AND ' . $this->db->sql_in_set('forum_id', $forums) . '
                             AND u.user_id = t.topic_poster
-                            ORDER BY topic_time DESC
-                            LIMIT 0,' . (int) $topic_limit;
-		$result = $this->db->sql_query($sql);
+                            ORDER BY topic_time DESC';
+        $result = $this->db->sql_query_limit($sql, (int)$topic_limit);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
