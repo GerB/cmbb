@@ -2,7 +2,7 @@
 
 /**
  *
- * cmBB [English]
+ * cmBB [Russian]
  *
  * @copyright (c) 2016 Ger Bruinsma
  * @license GNU General Public License, version 2 (GPL-2.0)
