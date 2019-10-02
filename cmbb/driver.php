@@ -276,7 +276,7 @@ class driver
 
 		if (empty($show_protected))
 		{
-			$query .= ' AND protected = "' . CMBB_FALSE . '" ';
+			$query .= ' AND protected = ' . CMBB_FALSE . ' ';
 		}
 		$query .= ' ORDER BY category_name ASC';
 
