@@ -26,8 +26,10 @@
 						<p><label for="username">{L_USERNAME}{L_COLON}</label> <input type="text" id="username" name="username" /></p>
 						<p><label for="password">{L_PASSWORD}{L_COLON}</label> <input type="password" id="password" name="password" /></p>
 						<p><label for="autologin" style="width: 100%"><input type="checkbox" id="autologin" name="autologin" />{L_LOG_ME_IN}</label></p>
-						<input type="submit" class="button2" value="{L_LOGIN}" name="login" /></p>
+						<input type="submit" class="button2" value="{L_LOGIN}" name="login" />
 						<input type="hidden" name="redirect" value="{U_LOGIN_REDIRECT}" />
+                        {S_LOGIN_REDIRECT}
+                        {S_FORM_TOKEN_LOGIN}
 					</fieldset>
 				</form>
 			<!-- ENDIF -->
